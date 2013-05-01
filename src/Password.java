@@ -1,6 +1,9 @@
 import java.util.Random;
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.*;
 
-public class Password 
+public class Password implements ActionListener, ChangeListener
 {
 	private int passLength;	
 	private int numMaxDigits;
@@ -33,7 +36,11 @@ public class Password
 		numMaxSpecial = 1;		
 	}		
 
-	
+    /**
+       sets password array of length n to have an empty space for each index
+       
+    */
+    
 	private void initArrayList(int n)
 	{
 		pwArray = new char[n];
@@ -203,7 +210,21 @@ public class Password
 		@param s the string containing characters that can be used as special characters
 	*/
 	public void setAllowedSpecialCharacters(String s) {allowedSpecialChracters = s;}	
+
+    public void go(){
+	JFrame frame = new JFrame();
+	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+	JSlider slider = new JSlider(1, 100);
+      	JButton button = new JButton("Generate");
+	button.addActionListener(this);
+	slider.addChangeListener(this);
 	
+	frame.getContentPane().add(BorderLayout.SOUTH, button);
+	frame.getContentPane().add(BorderLayout.NORTH, slider);
+	
+	// INCOMPLETE - MAP OUT PROCESS TO MAKE GUI
+    }
 	public static void main(String[] args)
 	{
 		Password pass = new Password();
@@ -216,5 +237,7 @@ public class Password
 		pass.setAllowedSpecialCharacters("!"); 			
 		
 		System.out.println(pass.generate(20));			
+
+		//go();
 	}
 }
