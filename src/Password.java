@@ -3,7 +3,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
-public class Password implements ActionListener, ChangeListener
+public class Password 
 {
 	private int passLength;	
 	private int numMaxDigits;
@@ -18,6 +18,8 @@ public class Password implements ActionListener, ChangeListener
 	private int currentUppercase;
 	private int currentSpecial;
 	
+    JButton button;
+    JSlider slider;
 
 	/**
 		default constructor. sets the minumum of each element to 1 and the maximum to 100
@@ -215,19 +217,34 @@ public class Password implements ActionListener, ChangeListener
 	JFrame frame = new JFrame();
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-	JSlider slider = new JSlider(1, 100);
-      	JButton button = new JButton("Generate");
-	button.addActionListener(this);
-	slider.addChangeListener(this);
+	slider = new JSlider(1, 100);
+	button = new JButton("Generate");
+	button.addActionListener(new ButtonListener);
+	slider.addChangeListener(new SliderListener);
 	
 	frame.getContentPane().add(BorderLayout.SOUTH, button);
 	frame.getContentPane().add(BorderLayout.NORTH, slider);
-	
-	// INCOMPLETE - MAP OUT PROCESS TO MAKE GUI
+	frame.setSize(300,300);
+	frame.setVisible(true);
+    }
+    class ButtonListener implements ActionListener
+    {
+	public void actionPerformed(ActionEvent event)
+	{
+	    
+	}
+    }
+    class SliderListener implements ChangeListener
+    {
+	public void actionPerformed(ActionEvent event)
+	{
+	    //INNER CLASS FOR PASSWORD LENGTH SLIDER
+	}
     }
 	public static void main(String[] args)
 	{
 		Password pass = new Password();
+		
 		pass.setMinDigits(2);
 		pass.setMaxDigits(2); 
 		pass.setMaxUppercase(0);
