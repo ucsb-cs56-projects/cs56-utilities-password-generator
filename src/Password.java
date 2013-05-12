@@ -260,18 +260,15 @@ public class Password
     }
 	public static void main(String[] args)
 	{
-		Password pass = new Password();
-		
+	    PasswordGUI pwGUI = new PasswordGUI();
+	    pwGUI.go();
+	    /* Password pass = new Password();	
 		pass.setMinDigits(2);
 		pass.setMaxDigits(2); 
 		pass.setMaxUppercase(0);
 		pass.setMinUpperCase(0);
 		pass.setMinSpecial(0);
 		pass.setMaxSpecial(0); 		
-		pass.setAllowedSpecialCharacters("!"); 			
-		
-		System.out.println(pass.generate(20));			
-
-		pass.go();
+		pass.setAllowedSpecialCharacters("!"); */
 	}
 }

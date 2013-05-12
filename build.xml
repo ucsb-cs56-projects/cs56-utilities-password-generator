@@ -19,7 +19,7 @@
 <target name="compile">
 <mkdir dir="build"/>
 
-<javac srcdir="src" destdir="build" debug="true" debuglevel="lines,source">
+<javac srcdir="src" destdir="build" debug="true" debuglevel="lines,source" includeantruntime="false">
 
 <classpath>
 <pathelement location="build"/>
@@ -28,7 +28,7 @@
 </javac>
 </target>
 
-<target name="run" depends="compile">
+<target name="run" depends="compile" description="runs the Password generator">
 
 <java classname="${mainClass}" classpath="build" >
 <!-- &#13; is \n (ascii value 13 decimal) -->
