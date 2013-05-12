@@ -7,9 +7,10 @@ public class PasswordGUI
     JButton button;
     JTextField lengthField;
     Password p;
+    JFrame frame;
 
     public void go(){
-        JFrame frame = new JFrame();
+        frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	p = new Password();
 
@@ -28,13 +29,14 @@ public class PasswordGUI
     {
 	public void actionPerformed(ActionEvent event)
 	{
-	    
+	    //@@@ STUB FIX ME
 	}
     }
     public class TextFieldListener implements ActionListener
     {
         public void actionPerformed(ActionEvent event)
         {
+	    /*
             try
                 {
                     int length = Integer.parseInt(lengthField.getText());
@@ -44,7 +46,7 @@ public class PasswordGUI
                 {
                     lengthField.setText("");
                 }
-
+	    */
         }
     }
 

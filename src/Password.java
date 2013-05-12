@@ -273,7 +273,9 @@ public class Password
 	public static void main(String[] args)
 	{
 	    PasswordGUI pwGUI = new PasswordGUI();
+	    System.out.println("pwGUI created");
 	    pwGUI.go();
+	    System.out.println("pwGUI exited?");
 	    /* Password pass = new Password();	
 		pass.setMinDigits(2);
 		pass.setMaxDigits(2); 
