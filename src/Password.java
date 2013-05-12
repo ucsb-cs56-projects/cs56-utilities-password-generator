@@ -175,6 +175,17 @@ public class Password
 		}
 		return s;
 	}
+    public void setPassLength(int num)
+    {
+	if(passLength <= 0)
+	    {
+		passLength = 1;
+	    }
+	else
+	    {
+		passLength = num;
+	    }
+    }
 	
 	/**
 		sets the minimum number of digits the password can have
@@ -214,7 +225,7 @@ public class Password
 	*/
 	public void setAllowedSpecialCharacters(String s) {allowedSpecialChracters = s;}	
 
-    public void go(){
+    /* public void go(){
 	JFrame frame = new JFrame();
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
@@ -258,6 +269,7 @@ public class Password
 		   
 	}
     }
+    */
 	public static void main(String[] args)
 	{
 	    PasswordGUI pwGUI = new PasswordGUI();

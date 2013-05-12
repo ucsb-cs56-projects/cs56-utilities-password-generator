@@ -6,10 +6,12 @@ public class PasswordGUI
 {
     JButton button;
     JTextField lengthField;
+    Password p;
 
     public void go(){
         JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	p = new Password();
 
         lengthField = new JTextField(3);
         button = new JButton("Generate");
@@ -35,15 +37,8 @@ public class PasswordGUI
         {
             try
                 {
-                    Integer.parseInt(lengthField.getText());
-                    if(Integer.parseInt(lengthField.getText()) <= 0)
-                        {
-                            passLength = 1;
-                        }
-                    else
-                        {
-                            passLength = Integer.parseInt(lengthField.getText());
-                        }
+                    int length = Integer.parseInt(lengthField.getText());
+		    p.setPassLength(length);
                 }
             catch(NumberFormatException e)
                 {
