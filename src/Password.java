@@ -5,21 +5,22 @@ import java.awt.event.*;
 
 public class Password 
 {
-	private int passLength;	
-	private int numMaxDigits;
-	private int numMinDigits;	
-	private int numMaxUpperCase;
-	private int numMinUpperCase;
-	private int numMinSpecial;
-	private int numMaxSpecial;
-	private String allowedSpecialChracters;
-	private char[] pwArray;		
-	private int currentDigits;
-	private int currentUppercase;
-	private int currentSpecial;
+    private int passLength;	
+    private int numMaxDigits;
+    private int numMinDigits;	
+    private int numMaxUpperCase;
+    private int numMinUpperCase;
+    private int numMinSpecial;
+    private int numMaxSpecial;
+    private String allowedSpecialChracters;
+    private char[] pwArray;		
+    private int currentDigits;
+    private int currentUppercase;
+    private int currentSpecial;
 	
     JButton button;
-    JSlider slider;
+    JTextField lengthField;
+    
 
 	/**
 		default constructor. sets the minumum of each element to 1 and the maximum to 100
@@ -217,28 +218,44 @@ public class Password
 	JFrame frame = new JFrame();
 	frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-	slider = new JSlider(1, 100);
+	lengthField = new JTextField(3);
 	button = new JButton("Generate");
-	button.addActionListener(new ButtonListener);
-	slider.addChangeListener(new SliderListener);
+	button.addActionListener(new ButtonListener());
+	lengthField.addActionListener(new TextFieldListener());
 	
 	frame.getContentPane().add(BorderLayout.SOUTH, button);
-	frame.getContentPane().add(BorderLayout.NORTH, slider);
+	frame.getContentPane().add(BorderLayout.NORTH, lengthField);
 	frame.setSize(300,300);
 	frame.setVisible(true);
     }
-    class ButtonListener implements ActionListener
+    public class ButtonListener implements ActionListener
     {
 	public void actionPerformed(ActionEvent event)
 	{
 	    
 	}
     }
-    class SliderListener implements ChangeListener
+    public class TextFieldListener implements ActionListener
     {
 	public void actionPerformed(ActionEvent event)
 	{
-	    //INNER CLASS FOR PASSWORD LENGTH SLIDER
+	    try
+		{
+		    Integer.parseInt(lengthField.getText());
+		    if(Integer.parseInt(lengthField.getText()) <= 0)
+			{
+			    passLength = 1;
+			}
+		    else
+			{
+			    passLength = Integer.parseInt(lengthField.getText());
+			}
+		}
+	    catch(NumberFormatException e)
+		{
+		    lengthField.setText("");
+		}
+		   
 	}
     }
 	public static void main(String[] args)
@@ -255,6 +272,6 @@ public class Password
 		
 		System.out.println(pass.generate(20));			
 
-		//go();
+		pass.go();
 	}
 }
