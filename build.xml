@@ -10,7 +10,7 @@
 <property name="course" value="cs56"/>
 <property name="quarter" value="W11"/>
 <property name="issueNum" value="0000042"/>
-<property name="mainClass" value="Password"/>
+<property name="mainClass" value="PasswordGUI"/>
 <property name="projectName" value="${course}_${quarter}_${issueNum}"/>
 <property name="projectPath" value="${course}/${quarter}/issues/${issueNum}"/>
 <property name="javadocDest" value="${webRoot}/${projectPath}/javadoc"/>

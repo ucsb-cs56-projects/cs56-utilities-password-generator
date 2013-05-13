@@ -4,10 +4,10 @@ import java.awt.event.*;
 
 public class PasswordGUI
 {
-    JButton button;
-    JTextField lengthField;
-    Password p;
-    JFrame frame;
+    private JButton button;
+    private JTextField lengthField;
+    private Password p;
+    private JFrame frame;
 
     public void go(){
         frame = new JFrame();
@@ -48,6 +48,11 @@ public class PasswordGUI
                 }
 	    */
         }
+    }
+    public static void main(String[] args)
+    {
+	PasswordGUI pwGUI = new PasswordGUI();
+	pwGUI.go();
     }
 
 }

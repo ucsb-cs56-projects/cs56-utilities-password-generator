@@ -269,7 +269,6 @@ public class Password
 		   
 	}
     }
-    */
 	public static void main(String[] args)
 	{
 	    PasswordGUI pwGUI = new PasswordGUI();
@@ -283,6 +282,7 @@ public class Password
 		pass.setMinUpperCase(0);
 		pass.setMinSpecial(0);
 		pass.setMaxSpecial(0); 		
-		pass.setAllowedSpecialCharacters("!"); */
+		pass.setAllowedSpecialCharacters("!");
 	}
+    */
 }
