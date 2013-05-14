@@ -37,24 +37,32 @@ public class PasswordGUI
     {
 	public void actionPerformed(ActionEvent event)
 	{
-	    //@@@ STUB FIX ME
+	    onActionPerformed();
 	}
     }
     public class TextFieldListener implements ActionListener
     {
         public void actionPerformed(ActionEvent event)
         {
-            try
-                {
-                    int length = Integer.parseInt(lengthField.getText());
-		    p.setPassLength(length);
-                }
-            catch(NumberFormatException e)
-                {
-                    lengthField.setText("");
-                }
-        }
+	    onActionPerformed();
+	}
     }
+    public void onActionPerformed() 
+    {
+	int length = 1;
+	try
+	    {
+		length = Integer.parseInt(lengthField.getText());
+		//	p.setPassLength(length);
+	    }
+	catch(NumberFormatException e)
+	    {
+		lengthField.setText("");
+		return;
+	    }
+	passwordOutputField.setText(p.generate(length));
+    }
+
     public static void main(String[] args)
     {
 	PasswordGUI pwGUI = new PasswordGUI();
