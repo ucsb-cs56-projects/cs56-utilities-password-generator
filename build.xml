@@ -30,7 +30,7 @@
 
 <target name="run" depends="compile" description="runs the Password generator">
 
-<java classname="${mainClass}" classpath="build" >
+<java classname="${mainClass}" classpath="build" fork="true" >
 <!-- &#13; is \n (ascii value 13 decimal) -->
 </java>
 </target>
