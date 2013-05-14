@@ -49,10 +49,11 @@ public class PasswordGUI
     }
     public void onActionPerformed() 
     {
-	int length = 1;
+	int length = 0;
 	try
 	    {
 		length = Integer.parseInt(lengthField.getText());
+		System.out.println(length);
 		//	p.setPassLength(length);
 	    }
 	catch(NumberFormatException e)

@@ -35,6 +35,13 @@
 </java>
 </target>
 
+<target name="run2" depends="compile" description="runs the Password generator">
+
+<java classname="Password" classpath="build" fork="true" >
+<!-- &#13; is \n (ascii value 13 decimal) -->
+</java>
+</target>
+
 <target name="clean">
 
 <delete failonerror="false" verbose="true">

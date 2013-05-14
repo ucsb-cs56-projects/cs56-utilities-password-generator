@@ -39,6 +39,12 @@ public class Password
 	numMaxSpecial = 1;		
     }		
 
+    public static void main(String[] args)
+    {
+	Password p = new Password();
+	System.out.println("\n\n" + p.generate(8) + "/n/n");
+    }
+
     /**
        sets password array of length n to have an empty space for each index
        
@@ -51,7 +57,11 @@ public class Password
 	    {
 		pwArray[i] = ' ';
 	    }
-    }	
+    }
+
+    /**
+       ???
+    */
     private int findSpotInString()
     {
 	int a = getRandomNumber(0, passLength);					
@@ -65,8 +75,7 @@ public class Password
 		    }					
 	    }
 	System.out.println("NEVER");
-	return -1;
-		
+	return -1;		
     }
     /**
        generates the password
@@ -76,7 +85,7 @@ public class Password
     public String generate(int length)
     {
 	initArrayList(length);
-	passLength = length;
+	setPassLength(length);
 	int count = 0;
 	for (int i = 0; i < numMinDigits; i++ )
 	    {
@@ -188,7 +197,7 @@ public class Password
     {
 	if(passLength <= 0)
 	    {
-		passLength = 1;
+		passLength = 8;
 	    }
 	else
 	    {
