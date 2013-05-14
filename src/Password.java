@@ -13,11 +13,7 @@ public class Password
     private int numMinSpecial;
     private int numMaxSpecial;
     private String allowedSpecialChracters;
-    private char[] pwArray;		
-    private int currentDigits;
-    private int currentUppercase;
-    private int currentSpecial;
-	
+    private char[] pwArray;
     JButton button;
     JTextField lengthField;
     
@@ -27,7 +23,7 @@ public class Password
     */
     public Password()
     {
-	allowedSpecialChracters = "`~@#%^&*()-_=+[]{}\\|;:' ,.<>/?";		
+	allowedSpecialChracters = "`~@#%^&*()-_=+[]{}\\|;:',.<>/?";		
 	
 	numMaxDigits = 100;
 	numMinDigits = 1;	
@@ -35,19 +31,19 @@ public class Password
 	numMaxUpperCase = 100;
 	numMinUpperCase = 1;
 	
-	numMinSpecial = 100;
-	numMaxSpecial = 1;		
+	numMaxSpecial = 100;
+	numMinSpecial = 1;		
     }		
 
     public static void main(String[] args)
     {
 	Password p = new Password();
-	System.out.println("\n\n" + p.generate(8) + "/n/n");
+	p.setPassLength(9);
+	System.out.println("\n\n" + p.generate() + "\n\n");
     }
 
     /**
        sets password array of length n to have an empty space for each index
-       
     */
     
     private void initArrayList(int n)
@@ -84,8 +80,13 @@ public class Password
 		
     public String generate(int length)
     {
-	initArrayList(length);
 	setPassLength(length);
+
+	initArrayList(passLength);
+	int currentDigits = 0;
+	int currentUppercase = 0;
+	int currentSpecial = 0;
+
 	int count = 0;
 	for (int i = 0; i < numMinDigits; i++ )
 	    {
@@ -94,8 +95,7 @@ public class Password
 		int index = findSpotInString();
 		pwArray[index] = (char)a;
 		currentDigits++;
-	    }			
-		
+	    }	
 	for (int i = 0; i < numMinUpperCase; i++ )
 	    {
 		int a = getRandomNumber(65, 90);	
@@ -103,7 +103,6 @@ public class Password
 		pwArray[index] = (char)a;
 		currentUppercase++;
 	    }	
-		
 	for (int i = 0; i < numMinSpecial; i++ )
 	    {
 		int a = getRandomNumber(0, allowedSpecialChracters.length()-1);	
@@ -115,7 +114,6 @@ public class Password
 	count+= currentDigits;
 	count+= currentUppercase;
 	count+= currentSpecial;		
-		
 	while (count < passLength)
 	    {
 		int a = getRandomNumber(33,126);	
@@ -195,9 +193,9 @@ public class Password
     }
     public void setPassLength(int num)
     {
-	if(passLength <= 0)
+	if(num < (numMinDigits + numMinUpperCase + numMinSpecial))
 	    {
-		passLength = 8;
+		passLength = (numMinDigits + numMinUpperCase + numMinSpecial);
 	    }
 	else
 	    {

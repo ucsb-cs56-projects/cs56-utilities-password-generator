@@ -53,7 +53,7 @@ public class PasswordGUI
 	try
 	    {
 		length = Integer.parseInt(lengthField.getText());
-		System.out.println(length);
+		//System.out.println(length);
 		//	p.setPassLength(length);
 	    }
 	catch(NumberFormatException e)
