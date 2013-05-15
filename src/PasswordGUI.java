@@ -17,7 +17,7 @@ public class PasswordGUI
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	p = new Password();
 
-	greeting = new JTextField("Please enter the length of the password:", 30);
+	greeting = new JTextField("Please enter the length of the password (>3 characters):", 30);
         lengthField = new JTextField("");
         button = new JButton("Generate");
 	passwordOutputField = new JTextField("");
