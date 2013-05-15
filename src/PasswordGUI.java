@@ -28,8 +28,9 @@ public class PasswordGUI
 	greeting.setEditable(false);
 	frame.getContentPane().add(BorderLayout.NORTH, lengthField);
         frame.getContentPane().add(BorderLayout.CENTER, button); 
+	button.setAlignmentX(Component.CENTER_ALIGNMENT);
 	frame.getContentPane().add(BorderLayout.SOUTH, passwordOutputField);
-        frame.setSize(300,150);
+        frame.setSize(400,300);
         frame.setVisible(true);
     }
 
