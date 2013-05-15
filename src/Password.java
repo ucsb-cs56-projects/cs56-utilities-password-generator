@@ -20,8 +20,6 @@ public class Password
     private int numMaxSpecial;
     private String allowedSpecialChracters;
     private char[] pwArray;
-    JButton button;
-    JTextField lengthField;
     
 
     /**
