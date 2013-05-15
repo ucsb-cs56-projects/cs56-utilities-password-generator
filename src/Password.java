@@ -3,6 +3,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+
+   Password represents a Password. A Password contains digits, upper case letters, and special characters. One is generated via Random selection of different specified amounts of digits, upper case letters, and passwords
+
+*/
+
 public class Password 
 {
     private int passLength;	
@@ -19,7 +25,7 @@ public class Password
     
 
     /**
-       default constructor. sets the minumum of each element to 1 and the maximum to 100
+       default constructor. sets the minumum to 1 and the maximum to 100 of digits, uppercase letters, and special characters
     */
     public Password()
     {
@@ -43,20 +49,22 @@ public class Password
     }
 
     /**
-       sets password array of length n to have an empty space for each index
+       Sets the array of characters comprising a password to a specified length to contain a space character.
+       @param length length of the array of characters.
     */
     
-    private void initArrayList(int n)
+    private void initArrayList(int length)
     {
-	pwArray = new char[n];
-	for (int i = 0; i < n; i++)
+	pwArray = new char[length];
+	for (int i = 0; i < length; i++)
 	    {
 		pwArray[i] = ' ';
 	    }
     }
 
     /**
-       ???
+       gives  the index of an empty spot (a space) in pwArray, the array of characters in the password.
+       @return index of empty location in pwArray
     */
     private int findSpotInString()
     {
@@ -75,7 +83,7 @@ public class Password
     }
     /**
        generates the password
-       @param length the lenght of the desired password
+       @param length the length of the desired password
     */
 		
     public String generate(int length)
@@ -161,10 +169,19 @@ public class Password
 	return toString();
     }
 
+    /**
+       calls generate method with passLength argument. used if no length provided by user
+       @return String with password 
+    */
+
     public String generate() 
     {
 	return generate(passLength);
     }
+
+    /** cchecks whether a is in between min and max
+	@return true if a is in between min and max, false if not
+    */
 
     private boolean isInBetween(int a, int min, int max)
     {
@@ -172,7 +189,12 @@ public class Password
 	    return true;
 	return false;
     }
-	
+
+    /**
+       @param start lowest random number that can be generated
+       @param end largest random number that can be generated
+       @return a random number between start and end
+    */
     private int getRandomNumber(int start, int end)
     {
 	Random r = new Random();
@@ -180,7 +202,7 @@ public class Password
 	return num;
     }	
     /**
-       returns the genererated password
+       @return the generated password
     */
     public String toString()
     {
@@ -191,15 +213,20 @@ public class Password
 	    }
 	return s;
     }
-    public void setPassLength(int num)
+
+    /**
+       sets the password length to be num. if too small, makes length the sum of the minimums of digits, upper case, and special characters
+       @param size the size of the password
+    */
+    public void setPassLength(int size)
     {
-	if(num < (numMinDigits + numMinUpperCase + numMinSpecial))
+	if(size < (numMinDigits + numMinUpperCase + numMinSpecial))
 	    {
 		passLength = (numMinDigits + numMinUpperCase + numMinSpecial);
 	    }
 	else
 	    {
-		passLength = num;
+		passLength = size;
 	    }
     }
 	
@@ -240,65 +267,4 @@ public class Password
        @param s the string containing characters that can be used as special characters
     */
     public void setAllowedSpecialCharacters(String s) {allowedSpecialChracters = s;}	
-
-    /* public void go(){
-       JFrame frame = new JFrame();
-       frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-       lengthField = new JTextField(3);
-       button = new JButton("Generate");
-       button.addActionListener(new ButtonListener());
-       lengthField.addActionListener(new TextFieldListener());
-	
-       frame.getContentPane().add(BorderLayout.SOUTH, button);
-       frame.getContentPane().add(BorderLayout.NORTH, lengthField);
-       frame.setSize(300,300);
-       frame.setVisible(true);
-       }
-       public class ButtonListener implements ActionListener
-       {
-       public void actionPerformed(ActionEvent event)
-       {
-	    
-       }
-       }
-       public class TextFieldListener implements ActionListener
-       {
-       public void actionPerformed(ActionEvent event)
-       {
-       try
-       {
-       Integer.parseInt(lengthField.getText());
-       if(Integer.parseInt(lengthField.getText()) <= 0)
-       {
-       passLength = 1;
-       }
-       else
-       {
-       passLength = Integer.parseInt(lengthField.getText());
-       }
-       }
-       catch(NumberFormatException e)
-       {
-       lengthField.setText("");
-       }
-		   
-       }
-       }
-       public static void main(String[] args)
-       {
-       PasswordGUI pwGUI = new PasswordGUI();
-       System.out.println("pwGUI created");
-       pwGUI.go();
-       System.out.println("pwGUI exited?");
-       /* Password pass = new Password();	
-       pass.setMinDigits(2);
-       pass.setMaxDigits(2); 
-       pass.setMaxUppercase(0);
-       pass.setMinUpperCase(0);
-       pass.setMinSpecial(0);
-       pass.setMaxSpecial(0); 		
-       pass.setAllowedSpecialCharacters("!");
-       }
-    */
 }
