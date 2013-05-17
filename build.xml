@@ -10,7 +10,7 @@
 <property name="course" value="cs56"/>
 <property name="quarter" value="W11"/>
 <property name="issueNum" value="0000042"/>
-<property name="mainClass" value="Password"/>
+<property name="mainClass" value="PasswordGUI"/>
 <property name="projectName" value="${course}_${quarter}_${issueNum}"/>
 <property name="projectPath" value="${course}/${quarter}/issues/${issueNum}"/>
 <property name="javadocDest" value="${webRoot}/${projectPath}/javadoc"/>
@@ -19,7 +19,7 @@
 <target name="compile">
 <mkdir dir="build"/>
 
-<javac srcdir="src" destdir="build" debug="true" debuglevel="lines,source">
+<javac srcdir="src" destdir="build" debug="true" debuglevel="lines,source" includeantruntime="false">
 
 <classpath>
 <pathelement location="build"/>
@@ -28,9 +28,16 @@
 </javac>
 </target>
 
-<target name="run" depends="compile">
+<target name="run" depends="compile" description="runs the Password generator">
 
-<java classname="${mainClass}" classpath="build" >
+<java classname="${mainClass}" classpath="build" fork="true" >
+<!-- &#13; is \n (ascii value 13 decimal) -->
+</java>
+</target>
+
+<target name="run2" depends="compile" description="runs the Password generator">
+
+<java classname="Password" classpath="build" fork="true" >
 <!-- &#13; is \n (ascii value 13 decimal) -->
 </java>
 </target>
