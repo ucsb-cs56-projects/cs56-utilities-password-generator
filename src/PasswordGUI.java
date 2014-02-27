@@ -55,7 +55,7 @@ public class PasswordGUI
 	button1.setAlignmentX(Component.CENTER_ALIGNMENT);
 	button2.setAlignmentX(Component.CENTER_ALIGNMENT);
 	frame.getContentPane().add(BorderLayout.SOUTH, passwordOutputField);
-        frame.setSize(550,300);
+        frame.setSize(530,300);
         frame.setVisible(true);
     }
     
@@ -90,20 +90,22 @@ public class PasswordGUI
     {
 	int min = 0;
         int max = 100;
+        String b;
         try
 	    {
 		min = Integer.parseInt(lengthField1.getText());
 		max = Integer.parseInt(lengthField2.getText());
+		b=lengthField3.getText();
 	    }
 	catch(NumberFormatException e)
 	    {
 		lengthField1.setText("");
 		lengthField2.setText("");
+		lengthField3.setText("");
 		return;
 	    }
-	passwordOutputField.setText(p.generate(min,max));
+	passwordOutputField.setText(p.generate(b,min,max));
     }
-
     public static void main(String[] args)
     {
 	PasswordGUI pwGUI = new PasswordGUI();

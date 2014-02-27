@@ -86,8 +86,9 @@ public class Password
        @param length the length of the desired password
     */
 		
-    public String generate(int min,int max)
+    public String generate(String b,int min,int max)
     {
+	appendSpecialCharacters(b);
         passLength=getRandomNumber(min,max);
 	System.out.println("Length: " + passLength);
 
@@ -174,10 +175,14 @@ public class Password
        calls generate method with passLength argument. used if no length provided by user
        @return String with password 
     */
-
+    public void appendSpecialCharacters(String a)
+	{
+	    allowedSpecialChracters= a + allowedSpecialChracters;
+	}
+	
      public String generate() 
     {
-    	return generate(numMinDigits,numMaxDigits);
+    	return generate("",numMinDigits,numMaxDigits);
     }
 
     /** cchecks whether a is in between min and max
