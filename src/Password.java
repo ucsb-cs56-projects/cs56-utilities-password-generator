@@ -20,6 +20,7 @@ public class Password
     private int numMaxSpecial;
     private String allowedSpecialChracters;
     private char[] pwArray;
+    private Random random;
     
 
     /**
@@ -37,12 +38,13 @@ public class Password
 	
 	numMaxSpecial = 100;
 	numMinSpecial = 1;		
+	
+	random = new Random();
     }		
 
     public static void main(String[] args)
     {
 	Password p = new Password();
-	p.setPassLength(9);
 	System.out.println("\n\n" + p.generate() + "\n\n");
     }
 
@@ -67,7 +69,7 @@ public class Password
     private int findSpotInString()
     {
 	int a = getRandomNumber(0, passLength);					
-	for (int j = a; j <  passLength+a; j++)
+	for (int j = a; j < passLength+a; j++)
 	    {
 		if (j == passLength)
 		    j = 0;
@@ -84,9 +86,10 @@ public class Password
        @param length the length of the desired password
     */
 		
-    public String generate(int length)
+    public String generate(int min,int max)
     {
-	setPassLength(length);
+        passLength=getRandomNumber(min,max);
+	System.out.println("Length: " + passLength);
 
 	initArrayList(passLength);
 	int currentDigits = 0;
@@ -96,7 +99,6 @@ public class Password
 	int count = 0;
 	for (int i = 0; i < numMinDigits; i++ )
 	    {
-			
 		int a = getRandomNumber(48, 57);	
 		int index = findSpotInString();
 		pwArray[index] = (char)a;
@@ -138,7 +140,7 @@ public class Password
 		    {
 			if (currentUppercase < numMaxUpperCase)
 			    {
-				currentUppercase++;					
+				currentUppercase++;				
 			    }
 			else 
 			    continue;
@@ -163,7 +165,8 @@ public class Password
 		// its a lower case letter for which there is no limit
 		count++;			
 		pwArray[index] = (char)a;					
-	    }			
+	    }	
+	//System.out.println(passLength);
 	return toString();
     }
 
@@ -172,9 +175,9 @@ public class Password
        @return String with password 
     */
 
-    public String generate() 
+     public String generate() 
     {
-	return generate(passLength);
+    	return generate(numMinDigits,numMaxDigits);
     }
 
     /** cchecks whether a is in between min and max
@@ -195,8 +198,9 @@ public class Password
     */
     private int getRandomNumber(int start, int end)
     {
-	Random r = new Random();
-	int num = r.nextInt(end-start+1)+start;	
+
+        int num = random.nextInt(end-start+1)+start;
+        //System.out.println(num);	
 	return num;
     }	
     /**
@@ -216,16 +220,16 @@ public class Password
        sets the password length to be num. if too small, makes length the sum of the minimums of digits, upper case, and special characters
        @param size the size of the password
     */
-    public void setPassLength(int size)
+    public void setPassLength(int min,int max)
     {
-	if(size < (numMinDigits + numMinUpperCase + numMinSpecial))
-	    {
-		passLength = (numMinDigits + numMinUpperCase + numMinSpecial);
-	    }
-	else
-	    {
-		passLength = size;
-	    }
+	//if(min < (numMinDigits + numMinUpperCase + numMinSpecial))
+	// {
+	//	passLength = (numMinDigits + numMinUpperCase + numMinSpecial);
+	// }
+	//	else
+	// {
+	passLength=getRandomNumber(min,max);
+		// }
     }
 	
     /**
