@@ -17,6 +17,10 @@
 <property name="javadocDest" value="${webRoot}/${projectPath}/javadoc"/>
 <property name="javadocURL" value="${webBaseUrl}/${projectPath}/javadoc"/>
 
+<path id="project.class.path">
+         <pathelement location="build"/>
+         <pathelement location="lib/junit-4.8.2.jar"/>
+</path>
 <target name="compile">
 <mkdir dir="build"/>
 
