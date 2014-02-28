@@ -1,6 +1,10 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.ClipboardOwner;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
 
 /**
    PasswordGUI represents a GUI for interacting with the Password class. A Password contains digits, upper case letters, and special characters. One can set the length of the Password to be greater than or equal to three. A Password is generated with the Generate button. 
@@ -37,11 +41,12 @@ public class PasswordGUI
         button1 = new JButton("Generate");
 	button2 = new JButton("Copy to Clipboard");
 	passwordOutputField = new JTextField("");
-        button1.addActionListener(new ButtonListener());
-	button2.addActionListener(new ButtonListener());
+        button1.addActionListener(new ButtonListener1());
+	button2.addActionListener(new ButtonListener2());
         lengthField1.addActionListener(new TextFieldListener());
 	lengthField2.addActionListener(new TextFieldListener());
 	lengthField3.addActionListener(new TextFieldListener());
+
 
 	frame.getContentPane().add(BorderLayout.NORTH, greeting1);
 	greeting1.setEditable(false);
@@ -63,11 +68,18 @@ public class PasswordGUI
 	inner class for Generate button
     */
 
-    public class ButtonListener implements ActionListener
+    public class ButtonListener1 implements ActionListener
     {
 	public void actionPerformed(ActionEvent event)
 	{
-	    onActionPerformed();
+	    onActionPerformed1();
+	}
+    }
+     public class ButtonListener2 implements ActionListener
+    {
+	public void actionPerformed(ActionEvent event)
+	{
+	    onActionPerformed2(passwordOutputField.getText());
 	}
     }
     /**
@@ -78,15 +90,20 @@ public class PasswordGUI
     {
         public void actionPerformed(ActionEvent event)
         {
-	    onActionPerformed();
+	    onActionPerformed1();
 	}
     }
     
     /**
        method that checks length field for valid input. if length field has valid input, generates password with that length, and sets text of generated password field with that password
     */
-
-    public void onActionPerformed() 
+    public void onActionPerformed2(String aString) 
+    {
+    	StringSelection stringSelection = new StringSelection(aString);
+	Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+	clipboard.setContents(stringSelection,stringSelection);
+    }
+    public void onActionPerformed1() 
     {
 	int min = 0;
         int max = 100;
