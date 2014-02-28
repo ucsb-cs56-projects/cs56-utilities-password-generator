@@ -89,8 +89,7 @@ public class Password
     public String generate(String b,int min,int max)
     {
 	appendSpecialCharacters(b);
-        passLength=getRandomNumber(min,max);
-	System.out.println("Length: " + passLength);
+        setPassLength(min,max);
 
 	initArrayList(passLength);
 	int currentDigits = 0;
@@ -167,7 +166,6 @@ public class Password
 		count++;			
 		pwArray[index] = (char)a;					
 	    }	
-	//System.out.println(passLength);
 	return toString();
     }
 
@@ -204,8 +202,7 @@ public class Password
     private int getRandomNumber(int start, int end)
     {
 
-        int num = random.nextInt(end-start+1)+start;
-        //System.out.println(num);	
+        int num = random.nextInt(end-start+1)+start;	
 	return num;
     }	
     /**
@@ -227,14 +224,8 @@ public class Password
     */
     public void setPassLength(int min,int max)
     {
-	//if(min < (numMinDigits + numMinUpperCase + numMinSpecial))
-	// {
-	//	passLength = (numMinDigits + numMinUpperCase + numMinSpecial);
-	// }
-	//	else
-	// {
+        
 	passLength=getRandomNumber(min,max);
-		// }
     }
 	
     /**
