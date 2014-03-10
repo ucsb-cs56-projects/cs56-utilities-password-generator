@@ -1,7 +1,8 @@
 <project default="compile">
 <!--
- build.xml for Mantis issue
-       name: P.Conrad for CS56, W11 
+ build.xml for Password.java
+       original author: P.Conrad for CS56, W11
+       updated Weihan Wang for github W14 
 -->
 <property environment="env"/>
 <!-- load the environment variables -->
@@ -16,6 +17,10 @@
 <property name="javadocDest" value="${webRoot}/${projectPath}/javadoc"/>
 <property name="javadocURL" value="${webBaseUrl}/${projectPath}/javadoc"/>
 
+<path id="project.class.path">
+         <pathelement location="build"/>
+         <pathelement location="lib/junit-4.8.2.jar"/>
+</path>
 <target name="compile">
 <mkdir dir="build"/>
 
@@ -48,9 +53,6 @@
 <fileset dir="build" includes="*.class"/>
 </delete>
 <delete dir="javadoc" quiet="true"/>
-<delete dir="dist" quiet="true"/>
-<delete dir="download" quiet="true"/>
-<delete dir="temp" quiet="true"/>
 </target>
 
 <target name="test" depends="compile">
@@ -107,62 +109,6 @@
 <chmod dir="${javadocDest}" perm="755" type="file" includes="**/*"/>
 <echo>Javadoc deployed to ${javadocURL}</echo>
 </target>
-
-<target name="jar" depends="compile">
-<mkdir dir="dist"/>
-
-<jar destfile="dist/${projectName}.jar" basedir="build">
-
-<manifest>
-<attribute name="Main-Class" value="${mainClass}"/>
-</manifest>
-</jar>
-</target>
-
-<target name="download">
-
-<delete quiet="true">
-<fileset dir="temp" includes="**/*"/>
-<fileset dir="download" includes="**/*"/>
-</delete>
-<mkdir dir="download"/>
-<mkdir dir="temp"/>
-<mkdir dir="temp/${projectName}"/>
-
-<copy todir="temp/${projectName}">
-<fileset dir="." excludes="build/**, javadoc/**, **/*~, temp/**, dist/**, download/**"/>
-</copy>
-<tar destfile="temp/${projectName}.tar" basedir="temp" includes="${projectName}/**"/>
-<gzip zipfile="download/${projectName}.tgz" src="temp/${projectName}.tar"/>
-<zip destfile="download/${projectName}.zip" basedir="temp" includes="${projectName}/**"/>
-
-<delete quiet="true">
-<fileset dir="temp" includes="**/*"/>
-</delete>
-</target>
-
-<target name="publish" depends="jar,javadoc,download">
-<mkdir dir="${webRoot}/${projectPath}"/>
-<delete dir="${webRoot}/${projectPath}/browse"/>
-<mkdir dir="${webRoot}/${projectPath}/browse"/>
-<delete dir="${webRoot}/${projectPath}/download"/>
-<mkdir dir="${webRoot}/${projectPath}/download"/>
-<copy file="html/index.html" todir="${webRoot}/${projectPath}"/>
-
-<copy todir="${webRoot}/${projectPath}/download">
-<fileset dir="download"/>
-<fileset dir="dist"/>
-</copy>
-<copy file="build.xml" todir="${webRoot}/${projectPath}/browse"/>
-
-<copy todir="${webRoot}/${projectPath}/browse/src">
-<fileset dir="src"/>
-</copy>
-
-<copy todir="${webRoot}/${projectPath}/browse/testdata">
-<fileset dir="testdata"/>
-</copy>
-<chmod dir="${webRoot}/${projectPath}" perm="755" type="both" includes="**/*"/>
-<echo>Project published to ${webBaseUrl}/${projectPath}</echo>
-</target>
 </project>
+
+
