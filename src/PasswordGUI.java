@@ -110,18 +110,25 @@ public class PasswordGUI
         String b;
         try
 	    {
-		min = Integer.parseInt(lengthField1.getText());
-		max = Integer.parseInt(lengthField2.getText());
+	        min = Integer.parseInt(lengthField1.getText());
+	        max = Integer.parseInt(lengthField2.getText());
 		b=lengthField3.getText();
+		if( min > max)
+		    { 
+			passwordOutputField.setText("min can not be greater than max!");                   
+		    }
+		else
+		    {  
+			passwordOutputField.setText(p.generate(b,min,max));
+		    }
 	    }
-	catch(NumberFormatException e)
+	catch(IllegalArgumentException e)
 	    {
-		lengthField1.setText("");
-		lengthField2.setText("");
-		lengthField3.setText("");
-		return;
+		lengthField1.getText();
+		lengthField2.getText();
+		lengthField3.getText();
 	    }
-	passwordOutputField.setText(p.generate(b,min,max));
+	
     }
     public static void main(String[] args)
     {
