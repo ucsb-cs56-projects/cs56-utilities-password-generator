@@ -19,24 +19,22 @@ Some Internal Documentation(Developer's View)
 1. The main GUI code is located in PasswordGUI.java. 
 
 2. This is the main function that generates the output. It also calls other functions to do stuff.
-
-```java
+    ```java
 	public String generate(String b,int min,int max)
 	 {
 	 // code here 
 	 }
-```
-
+    ```
 3. class Password has all the variables that are used in this project.  class PasswordGUI contains all the GUI swing elements.
 
 How to run this project?
 ========================
 
-```
-    -just type "ant run".
-```
+just type: 
 
-
+```
+ant run
+```
 
 
 
