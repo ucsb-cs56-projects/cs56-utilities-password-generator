@@ -4,7 +4,8 @@ cs56-Password-Generator
 Contributors:
 
 * Vladimir Adam: https://foo.cs.ucsb.edu/cs56/issues/0000042/
-* Weihan Wang: https://github.com/108498asdf/cs56-utilities-password-generator
+* Ian Vernon and Evan Moelter (pair) https://github.com/ianvernon/cs56-utilities-password-generator
+* Weihan (David) Wang: https://github.com/108498asdf/cs56-utilities-password-generator
 
 JavaDoc: http://www.cs.ucsb.edu/~108498asdf//cs56/W11/issues/0000042/javadoc
 
