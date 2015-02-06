@@ -15,7 +15,9 @@ project history
 ```
  W14 | bkiefer13 4pm | 108498asdf | (jcneally) A file that creates random passwords with a given password length
 ```
-
+```
+YES | mastergberry | 108498asdf | (jcneally) A file that creates random passwords with a given password length
+```
 High-Level Description(User's View)
 ===================================
 
