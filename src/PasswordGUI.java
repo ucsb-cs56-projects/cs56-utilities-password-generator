@@ -14,13 +14,13 @@ import java.awt.datatransfer.Transferable;
  */
 
 public class PasswordGUI {
-    private JButton button1;
-    private JButton button2;
-    private JTextField greeting1;
-    private JTextField greeting2;
-    private JTextField lengthField1;
-    private JTextField lengthField2;
-    private JTextField lengthField3;
+    private JButton generateButton;
+    private JButton copyButton;
+    private JTextField passwordLengthText;
+    private JTextField specialCharText;
+    private JTextField minPasswordLengthField;
+    private JTextField maxPasswordLengthField;
+    private JTextField specialCharField;
     private Password p;
     private JFrame frame;
     private JTextField passwordOutputField;
@@ -37,32 +37,32 @@ public class PasswordGUI {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		p = new Password();
 
-		greeting1 = new JTextField("Please enter the max, min length of the password (First Box:min Second Box:max):", 30);
-		greeting2 = new JTextField("Please enter a list of special character to be included:(On the third line)", 10);
-	    	lengthField1 = new JTextField("");
-		lengthField2 = new JTextField("");
-		lengthField3 = new JTextField("");
-			button1 = new JButton("Generate");
-		button2 = new JButton("Copy to Clipboard");
+		passwordLengthText = new JTextField("Please enter the max, min length of the password (First Box:min Second Box:max):", 30);
+		specialCharText = new JTextField("Please enter a list of special character to be included:(On the third line)", 10);
+	    	minPasswordLengthField = new JTextField("");
+		maxPasswordLengthField = new JTextField("");
+		specialCharField = new JTextField("");
+			generateButton = new JButton("Generate");
+		copyButton = new JButton("Copy to Clipboard");
 		passwordOutputField = new JTextField("");
-	        button1.addActionListener(new ButtonListener1());
-		button2.addActionListener(new ButtonListener2());
-	        lengthField1.addActionListener(new TextFieldListener());
-		lengthField2.addActionListener(new TextFieldListener());
-		lengthField3.addActionListener(new TextFieldListener());
+	        generateButton.addActionListener(new ButtonListener1());
+		copyButton.addActionListener(new ButtonListener2());
+	        minPasswordLengthField.addActionListener(new TextFieldListener());
+		maxPasswordLengthField.addActionListener(new TextFieldListener());
+		specialCharField.addActionListener(new TextFieldListener());
 
 
-		frame.getContentPane().add(BorderLayout.NORTH, greeting1);
-		greeting1.setEditable(false);
-		frame.getContentPane().add(BorderLayout.NORTH, greeting2);
-		greeting2.setEditable(false);
-		frame.getContentPane().add(BorderLayout.NORTH, lengthField1);
-		frame.getContentPane().add(BorderLayout.NORTH, lengthField2);
-		frame.getContentPane().add(BorderLayout.NORTH, lengthField3);
-	        frame.getContentPane().add(BorderLayout.CENTER, button1);
-		frame.getContentPane().add(BorderLayout.CENTER, button2); 
-		button1.setAlignmentX(Component.CENTER_ALIGNMENT);
-		button2.setAlignmentX(Component.CENTER_ALIGNMENT);
+		frame.getContentPane().add(BorderLayout.NORTH, passwordLengthText);
+		passwordLengthText.setEditable(false);
+		frame.getContentPane().add(BorderLayout.NORTH, specialCharText);
+		specialCharText.setEditable(false);
+		frame.getContentPane().add(BorderLayout.NORTH, minPasswordLengthField);
+		frame.getContentPane().add(BorderLayout.NORTH, maxPasswordLengthField);
+		frame.getContentPane().add(BorderLayout.NORTH, specialCharField);
+	        frame.getContentPane().add(BorderLayout.CENTER, generateButton);
+		frame.getContentPane().add(BorderLayout.CENTER, copyButton); 
+		generateButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		copyButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		frame.getContentPane().add(BorderLayout.SOUTH, passwordOutputField);
 	        frame.setSize(530,300);
 	        frame.setVisible(true);
@@ -115,9 +115,9 @@ public class PasswordGUI {
         String b;
 
         try {
-	        min = Integer.parseInt(lengthField1.getText());
-	        max = Integer.parseInt(lengthField2.getText());
-			b=lengthField3.getText();
+	        min = Integer.parseInt(minPasswordLengthField.getText());
+	        max = Integer.parseInt(maxPasswordLengthField.getText());
+			b=specialCharField.getText();
 
 			if( min > max) { 
 				passwordOutputField.setText("min can not be greater than max!");                   
@@ -129,9 +129,9 @@ public class PasswordGUI {
     	}
 
 		catch(IllegalArgumentException e) {
-			lengthField1.getText();
-			lengthField2.getText();
-			lengthField3.getText();
+			minPasswordLengthField.getText();
+			maxPasswordLengthField.getText();
+			specialCharField.getText();
 		}
 	}
 

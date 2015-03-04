@@ -20,7 +20,7 @@ public class Password {
     private int numMinSpecial;
     private int numMaxSpecial;
     private String allowedSpecialChracters;
-    private char[] pwArray;
+    private char[] passwordArray;
     private Random random;
     
 
@@ -54,26 +54,26 @@ public class Password {
      *
      *  @param length length of the array of characters.
      */
-    private void initArrayList(int length) {
-		pwArray = new char[length];
+    private void initializeArrayList(int length) {
+		passwordArray = new char[length];
 		for (int i = 0; i < length; i++) {
-			pwArray[i] = ' ';
+			passwordArray[i] = ' ';
 		}
     }
 
 
     /**
-     *  gives  the index of an empty spot (a space) in pwArray, the array of 
+     *  gives  the index of an empty spot (a space) in passwordArray, the array of 
      *  characters in the password.
      *
-     *  @return index of empty location in pwArray
+     *  @return index of empty location in passwordArray
      */
-    private int findSpotInString() {
+    private int findEmptySpotInString() {
 		int a = getRandomNumber(0, passLength);					
 		for (int j = a; j < passLength+a; j++) {
 			if (j == passLength)
 				j = 0;
-			if (pwArray[j]  == ' ')
+			if (passwordArray[j]  == ' ')
 				return j;				
 		}
 
@@ -93,7 +93,7 @@ public class Password {
 		appendSpecialCharacters(b);
 	        setPassLength(min,max);
 
-		initArrayList(passLength);
+		initializeArrayList(passLength);
 		int currentDigits = 0;
 		int currentUppercase = 0;
 		int currentSpecial = 0;
@@ -101,22 +101,22 @@ public class Password {
 		int count = 0;
 		for (int i = 0; i < numMinDigits; i++ ) {
 			int a = getRandomNumber(48, 57);	
-			int index = findSpotInString();
-			pwArray[index] = (char)a;
+			int index = findEmptySpotInString();
+			passwordArray[index] = (char)a;
 			currentDigits++;
 		}
 
 		for (int i = 0; i < numMinUpperCase; i++ ) {
 			int a = getRandomNumber(65, 90);	
-			int index = findSpotInString();
-			pwArray[index] = (char)a;
+			int index = findEmptySpotInString();
+			passwordArray[index] = (char)a;
 			currentUppercase++;
 	    }	
 
 		for (int i = 0; i < numMinSpecial; i++ ) {
 			int a = getRandomNumber(0, allowedSpecialChracters.length()-1);	
-			int index = findSpotInString();
-			pwArray[index] = (allowedSpecialChracters.charAt(a));		
+			int index = findEmptySpotInString();
+			passwordArray[index] = (allowedSpecialChracters.charAt(a));		
 			currentSpecial++;
 	    }	
 			
@@ -126,22 +126,22 @@ public class Password {
 
 		while (count < passLength) {
 			int a = getRandomNumber(33,126);	
-			int index = findSpotInString();					
+			int index = findEmptySpotInString();					
 					
-			if (isInBetween(a,48,57)) {		// if its a digit
+			if (isInRange(a,48,57)) {		// if its a digit
 				if (currentDigits < numMaxDigits)	currentDigits++;
 				else continue; 
 		    }
 
-			else if (isInBetween(a,65,90)) {	// if its a UPPERCASE
+			else if (isInRange(a,65,90)) {	// if its a UPPERCASE
 				if (currentUppercase < numMaxUpperCase)	currentUppercase++;				
 				else continue;
 			}
 
 
-			else if (isInBetween(a,33,47) || isInBetween(a,58,64)
-				 || isInBetween(a,91,96) 
-				 || isInBetween(a,123,126) ) // if it's a special character
+			else if (isInRange(a,33,47) || isInRange(a,58,64)
+				 || isInRange(a,91,96) 
+				 || isInRange(a,123,126) ) // if it's a special character
 			    {
 				
 				if (currentSpecial < numMaxSpecial) {
@@ -160,7 +160,7 @@ public class Password {
 
 			// it's a lower case letter for which there is no limit
 			count++;			
-			pwArray[index] = (char)a;					
+			passwordArray[index] = (char)a;					
 	    }	
 
 		return toString();
@@ -186,7 +186,7 @@ public class Password {
      *  checks whether a is in between min and max
 	 *  @return true if a is in between min and max, false if not
      */
-    private boolean isInBetween(int a, int min, int max) {
+    private boolean isInRange(int a, int min, int max) {
 		if (a >= min && a <= max) return true;
 		return false;
     }
@@ -209,7 +209,7 @@ public class Password {
      */
     public String toString() {
 		String s = "";
-		for (char c : pwArray) {
+		for (char c : passwordArray) {
 			s+=c + "";
 		}
 		return s;
