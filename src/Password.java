@@ -29,7 +29,7 @@ public class Password {
      *	of digits, uppercase letters, and special characters.
      */
     public Password() {
-		allowedSpecialChracters = "`~@#%^&*()-_=+[]{}\\|;:',.<>/?";		
+		allowedSpecialChracters = "";		
 		
 		numMaxDigits = 100;
 		numMinDigits = 1;	
