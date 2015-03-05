@@ -12,16 +12,16 @@ import java.awt.event.*;
  *
  */
 public class Password {
-    private int passLength;	
-    private int numMaxDigits;
-    private int numMinDigits;	
-    private int numMaxUpperCase;
-    private int numMinUpperCase;
-    private int numMinSpecial;
-    private int numMaxSpecial;
-    private String allowedSpecialChracters;
-    private char[] passwordArray;
-    private Random random;
+    protected int passLength;	
+    protected int numMaxDigits;
+    protected int numMinDigits;	
+    protected int numMaxUpperCase;
+    protected int numMinUpperCase;
+    protected int numMinSpecial;
+    protected int numMaxSpecial;
+    protected String allowedSpecialCharacters;
+    protected char[] passwordArray;
+    protected Random random;
     
 
     /**
@@ -29,7 +29,7 @@ public class Password {
      *	of digits, uppercase letters, and special characters.
      */
     public Password() {
-		allowedSpecialChracters = "";		
+		allowedSpecialCharacters = "";		
 		
 		numMaxDigits = 100;
 		numMinDigits = 1;	
@@ -43,10 +43,12 @@ public class Password {
 		random = new Random(); 
 	} // Password
 
+
     public static void main(String[] args) {
 		Password p = new Password();
-		System.out.println("\n\n" + p.generate() + "\n\n");
+		System.out.println("\n\n" + p.generatePassword() + "\n\n");
     }
+
 
     /**
      *  Sets the array of characters comprising a password to a specified 
@@ -54,7 +56,7 @@ public class Password {
      *
      *  @param length length of the array of characters.
      */
-    private void initializeArrayList(int length) {
+    protected void initializeArrayList(int length) {
 		passwordArray = new char[length];
 		for (int i = 0; i < length; i++) {
 			passwordArray[i] = ' ';
@@ -68,9 +70,22 @@ public class Password {
      *
      *  @return index of empty location in passwordArray
      */
-    private int findEmptySpotInString() {
-		int a = getRandomNumber(0, passLength);					
-		for (int j = a; j < passLength+a; j++) {
+    protected int findEmptySpotInString() {
+        /*
+            This function helps in the process of replacing a space character in
+            the initialized array with an actual character determined by the user's
+            recipe.
+
+            Start the index of insertion, i, at a random spot along the Array.
+            If a reaches the end of the string, it wraps around to the beginning.
+            
+            This is done so that the replacement occurs at a random index in
+            the passwordArray.
+
+         */
+
+        int i = getRandomNumber(0, passLength);					
+		for (int j = i; j < passLength+i; j++) {
 			if (j == passLength)
 				j = 0;
 			if (passwordArray[j]  == ' ')
@@ -89,7 +104,7 @@ public class Password {
      *  generates the password
      *  @param length the length of the desired password
      */	
-    public String generate(String b,int min,int max) {
+    public String generatePassword(String b,int min,int max) {
 		appendSpecialCharacters(b);
 	        setPassLength(min,max);
 
@@ -114,9 +129,9 @@ public class Password {
 	    }	
 
 		for (int i = 0; i < numMinSpecial; i++ ) {
-			int a = getRandomNumber(0, allowedSpecialChracters.length()-1);	
+			int a = getRandomNumber(0, allowedSpecialCharacters.length()-1);	
 			int index = findEmptySpotInString();
-			passwordArray[index] = (allowedSpecialChracters.charAt(a));		
+			passwordArray[index] = (allowedSpecialCharacters.charAt(a));		
 			currentSpecial++;
 	    }	
 			
@@ -145,7 +160,7 @@ public class Password {
 			    {
 				
 				if (currentSpecial < numMaxSpecial) {
-					if (allowedSpecialChracters.contains(((char)a)+"") 
+					if (allowedSpecialCharacters.contains(((char)a)+"") 
 					    == true)
 					    {
 						currentSpecial++;	
@@ -163,7 +178,7 @@ public class Password {
 			passwordArray[index] = (char)a;					
 	    }	
 
-		return toString();
+		return passwordArrayToString();
 	}
 
 
@@ -174,11 +189,14 @@ public class Password {
      *  @return String with password 
      */
     public void appendSpecialCharacters(String a) {
-	    allowedSpecialChracters= a + allowedSpecialChracters;
+	    allowedSpecialCharacters= a + allowedSpecialCharacters;
 	}
 	
-     public String generate() {
-    	return generate("",numMinDigits,numMaxDigits);
+
+    // Generates a string with no special characters
+    // CURRENTLY UNSURE HOW THIS IS USED
+    public String generatePassword() {
+    	return generatePassword("",numMinDigits,numMaxDigits);
     }
 
 
@@ -186,17 +204,18 @@ public class Password {
      *  checks whether a is in between min and max
 	 *  @return true if a is in between min and max, false if not
      */
-    private boolean isInRange(int a, int min, int max) {
+    protected boolean isInRange(int a, int min, int max) {
 		if (a >= min && a <= max) return true;
 		return false;
     }
+
 
     /**
      *  @param start lowest random number that can be generated
      *  @param end largest random number that can be generated
      *  @return a random number between start and end
      */
-    private int getRandomNumber(int start, int end) {
+    protected int getRandomNumber(int start, int end) {
 		int num = random.nextInt(end-start+1)+start;	
 		return num;
     }	
@@ -207,7 +226,7 @@ public class Password {
     /**
      *  @return the generated password
      */
-    public String toString() {
+    public String passwordArrayToString() {
 		String s = "";
 		for (char c : passwordArray) {
 			s+=c + "";
@@ -251,7 +270,7 @@ public class Password {
      *  sets the minimum number of UpperCase letters the password can have
      *  @param num the minimum number of upper case letters
      */
-    public void setMinUpperCase(int num) {numMinUpperCase = num;}	
+    public void setMinUppercase(int num) {numMinUpperCase = num;}	
 
 
     /**
@@ -272,7 +291,7 @@ public class Password {
      *  sets the allowed special characters that can be used in a password
      *  @param s the string containing characters that can be used as special characters
      */
-    public void setAllowedSpecialCharacters(String s) {allowedSpecialChracters = s;}	
+    public void setAllowedSpecialCharacters(String s) {allowedSpecialCharacters = s;}	
 } // class Password
 
 
