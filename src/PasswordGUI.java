@@ -108,7 +108,7 @@ public class PasswordGUI {
 		clipboard.setContents(stringSelection,stringSelection);
     }
 
-//
+
     public void onActionPerformed1() {
 		int min = 0;
         int max = 100;
