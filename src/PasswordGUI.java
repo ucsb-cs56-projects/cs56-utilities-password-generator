@@ -124,7 +124,7 @@ public class PasswordGUI {
 			}
 
 			else {  
-				passwordOutputField.setText(p.generate(b,min,max));
+				passwordOutputField.setText(p.generatePassword(b,min,max));
 			}		
     	}
 
