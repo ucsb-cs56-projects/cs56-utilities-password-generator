@@ -1,8 +1,8 @@
 <project default="compile">
 	<!--
 	 build.xml for Password.java
-		   original author: P.Conrad for CS56, W11
-		   updated Weihan Wang for github W14 
+	       original author: P.Conrad for CS56, W11
+	       updated Weihan Wang for github W14 
 	-->
 	<property environment="env"/>
 	<!-- load the environment variables -->
@@ -17,17 +17,35 @@
 	<property name="javadocDest" value="${webRoot}/${projectPath}/javadoc"/>
 	<property name="javadocURL" value="${webBaseUrl}/${projectPath}/javadoc"/>
 
-
 	<path id="project.class.path">
-		<pathelement location="build"/>
-		<pathelement location="lib/junit-4.8.2.jar"/>
+	         <pathelement location="build"/>
+	         <pathelement location="lib/junit-4.8.2.jar"/>
 	</path>
 
 
 
+	<!-- This is the default COMPILE target. 
+
+	     Note that it EXCLUDES *Test.java files, so that compiling 
+	     and running do not address the issue of the user trying to RUN 
+	     the password generator without having JUnit installed. 
+	
+	     All targets *except* TEST depend on this default COMPILE target.	
+
+	     The TEST target depends on its own compile block, compileForTest,
+	     which also includes *Test.java files.  
+	-->
 	<target name="compile">
 		<mkdir dir="build"/>
-			<javac srcdir="src" destdir="build" debug="true" debuglevel="lines,source" includeantruntime="false">
+
+		<javac srcdir="src" destdir="build" debug="true" debuglevel="lines,source" includeantruntime="false">
+			<!-- excludes any files ending in Test, so that JUnit 
+			     dependency won't stop the Password generator from
+		             running
+			-->  
+			<exclude name="**/*Test.java"/>
+			
+
 			<classpath>
 				<pathelement location="build"/>
 				<pathelement location="/cs/faculty/pconrad/public_html/cs56/lib/junit-4.8.2.jar"/>
@@ -37,18 +55,44 @@
 
 
 
-	<target name="run" depends="compile" description="runs the Password generator">
+	<!-- This is the COMPILE target that is depended on by TEST. 
+
+	     It is different from the standard compile target in that it DOES NOT
+	     exclude *.Test files.
+	-->
+
+	<target name="compileForTest">
+		<mkdir dir="build"/>
+
+		<javac srcdir="src" destdir="build" debug="true" debuglevel="lines,source" includeantruntime="false">
+			<classpath>
+				<pathelement location="build"/>
+				<pathelement location="/cs/faculty/pconrad/public_html/cs56/lib/junit-4.8.2.jar"/>
+			</classpath>
+		</javac>
+	</target>
 
 
 
-	<java classname="${mainClass}" classpath="build" fork="true" >
+
+
+
+
+
+
+	<!-- STANDARD run target, invokes the GUI -->
+	<target name="run" depends="compile" description="runs the Password generator with GUI">
+		<java classname="${mainClass}" classpath="build" fork="true" >
 		<!-- &#13; is \n (ascii value 13 decimal) -->
+		
 		</java>
 	</target>
 
 
 
-	<target name="run2" depends="compile" description="runs the Password generator">
+	<!-- alternate, run2, is for the TUI at the command line--> 
+	<target name="run2" depends="compile" description="runs the Password generator 
+				using TUI/command line interface">
 		<java classname="Password" classpath="build" fork="true" >
 		<!-- &#13; is \n (ascii value 13 decimal) -->
 		</java>
@@ -56,33 +100,48 @@
 
 
 
+
 	<target name="clean">
 		<delete failonerror="false" verbose="true">
 			<fileset dir="build" includes="*.class"/>
 		</delete>
-		
 		<delete dir="javadoc" quiet="true"/>
 	</target>
 
 
 
-	<target name="test" depends="compile">
+	<!-- note that this currently (as of 3/7/15) depends on
+	     	* the user running the program on CSIL,because pconrad's JUnit
+		  package is referenced
+		* the compileForTest block, which is NOT the default compile block.
+	-->
+
+	<target name="test" depends="compileForTest">
 		<junit haltonerror="no" haltonfailure="no">
-			<classpath>
-				<pathelement location="/cs/faculty/pconrad/public_html/cs56/lib/junit-4.8.2.jar"/>
-				<pathelement location="build"/>
-			</classpath>
+		<classpath>	
+			<!-- this is the dependency on pronrad's JUnit -->
+			<pathelement location="/cs/faculty/pconrad/public_html/cs56/lib/junit-4.8.2.jar"/>
+			<pathelement location="build"/>
+		</classpath>
 
-			<batchtest fork="yes">
-				<fileset dir="src">
-					<!-- this will pick up every class with a name ending in Test -->
-					<include name="*Test.java"/>
-				</fileset>
-			</batchtest>
+		<batchtest fork="yes">
+			<fileset dir="src">
+				<!--
+				 this will pick up every class with a name ending in Test 
+				-->
+				<include name="*Test.java"/>
+			</fileset>
+		</batchtest>
 
-			<formatter type="plain" usefile="false"/>
+		<formatter type="plain" usefile="false"/>
 		</junit>
 	</target>
+
+
+
+
+
+
 
 
 
@@ -91,34 +150,33 @@
 
 		<javadoc destdir="javadoc" author="true" version="true" use="true">
 			<fileset dir="src" includes="**/*.java"/>
-
 			<classpath>
+				<!-- THIS ALSO DEPENDS ON PCONRAD'S JUNIT DIRECTORY -->
 				<pathelement location="/cs/faculty/pconrad/public_html/cs56/lib/junit-4.8.2.jar"/>
 			</classpath>
 		</javadoc>
 
+
 		<!-- delete the old javadoc -->
 		<delete quiet="true" dir="${javadocDest}"/>
+
 
 		<!--
 		 copy everything you just made to the javadoc destination, and then make it readable 
 		-->
-
 		<copy todir="${javadocDest}">
 			<fileset dir="javadoc"/>
 		</copy>
 
 		<!--
-		 Note: this only does the chmod command on the 
-				javadoc subdirectory and its contents.  You MIGHT have to
+		 	Note: this only does the chmod command on the 
+		        javadoc subdirectory and its contents.  You MIGHT have to
 			MANUALLY do the chmod on the parent directories.  However,
 			you should only need to do that once. 
 		-->
+	
 		<chmod dir="${javadocDest}" perm="755" type="dir" includes="**"/>
 		<chmod dir="${javadocDest}" perm="755" type="file" includes="**/*"/>
 		<echo>Javadoc deployed to ${javadocURL}</echo>
 	</target>
-
 </project>
-
-
