@@ -134,4 +134,9 @@ public class PasswordTest extends Password{
 		assertEquals(allowedSpecialCharacters, "@!^#$");
 	}
 
+	@Test
+	public void test_generateMultiplePasswords(){
+		//String [] a = generateMultiplePasswords()
+	}
+
 }

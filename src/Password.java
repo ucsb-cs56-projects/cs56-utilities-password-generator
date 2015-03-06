@@ -182,6 +182,17 @@ public class Password {
 	}
 
 
+    public String[] generateMultiplePasswords(String b, int min, int max, int numberOfPasswords){
+        String [] passwordStringArray = new String [numberOfPasswords];
+
+        for (int i = 0; i < numberOfPasswords; i++){
+            passwordStringArray[i] = generatePassword(b, min, max);
+        }
+
+        return passwordStringArray;
+    }
+
+
 
 
     /**
