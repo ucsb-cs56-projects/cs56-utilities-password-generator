@@ -6,6 +6,7 @@ Contributors:
 * Vladimir Adam: https://foo.cs.ucsb.edu/cs56/issues/0000042/
 * Ian Vernon and Evan Moelter (pair) https://github.com/ianvernon/cs56-utilities-password-generator
 * Weihan (David) Wang: https://github.com/108498asdf/cs56-utilities-password-generator
+* Vince Nicora and Arda Ungun (W15): https://github.com/vincenicoara/cs56-utilities-password-generator
 
 JavaDoc: http://www.cs.ucsb.edu/~108498asdf//cs56/W11/issues/0000042/javadoc
 
@@ -15,9 +16,7 @@ project history
 ```
  W14 | bkiefer13 4pm | 108498asdf | (jcneally) A file that creates random passwords with a given password length
 ```
-```
-YES | mastergberry | 108498asdf | (jcneally) A file that creates random passwords with a given password length
-```
+
 High-Level Description(User's View)
 ===================================
 
