@@ -175,13 +175,9 @@ public class PasswordTest extends Password{
 	}
 
 
-	/**
-	 * @see Password#setAllowedSpecialCharacters(String s)
-	 */
-	/*
-	@Test public void test_setAllowedSpecialCharacters(){
-		setAllowedSpecialCharacters("@!^#$");
-		assertEquals(allowedSpecialCharacters, "@!^#$");
+	@Test
+	public void test_generateMultiplePasswords(){
+		//String [] a = generateMultiplePasswords()
 	}
 	*/
 }
