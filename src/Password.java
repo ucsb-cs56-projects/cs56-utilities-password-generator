@@ -44,6 +44,9 @@ public class Password {
 	} // Password
 
 
+
+    // AND IS ONLY USED IN THE TUI, and run2 target.
+    // Considering deleting it, as of 3/8/15...
     public static void main(String[] args) {
 		Password p = new Password();
 		System.out.println("\n\n" + p.generatePassword() + "\n\n");
@@ -102,10 +105,13 @@ public class Password {
 
     /**
      *  generates the password
-     *  @param length the length of the desired password
+     *  @param specialCharInput the special chars allowed in the password
+     *  @param min the minimum length of the password
+     *  @param max the maxmimum length of the password
+     *  @return the password as a string
      */	
-    public String generatePassword(String b,int min,int max) {
-		appendSpecialCharacters(b);
+    public String generatePassword(String specialCharInput,int min,int max) {
+		appendSpecialCharacters(specialCharInput);
 	        setPassLength(min,max);
 
 		initializeArrayList(passLength);
@@ -181,12 +187,21 @@ public class Password {
 		return passwordArrayToString();
 	}
 
-
-    public String[] generateMultiplePasswords(String b, int min, int max, int numberOfPasswords){
+    /**
+     *  Generates multiple passwords by calling the generatePassword(String b, int min, int max) method.
+     *
+     *  @param specialCharInput the special chars allowed in the password
+     *  @param min the minimum length of the password
+     *  @param max the maxmimum length of the password
+     *  @param numberOfPasswords the number of passwords to be generated
+     *
+     *  @return returns an array of length numberOfPasswordsof strings, which are passwords
+     */
+    public String[] generateMultiplePasswords(String specialCharInput, int min, int max, int numberOfPasswords){
         String [] passwordStringArray = new String [numberOfPasswords];
 
         for (int i = 0; i < numberOfPasswords; i++){
-            passwordStringArray[i] = generatePassword(b, min, max);
+            passwordStringArray[i] = generatePassword(specialCharInput, min, max);
         }
 
         return passwordStringArray;
@@ -196,16 +211,17 @@ public class Password {
 
 
     /**
-     *  calls generate method with passLength argument. used if no length provided by user
-     *  @return String with password 
+     *  appends the inputted string to the the allowedSpecialCharacters string of the Password.
+     *  @param inputStr the string of characters taken form the user
      */
-    public void appendSpecialCharacters(String a) {
-	    allowedSpecialCharacters= a + allowedSpecialCharacters;
+    public void appendSpecialCharacters(String inputStr) {
+	    allowedSpecialCharacters= inputStr + allowedSpecialCharacters;
 	}
 	
 
-    // Generates a string with no special characters
-    // CURRENTLY UNSURE HOW THIS IS USED
+    // THIS IS ONLY CALLED BY MAIN
+    // AND IS ONLY USED IN THE TUI, and run2 target.
+    // Considering deleting it, as of 3/8/15...
     public String generatePassword() {
     	return generatePassword("",numMinDigits,numMaxDigits);
     }
@@ -235,7 +251,7 @@ public class Password {
 
 
     /**
-     *  @return the generated password
+     *  @return the generated password as a string
      */
     public String passwordArrayToString() {
 		String s = "";
