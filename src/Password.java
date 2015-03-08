@@ -45,14 +45,6 @@ public class Password {
 
 
 
-    // AND IS ONLY USED IN THE TUI, and run2 target.
-    // Considering deleting it, as of 3/8/15...
-    public static void main(String[] args) {
-		Password p = new Password();
-		System.out.println("\n\n" + p.generatePassword() + "\n\n");
-    }
-
-
     /**
      *  Sets the array of characters comprising a password to a specified 
      *  length to contain a space character.
@@ -218,14 +210,6 @@ public class Password {
 	    allowedSpecialCharacters= inputStr + allowedSpecialCharacters;
 	}
 	
-
-    // THIS IS ONLY CALLED BY MAIN
-    // AND IS ONLY USED IN THE TUI, and run2 target.
-    // Considering deleting it, as of 3/8/15...
-    public String generatePassword() {
-    	return generatePassword("",numMinDigits,numMaxDigits);
-    }
-
 
     /**
      *  checks whether a is in between min and max

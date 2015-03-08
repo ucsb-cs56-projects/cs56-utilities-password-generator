@@ -90,14 +90,6 @@
 
 
 
-	<!-- alternate, run2, is for the TUI at the command line--> 
-	<target name="run2" depends="compile" description="runs the Password generator 
-				using TUI/command line interface">
-		<java classname="Password" classpath="build" fork="true" >
-		<!-- &#13; is \n (ascii value 13 decimal) -->
-		</java>
-	</target>
-
 
 
 
