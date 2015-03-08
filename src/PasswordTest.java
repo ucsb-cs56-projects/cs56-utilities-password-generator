@@ -179,5 +179,4 @@ public class PasswordTest extends Password{
 	public void test_generateMultiplePasswords(){
 		//String [] a = generateMultiplePasswords()
 	}
-	*/
 }
