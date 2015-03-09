@@ -2,6 +2,7 @@ import java.util.Random;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 /**
  *
@@ -12,297 +13,286 @@ import java.awt.event.*;
  *
  */
 public class Password {
-    protected int passLength;	
-    protected int numMaxDigits;
-    protected int numMinDigits;	
-    protected int numMaxUpperCase;
-    protected int numMinUpperCase;
-    protected int numMinSpecial;
-    protected int numMaxSpecial;
-    protected String allowedSpecialCharacters;
-    protected char[] passwordArray;
-    protected Random random;
-    
+	protected int numMinDigits = 1; 
+	protected int numMaxDigits = 5;
+	protected int numDigits;
+	
+	protected int numMinUppercase = 1; 
+	protected int numMaxUppercase = 5;
+	protected int numUppercase;
 
-    /**
-     *  default constructor. sets the minumum to 1 and the maximum to 100
-     *	of digits, uppercase letters, and special characters.
-     */
-    public Password() {
-		allowedSpecialCharacters = "";		
-		
-		numMaxDigits = 100;
-		numMinDigits = 1;	
-		
-		numMaxUpperCase = 100;
-		numMinUpperCase = 1;
-		
-		numMaxSpecial = 100;
-		numMinSpecial = 1;		
-		
-		random = new Random(); 
-	} // Password
+	protected int numMinLowercase = 1;
+	protected int numMaxLowercase = 5;
+	protected int numLowercase;
+
+	protected int numMinSpecial = 1;
+	protected int numMaxSpecial = 5;
+	protected int numSpecial;
 
 
+	protected String userSpecialChars;
+	protected String defaultSpecialChars = "`~@#%^&*()-_=+[]{}\\|;:',.<>/?";
+	protected ArrayList<Character> digitsArray = stringToCharArrayList("0123456789");
+	protected ArrayList<Character> lowercaseArray = stringToCharArrayList("abcdefghijklmnopqrstuvwxyz");
+	protected ArrayList<Character> uppercaseArray = stringToCharArrayList("ABCDEFGHIJKLMNOPQRSTUVWXYZ");
+	protected ArrayList<Character> specialsArray = stringToCharArrayList(defaultSpecialChars);
 
-    /**
-     *  Sets the array of characters comprising a password to a specified 
-     *  length to contain a space character.
-     *
-     *  @param length length of the array of characters.
-     */
-    protected void initializeArrayList(int length) {
-		passwordArray = new char[length];
-		for (int i = 0; i < length; i++) {
-			passwordArray[i] = ' ';
-		}
-    }
+	protected boolean includeDigits = false;
+	protected boolean includeUpper = false;
+	protected boolean includeLower = false;
+	protected boolean includeSpecial = false;
+	protected boolean includeUserSpecial = false;
+
+	protected ArrayList<Character> passwordArray = new ArrayList<Character>();
+
+	protected Random random = new Random();
 
 
-    /**
-     *  gives  the index of an empty spot (a space) in passwordArray, the array of 
-     *  characters in the password.
-     *
-     *  @return index of empty location in passwordArray
-     */
-    protected int findEmptySpotInString() {
-        /*
-            This function helps in the process of replacing a space character in
-            the initialized array with an actual character determined by the user's
-            recipe.
 
-            Start the index of insertion, i, at a random spot along the Array.
-            If a reaches the end of the string, it wraps around to the beginning.
-            
-            This is done so that the replacement occurs at a random index in
-            the passwordArray.
 
-         */
 
-        int i = getRandomNumber(0, passLength);					
-		for (int j = i; j < passLength+i; j++) {
-			if (j == passLength)
-				j = 0;
-			if (passwordArray[j]  == ' ')
-				return j;				
+
+	public String generatePassword() {
+		passwordArray.removeAll(passwordArray);
+
+		if (includeDigits) { 
+			passwordArray.addAll(getNRandomCharsFromArray(numDigits,digitsArray)); 
 		}
 
-		System.out.println("NEVER");
-		return -1;		
-    }
-
-
-
-
-
-    /**
-     *  generates the password
-     *  @param specialCharInput the special chars allowed in the password
-     *  @param min the minimum length of the password
-     *  @param max the maxmimum length of the password
-     *  @return the password as a string
-     */	
-    public String generatePassword(String specialCharInput,int min,int max) {
-		appendSpecialCharacters(specialCharInput);
-	        setPassLength(min,max);
-
-		initializeArrayList(passLength);
-		int currentDigits = 0;
-		int currentUppercase = 0;
-		int currentSpecial = 0;
-
-		int count = 0;
-		for (int i = 0; i < numMinDigits; i++ ) {
-			int a = getRandomNumber(48, 57);	
-			int index = findEmptySpotInString();
-			passwordArray[index] = (char)a;
-			currentDigits++;
+		if (includeUpper) { 
+			passwordArray.addAll(getNRandomCharsFromArray(numUppercase,uppercaseArray));
+		}
+		
+		if (includeLower) { 
+			passwordArray.addAll(getNRandomCharsFromArray(numLowercase,lowercaseArray));
 		}
 
-		for (int i = 0; i < numMinUpperCase; i++ ) {
-			int a = getRandomNumber(65, 90);	
-			int index = findEmptySpotInString();
-			passwordArray[index] = (char)a;
-			currentUppercase++;
-	    }	
+		if (includeSpecial && !includeUserSpecial) { 
+			passwordArray.addAll(getNRandomCharsFromArray(numSpecial,specialsArray));
+		}
 
-		for (int i = 0; i < numMinSpecial; i++ ) {
-			int a = getRandomNumber(0, allowedSpecialCharacters.length()-1);	
-			int index = findEmptySpotInString();
-			passwordArray[index] = (allowedSpecialCharacters.charAt(a));		
-			currentSpecial++;
-	    }	
-			
-		count+= currentDigits;
-		count+= currentUppercase;
-		count+= currentSpecial;	
+		if (includeSpecial && includeUserSpecial) {
+			passwordArray.addAll( 
+				getNRandomCharsFromArray(numSpecial, stringToCharArrayList(userSpecialChars))
+							);        
+		}
 
-		while (count < passLength) {
-			int a = getRandomNumber(33,126);	
-			int index = findEmptySpotInString();					
-					
-			if (isInRange(a,48,57)) {		// if its a digit
-				if (currentDigits < numMaxDigits)	currentDigits++;
-				else continue; 
-		    }
+		/*  Now, passwordArray has a random amount (within the user-specified range) 
+			of each TYPE of character specified by the user.
 
-			else if (isInRange(a,65,90)) {	// if its a UPPERCASE
-				if (currentUppercase < numMaxUpperCase)	currentUppercase++;				
-				else continue;
-			}
+			However, due to the ordering of the code above, they would have been 
+			added into the passwordArray in the order digits, upper, lower, special.
+			Thus, an example would be: 830824BSKDHncmcn"}{()}
+
+			Notice that each of the types of characters are still clumped together.
+
+			So, we'll run the current state of the passwordArray through our
+			getNRandomCharsFromArray function, but and ask it to draw the LENGTH of the
+			passwordArray -- effectively scrambling the order of the characters.
+		*/
 
 
-			else if (isInRange(a,33,47) || isInRange(a,58,64)
-				 || isInRange(a,91,96) 
-				 || isInRange(a,123,126) ) // if it's a special character
-			    {
-				
-				if (currentSpecial < numMaxSpecial) {
-					if (allowedSpecialCharacters.contains(((char)a)+"") 
-					    == true)
-					    {
-						currentSpecial++;	
-					}
-
-					else continue;			
-				}
-
-				else continue;	
-			}	
-
-
-			// it's a lower case letter for which there is no limit
-			count++;			
-			passwordArray[index] = (char)a;					
-	    }	
+		passwordArray = getNRandomCharsFromArray(passwordArray.size(), passwordArray);
 
 		return passwordArrayToString();
-	}
 
-    /**
-     *  Generates multiple passwords by calling the generatePassword(String b, int min, int max) method.
-     *
-     *  @param specialCharInput the special chars allowed in the password
-     *  @param min the minimum length of the password
-     *  @param max the maxmimum length of the password
-     *  @param numberOfPasswords the number of passwords to be generated
-     *
-     *  @return returns an array of length numberOfPasswordsof strings, which are passwords
-     */
-    public String[] generateMultiplePasswords(String specialCharInput, int min, int max, int numberOfPasswords){
-        String [] passwordStringArray = new String [numberOfPasswords];
-
-        for (int i = 0; i < numberOfPasswords; i++){
-            passwordStringArray[i] = generatePassword(specialCharInput, min, max);
-        }
-
-        return passwordStringArray;
-    }
-
-
-
-
-    /**
-     *  appends the inputted string to the the allowedSpecialCharacters string of the Password.
-     *  @param inputStr the string of characters taken form the user
-     */
-    public void appendSpecialCharacters(String inputStr) {
-	    allowedSpecialCharacters= inputStr + allowedSpecialCharacters;
 	}
 	
 
-    /**
-     *  checks whether a is in between min and max
-	 *  @return true if a is in between min and max, false if not
-     */
-    protected boolean isInRange(int a, int min, int max) {
-		if (a >= min && a <= max) return true;
-		return false;
-    }
 
 
-    /**
-     *  @param start lowest random number that can be generated
-     *  @param end largest random number that can be generated
-     *  @return a random number between start and end
-     */
-    protected int getRandomNumber(int start, int end) {
-		int num = random.nextInt(end-start+1)+start;	
-		return num;
-    }	
+
+	protected ArrayList<Character> stringToCharArrayList(String inputStr) {
+		ArrayList<Character> charArray = new ArrayList<Character>();
+		for (char c : inputStr.toCharArray()) {
+			charArray.add(c);
+		}
+		return charArray;
+	} 
 
 
 
 
-    /**
-     *  @return the generated password as a string
-     */
-    public String passwordArrayToString() {
+	protected ArrayList<Character> getNRandomCharsFromArray(int n, ArrayList<Character> charArrayIn) {
+		ArrayList<Character> outArray = new ArrayList<Character>();
+		if ( charArrayIn.size() <= 0 ) return outArray;
+
+		// if user wants more character than are in the input string, call
+		// the function again, and append the result to outArray recursively
+		while (n > charArrayIn.size()) { 
+			outArray.addAll( getNRandomCharsFromArray(charArrayIn.size(), charArrayIn));
+			n = n - charArrayIn.size();
+		}
+
+		int index;
+		for (int i = 0; i < n; i++) {
+			index = getRandomNumber(0, charArrayIn.size());
+			Character c = charArrayIn.get(index);
+			charArrayIn.remove(index);
+			outArray.add(c);
+		}
+	
+	return outArray;
+	}
+
+
+
+
+	/**
+	 *  Generates multiple passwords by calling the generatePassword() method.
+	 *
+	 *  @param numberOfPasswords the number of passwords to be generated
+	 *
+	 *  @return returns an array of length numberOfPasswordsof strings, which are passwords
+	 */
+	public String[] generateMultiplePasswords(int numberOfPasswords){
+		String [] passwordStringArray = new String [numberOfPasswords];
+
+		for (int i = 0; i < numberOfPasswords; i++){
+			passwordStringArray[i] = generatePassword();
+		}
+
+		return passwordStringArray;
+	}
+
+
+
+
+
+	/**
+	 *  @return the generated password as a string
+	 */
+	public String passwordArrayToString() {
 		String s = "";
-		for (char c : passwordArray) {
+		for (Character c : passwordArray) {
 			s+=c + "";
 		}
 		return s;
-    }
+	}
 
 
-    /**
-     *  sets the password length to be num. if too small, makes length the 
-     *  sum of the minimums of digits, upper case, and special characters.
-     *
-     *  @param size the size of the password
-     */
-    public void setPassLength(int min,int max) {
-        passLength=getRandomNumber(min,max);
-    }
-	
-    /**
-     *  sets the minimum number of digits the password can have
-     *  @param num minimum number of digits
-     */
-    public void setMinDigits(int num) {numMinDigits = num;}	
-    
 
 	/**
-     *  sets the maximum number of digits the password can have
-     *  @param num maximum number of digits
-     */
-    public void setMaxDigits(int num) {numMaxDigits = num;}	
+	 *  @param start lowest random number that can be generated
+	 *  @param end largest random number that can be generated
+	 *  @return a random number between start and end
+	 */
+	protected int getRandomNumber(int start, int end) {
+		int num = random.nextInt(end-start) + start;
+		return num;
+	}	
 
 
-    /**
-     *  sets the maximum number of UpperCase letters the password can have
-     *  @param num the maximum number of upper case letters
-     */
-    public void setMaxUppercase(int num) {numMaxUpperCase = num;}	
+	
+	/**
+	 *  sets the minimum number of digits the password can have
+	 *  @param num minimum number of digits
+	 */
+	public void setMinDigits(int num) {numMinDigits = num;}	
+
+	/**
+	 *  sets the maximum number of digits the password can have
+	 *  @param num maximum number of digits
+	 */
+	public void setMaxDigits(int num) {numMaxDigits = num;}	
+
+	// @@@@@@ ADD JAVADOC COMMENT!!!!
+	public void setNumDigits(int min, int max) {
+		numDigits = getRandomNumber(min, max);
+	}
 
 
-    /**
-     *  sets the minimum number of UpperCase letters the password can have
-     *  @param num the minimum number of upper case letters
-     */
-    public void setMinUppercase(int num) {numMinUpperCase = num;}	
 
 
-    /**
-     *  sets the minimum number of special characters the password can have
-     *  @param num the minumum number of special characters
-     */	
-    public void setMinSpecial(int num) {numMinSpecial = num;}	
+	/**
+	 *  sets the minimum number of Uppercase letters the password can have
+	 *  @param num the minimum number of upper case letters
+	 */
+	public void setMinUppercase(int num) {numMinUppercase = num;}	
+
+	/**
+	 *  sets the maximum number of Uppercase letters the password can have
+	 *  @param num the maximum number of upper case letters
+	 */
+	public void setMaxUppercase(int num) {numMaxUppercase = num;}   
 
 
-    /**
-     *  sets the maximum number of special characters the password can have
-     *  @param num the maximum number of special characters
-     */
-    public void setMaxSpecial(int num) {numMaxSpecial = num;}	
+
+	// @@@@ ADD JAVADOC COMMENT!!!
+	public void setNumUppercase(int min, int max) {
+		numUppercase = getRandomNumber(min, max);
+	}
+
+	public int getNumUppercase() { return numUppercase; }
 
 
-    /**
-     *  sets the allowed special characters that can be used in a password
-     *  @param s the string containing characters that can be used as special characters
-     */
-    public void setAllowedSpecialCharacters(String s) {allowedSpecialCharacters = s;}	
+
+	/**
+	 *  sets the minimum number of Uppercase letters the password can have
+	 *  @param num the minimum number of upper case letters
+	 */
+	public void setMinLowercase(int num) {numMinLowercase = num;}   
+
+	/**
+	 *  sets the maximum number of Uppercase letters the password can have
+	 *  @param num the maximum number of upper case letters
+	 */
+	public void setMaxLowercase(int num) {numMaxLowercase = num;}   
+
+	// @@@@ ADD JAVADOC COMMENT!!!
+	public void setNumLowercase(int min, int max) {
+		numLowercase = getRandomNumber(min, max);
+	}
+
+
+
+
+
+	/**
+	 *  sets the minimum number of special characters the password can have
+	 *  @param num the minumum number of special characters
+	 */	
+	public void setMinSpecial(int num) {numMinSpecial = num;}	
+
+	/**
+	 *  sets the maximum number of special characters the password can have
+	 *  @param num the maximum number of special characters
+	 */
+	public void setMaxSpecial(int num) {numMaxSpecial = num;}	
+
+	// @@@@ ADD JAVADOC COMMENT!!!
+	public void setNumSpecial(int min, int max) {
+		numSpecial = getRandomNumber(min, max);
+	}
+
+
+
+
+	/**
+	 *  sets the custom string of special characters that can be used in a
+	 *  password; the string is used in place of the default set of special chars.
+	 *  @param s the string containing characters that can be used as special characters
+	 */
+	public void setUserSpecialChars(String s) { userSpecialChars = s; }
+
+
+
+	public void setIncludeDigits(boolean a) { includeDigits = a; }
+	public void setIncludeUpper(boolean a) { includeUpper = a; }
+	public void setIncludeLower(boolean a) { includeLower = a; }
+	public void setIncludeSpecial(boolean a) { includeSpecial = a; }
+	public void setIncludeUserSpecial(boolean a) { includeUserSpecial = a; }
+
+	public boolean getIncludeDigits() { return includeDigits; }
+	public boolean getIncludeUpper() { return includeUpper; }
+	public boolean getIncludeLower() { return includeLower; }
+	public boolean getIncludeSpecial() { return includeSpecial; }
+	public boolean getIncludeUserSpecial() { return includeUserSpecial; }
+
+
+
+
+
 } // class Password
 
 
