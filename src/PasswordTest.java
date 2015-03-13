@@ -1,5 +1,6 @@
 import org.junit.Test;
 import static org.junit.Assert.*;
+import java.util.ArrayList;
 
 /**
  *	Test class Password test, to test the Password class
@@ -11,83 +12,41 @@ import static org.junit.Assert.*;
  */
 public class PasswordTest extends Password{
 
-
 	/**
-	 *	test the function initializes an Array of space characters
-	 *	to the length specified by the parameter
-	 *
-	 *	@see Password#initializeArrayList(int length)
-	 */
-	@Test public void test_initializeArrayList(){
-		initializeArrayList(5);
-
-		char [] a = new char[5];
-		for (int i = 0; i < 5; i++) {
-			a[i] = ' ';
-		}
-
-		assertArrayEquals(a, passwordArray);
-	}
-
-
-	/**
-	 *	Tests whether findEmptySpotInString() returns correct index of 
-	 *	space character aka "empty spot"
-	 *
-	 *	@see Password#findEmptySpotInString()
-	 */
-	@Test public void test_findEmptySpotInString() {
-		initializeArrayList(5);
-		passLength=5;
-		passwordArray[0] = '0';
-		passwordArray[1] = '1';
-		passwordArray[2] = '2';
-		passwordArray[3] = '3';
-		passwordArray[4] = ' ';
-		assertEquals(4, findEmptySpotInString() );
-	}
-
-
-
-	/*	NOTE: no tests for generatePassword(...) because: 
-		 - LENGTH of the the outputted password 
-		   is covered by test_passLength()
-		 - presence of SPECIAL CHARS is covered by test_appendSpecialChars()
-
+	*	This test checks to see whether the function correctly transforms a 
+	*	string into an ArrayList object.
+	*
+	*	@see Password#stringToCharArrayList()
 	*/
-	
 
+	@Test public void test_stringToCharArrayList(){
+		String a = "Test";
+		ArrayList<Character> arraylist = new ArrayList<Character>();
+		ArrayList<Character> answer = new ArrayList<Character>();
+		arraylist.add(0, 'T');
+		arraylist.add(1, 'e');
+		arraylist.add(2, 's');
+		arraylist.add(3, 't');
 
-	/**
-	 *	Tests whether the allowedSpecialCharacters string of special 
-	 *	characters determined by the user is properly modified by the
-	 *	function.
-	 *
-	 *	@see Password#appendSpecialCharacters(String a)
-	 */
-	@Test public void test_appendSpecialCharacters() {
-		allowedSpecialCharacters = "";
-		appendSpecialCharacters("}{()*@^&#*(");
-		assertEquals("}{()*@^&#*(", allowedSpecialCharacters);
+		answer = stringToCharArrayList(a);
+		assertEquals(answer, arraylist);
 	}
 
-
-
 	/**
-	 *	@see Password#isInRange(int a, int min, int max)
-	 */
-	@Test public void test_isInRange() {
-		assertFalse( isInRange(5,1,3) );
+	* This test checks to see if the function takes the correct amount of randomly
+	* extracted characters from the ArrayList
+	*
+	* @see Password#getNRandomCharsFromArray()
+	*/
+
+	@Test public void test_getNRandomCharsFromArray(){
+		ArrayList<Character> arraylist = new ArrayList<Character>();
+		arraylist.add(0, 'T');
+		arraylist.add(1, 'e');
+		arraylist.add(2, 's');
+		arraylist.add(3, 't');
+		assertEquals(4, getNRandomCharsFromArray(4, arraylist).size());
 	}
-
-
-	/**
-	 *	@see Password#getRandomNumber(int start, int end))
-	 */
-	@Test public void test_getRandomNumber() {
-		assertTrue( isInRange(getRandomNumber(1,100),1,100));
-	}
-
 
 	/**
 	 *	Tests whether the passwordArrayToString concatenates the Array
@@ -96,38 +55,38 @@ public class PasswordTest extends Password{
 	 *	@see Password#passwordArrayToString()
 	 */
 	@Test public void test_passwordArrayToString() {
-		initializeArrayList(5);
 
-		// make a dummy passwordArray
-		passLength=5;
-		passwordArray[0] = '0';
-		passwordArray[1] = '1';
-		passwordArray[2] = '2';
-		passwordArray[3] = '3';
-		passwordArray[4] = ' ';
+		passwordArray.add(0, 'T');
+		passwordArray.add(1, 'e');
+		passwordArray.add(2, 's');
+		passwordArray.add(3, 't');
 
-		assertEquals("0123 ",passwordArrayToString());
+		assertEquals("Test",passwordArrayToString());
 	}
 
 
-
 	/**
-	 *	@see Password#setPassLength(int min,int max)
+	 * Tests to see if the range is functional
+	 *	@see Password#getRandomNumber(int start, int end))
 	 */
-	@Test public void test_setPassLength(){
-		setPassLength(3,10);
-		assertTrue(isInRange(passLength, 3, 10));
-	}
-	
+	@Test public void test_getRandomNumber() {
 
-	/**
+		assertTrue( isInRange(getRandomNumber(1,100),1,100));
+	}
+
+	//Helper function for the above test.
+	protected boolean isInRange(int a, int min, int max) {
+ 		if (a >= min && a <= max) return true;
+ 		return false;
+     }
+
+     /**
 	 * @see Password#setMinDigits(int num)
 	 */
 	@Test public void test_setMinDigits(){
 		setMinDigits(4);
 		assertEquals(numMinDigits, 4);
 	}
-
 
 	/**
 	 * @see Password#setMaxDigits(int num)
@@ -137,25 +96,63 @@ public class PasswordTest extends Password{
 		assertEquals(numMaxDigits, 4);
 	}
 
-
 	/**
-	 * @see Password#setMaxUppercase(int num)
+	 * @see PAssword#setNumDigits(int min, int max)
 	 */
-	@Test public void test_setMaxUppercase(){
-		setMaxUppercase(4);
-		assertEquals(numMaxUpperCase, 4);
-	}
 
+	@Test public void test_setNumDigits(){
+		setNumDigits(4, 10);
+		assertTrue(isInRange(numDigits, 4, 10));
+	}
 
 	/**
 	 * @see Password#setMinUppercase(int num)
 	 */
 	@Test public void test_setMinUppercase(){
 		setMinUppercase(4);
-		assertEquals(numMinUpperCase, 4);
+		assertEquals(numMinUppercase, 4);
+	}
+
+	/**
+	 * @see Password#setMaxUppercase(int num)
+	 */
+	@Test public void test_setMaxUppercase(){
+		setMaxUppercase(4);
+		assertEquals(numMaxUppercase, 4);
+	}
+
+	/**
+	 * @see Password#setNumUppercase(int min, int max)
+	 */
+	@Test public void test_setNumUppercase(){
+		setNumUppercase(1 , 4);
+		assertTrue(isInRange(numUppercase, 1, 4));
+	}
+
+	/**
+	 * @see Password#setMinLowercase(int num)
+	 */
+	@Test public void test_setMinLowercase(){
+		setMinLowercase(4);
+		assertEquals(numMinLowercase, 4);
 	}
 
 
+	/**
+	 * @see Password#setMaxLowercase(int num)
+	 */
+	@Test public void test_setMaxLowercase(){
+		setMaxLowercase(4);
+		assertEquals(numMaxLowercase, 4);
+	}
+
+	/**
+	 * @see Password#setNumLowercase(int min, int max)
+	 */
+	@Test public void test_setNumLowercase(){
+		setNumLowercase(1 , 4);
+		assertTrue(isInRange(numLowercase, 1, 4));
+	}
 
 	/**
 	 * @see Password#setMinSpecial(int num)
@@ -174,9 +171,110 @@ public class PasswordTest extends Password{
 		assertEquals(numMaxSpecial, 4);
 	}
 
-
-	@Test
-	public void test_generateMultiplePasswords(){
-		//String [] a = generateMultiplePasswords()
+	/**
+	 * @see Password#setNumSpecial(int min, int max)
+	 */
+	@Test public void test_setNumSpecial(){
+		setNumSpecial(1 , 4);
+		assertTrue(isInRange(numSpecial, 1, 4));
 	}
+
+	/**
+	 * @see Password#setUserSpecialChars(String s)
+	 */
+	@Test public void test_setUserSpecialChars(){
+		setUserSpecialChars("!@#");
+		assertEquals("!@#", userSpecialChars);
+	}
+
+	/**
+	* @see Password#setIncludeDigits(boolean a)
+	*/
+	@Test public void test_setIncludeDigits(){
+		setIncludeDigits(true);
+		assertTrue(includeDigits);
+	}
+
+	/**
+	* @see Password#setIncludeUpper(boolean a)
+	*/
+	@Test public void test_setIncludeUpper(){
+		setIncludeUpper(true);
+		assertTrue(includeUpper);
+	}
+
+	/**
+	* @see Password#setIncludeLower(boolean a)
+	*/
+	@Test public void test_setIncludeLower(){
+		setIncludeLower(true);
+		assertTrue(includeLower);
+	}
+
+	/**
+	* @see Password#setIncludeSpecial(boolean a)
+	*/
+	@Test public void test_setIncludeSpecial(){
+		setIncludeSpecial(true);
+		assertTrue(includeSpecial);
+	}
+	
+	/**
+	* @see Password#setIncludeUserSpecial(boolean a)
+	*/
+	@Test public void test_setIncludeUserSpecial(){
+		setIncludeUserSpecial(true);
+		assertTrue(includeUserSpecial);
+	}
+
+	/**
+	* @see Password#getIncludeDigits()
+	*/
+	@Test public void test_getIncludeDigits(){
+		setIncludeDigits(true);
+		assertTrue(getIncludeDigits());
+	}
+
+	/**
+	* @see Password#getIncludeUpper()
+	*/
+	@Test public void test_getIncludeUpper(){
+		setIncludeUpper(true);
+		assertTrue(getIncludeUpper());
+	}
+
+	/**
+	* @see Password#getIncludeLower()
+	*/
+	@Test public void test_getIncludeLower(){
+		setIncludeLower(true);
+		assertTrue(getIncludeLower());
+	}
+
+	/**
+	* @see Password#getIncludeSpecial()
+	*/
+	@Test public void test_getIncludeSpecial(){
+		setIncludeSpecial(true);
+		assertTrue(getIncludeSpecial());
+	}
+
+	/**
+	* @see Password#getIncludeUserSpecial()
+	*/
+	@Test public void test_getIncludeUserSpecial(){
+		setIncludeUserSpecial(true);
+		assertTrue(getIncludeUserSpecial());
+	}
+
 }
+
+
+
+
+
+
+
+
+
+
