@@ -50,8 +50,15 @@ public class Password {
 
 
 
-
-
+	
+	/**
+	 *  The main password generating method, which adds character types
+	 *  to draw from based on the Password object's internal boolean
+	 *  values (ex- includeDigits, includeUpper, etc).
+	 *  
+	 *  @return the generated password as a string.
+	 */ 
+	
 	public String generatePassword() {
 		passwordArray.removeAll(passwordArray);
 
@@ -100,8 +107,12 @@ public class Password {
 	
 
 
-
-
+	/**
+ 	 *  A helper function that converts the inputted string to an ArrayList of Characters.
+ 	 *
+ 	 *  @param inputStr
+ 	 *  @return ArrayList<Character>
+ 	 */
 	protected ArrayList<Character> stringToCharArrayList(String inputStr) {
 		ArrayList<Character> charArray = new ArrayList<Character>();
 		for (char c : inputStr.toCharArray()) {
@@ -112,7 +123,19 @@ public class Password {
 
 
 
-
+	/**
+ 	 *  A helper function that returns an ArrayList<Character>, composed
+ 	 *  of n randomly chosen Characters from the inputted ArrayList<Character>
+ 	 *
+ 	 *  If n is greater than the amount of characters in charArrayIn, then 
+ 	 *  The function calls itself, requesting a decremented amount of characters
+ 	 *  until n is reached.
+ 	 *
+ 	 *  @param n the number of characters requested 
+ 	 *  @param charArrayIn the ArrayList of characters to draw n characters from
+ 	 *  @return ArrayList<Character> the n random Characters drawn from the input array. 
+ 	 *
+ 	 */
 	protected ArrayList<Character> getNRandomCharsFromArray(int n, ArrayList<Character> charArrayIn) {
 		ArrayList<Character> outArray = new ArrayList<Character>();
 		if ( charArrayIn.size() <= 0 ) return outArray;
@@ -160,7 +183,10 @@ public class Password {
 
 
 	/**
-	 *  @return the generated password as a string
+ 	 *  A method that takes the internal ArrayList<Character> passwordArray
+ 	 *  and returns a concatenated string. 
+ 	 *  
+ 	 *  @return the generated password as a string
 	 */
 	public String passwordArrayToString() {
 		String s = "";
@@ -218,7 +244,13 @@ public class Password {
 
 
 
-	// @@@@ ADD JAVADOC COMMENT!!!
+	/**
+ 	 *  sets internal value numUppercase to a random number in the range
+ 	 *  of the integer inputs:
+ 	 *
+ 	 *  @param min
+ 	 *  @param max
+ 	 */
 	public void setNumUppercase(int min, int max) {
 		numUppercase = getRandomNumber(min, max);
 	}
@@ -239,7 +271,14 @@ public class Password {
 	 */
 	public void setMaxLowercase(int num) {numMaxLowercase = num;}   
 
-	// @@@@ ADD JAVADOC COMMENT!!!
+	
+	/**
+ 	 *  sets internal value numLowercase to a random number in the range
+ 	 *  of the integer inputs:
+ 	 *
+ 	 *  @param min
+ 	 *  @param max
+ 	 */
 	public void setNumLowercase(int min, int max) {
 		numLowercase = getRandomNumber(min, max);
 	}
@@ -260,7 +299,13 @@ public class Password {
 	 */
 	public void setMaxSpecial(int num) {numMaxSpecial = num;}	
 
-	// @@@@ ADD JAVADOC COMMENT!!!
+	/**
+ 	 *  sets internal value numSpecial to a random number in the range
+ 	 *  of the integer inputs:
+ 	 *
+ 	 *  @param min
+ 	 *  @param max
+ 	 */
 	public void setNumSpecial(int min, int max) {
 		numSpecial = getRandomNumber(min, max);
 	}
@@ -271,22 +316,98 @@ public class Password {
 	/**
 	 *  sets the custom string of special characters that can be used in a
 	 *  password; the string is used in place of the default set of special chars.
+	 *   
 	 *  @param s the string containing characters that can be used as special characters
 	 */
 	public void setUserSpecialChars(String s) { userSpecialChars = s; }
 
 
-
+    /**
+     *  sets the internal boolean setIncludeDigits, which controls whether Digits will
+     *  be included in the generated password.
+     *   
+     *  @param boolean a, the value setIncludeDigits will be set to.
+     */
 	public void setIncludeDigits(boolean a) { includeDigits = a; }
+
+    /**
+     *  sets the internal boolean setIncludeUpper, which controls whether Uppercase will
+     *  be included in the generated password.
+     *   
+     *  @param boolean a, the value setIncludeUpper will be set to.
+     */
 	public void setIncludeUpper(boolean a) { includeUpper = a; }
+
+    /**
+     *  sets the internal boolean setIncludeLower, which controls whether lowercase will
+     *  be included in the generated password.
+     *   
+     *  @param boolean a, the value setIncludeLower will be set to.
+     */
 	public void setIncludeLower(boolean a) { includeLower = a; }
+
+    /**
+     *  sets the internal boolean setIncludeSpecial, which controls whether the default
+     *  special characters will be included in the generated password.
+     *   
+     *  @param boolean a, the value setIncludeSpecial will be set to.
+     */
 	public void setIncludeSpecial(boolean a) { includeSpecial = a; }
+
+    /**
+     *  sets the internal boolean setIncludeUserSpecial, which controls whether Digits will
+     *  be included in the generated password.
+     *   
+     *  @param boolean a, the value setIncludeUserSpecial will be set to.
+     */
 	public void setIncludeUserSpecial(boolean a) { includeUserSpecial = a; }
 
+
+
+
+
+
+
+
+
+    /**
+     *  gets the internal boolean setIncludeDigits, which controls whether Digits will
+     *  be included in the generated password.
+     *   
+     *  @param boolean a, the value setIncludeDigits will be set to.
+     */
 	public boolean getIncludeDigits() { return includeDigits; }
+
+    /**
+     *  gets the internal boolean getIncludeUpper, which controls whether Digits will
+     *  be included in the generated password.
+     *   
+     *  @param boolean a, the value getIncludeUpper will be set to.
+     */
 	public boolean getIncludeUpper() { return includeUpper; }
+
+    /**
+     *  gets the internal boolean getIncludeLower, which controls whether Digits will
+     *  be included in the generated password.
+     *   
+     *  @param boolean a, the value getIncludeLower will be set to.
+     */
 	public boolean getIncludeLower() { return includeLower; }
+
+    /**
+     *  gets the internal boolean getIncludeSpecial, which controls whether Digits will
+     *  be included in the generated password.
+     *   
+     *  @param boolean a, the value getIncludeSpecial will be set to.
+     */
 	public boolean getIncludeSpecial() { return includeSpecial; }
+    
+    /**
+     *  gets the internal boolean getIncludeUserSpecial, which controls whether Digits will
+     *  be included in the generated password.
+     *   
+     *  @param boolean a, the value getIncludeUserSpecial will be set to.
+     */
 	public boolean getIncludeUserSpecial() { return includeUserSpecial; }
 
 
