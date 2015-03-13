@@ -49,7 +49,6 @@ public class PasswordGUI {
 	private JTextField field_specialMin;
 	private JTextField field_specialMax;
 
-
 	private	JTextField text_userSpecialChars;
 	private JTextField field_userSpecialChars;
 	private JTextField text_leaveBlank;
@@ -66,11 +65,10 @@ public class PasswordGUI {
 	private Password p;
 
 
-	/**
-	 * 	launches the JFrame, populates it with the password length field, 
-	 *	generate button, and generated password text field
+	/*
+	 	launches the JFrame, populates it with the password length field, 
+		generate button, and generated password text field
 	 */
-
 	public void go() {
 		frame = new JFrame();
 		//frame.getContentPane().setLayout( 
@@ -370,11 +368,6 @@ public class PasswordGUI {
 
 
 
-
-
-
-
-
 	public class checkBox_Listener implements ItemListener {
 
 		@Override
@@ -414,10 +407,17 @@ public class PasswordGUI {
 
 
 
-	/**
-	 *  method that checks length field for valid input. if length field has 
-	 *  valid input, generates password with that length, and sets text of 
-	 *  generated password field with that password
+	/*
+		Depending on whether the boolean includeUpper, includeLower, etc
+		are true for each character type, 
+			-	it sets the number of each desired char type (the number 
+				is determined by the ranges given in the min and max field
+				of each type)
+			-	generates the password using passwordIn.generatePassword()
+			-	it is vital that an existing Password object is passed to this
+				function, since that specific instance of Password
+				will be the one modified by the GUI. (otherwise, the default
+				values of range and booleans would be used) 
 	 */
 	public void testParamsAndGenerate(Password passwordIn) {
 
@@ -481,8 +481,6 @@ public class PasswordGUI {
 		}
 
 
-		System.out.println( passwordIn.getIncludeUserSpecial() );
-
 
 		if ( passwordIn.getIncludeUserSpecial() ) {
 
@@ -501,12 +499,14 @@ public class PasswordGUI {
 		}
 
 
-		String pw = passwordIn.generatePassword(); // THIS IS THE LINE WHERE THE PASSWORD IS CALLED
+		String pw = passwordIn.generatePassword();
 		outputText.setText( pw ); 
 	}
 
 
 
+	// Helper function that tests whether othe inputted string is only made of
+	// digit characters
 	public boolean couldBeInt( String inStr ) throws IllegalArgumentException {
 		if ( !inStr.equals(null) || inStr.equals("") ) {
 			char [] charArray = inStr.toCharArray();
@@ -517,7 +517,6 @@ public class PasswordGUI {
 		}
 		return true;
 	}
-
 
 
 
