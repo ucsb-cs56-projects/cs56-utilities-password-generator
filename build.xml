@@ -1,114 +1,174 @@
 <project default="compile">
-<!--
- build.xml for Password.java
-       original author: P.Conrad for CS56, W11
-       updated Weihan Wang for github W14 
--->
-<property environment="env"/>
-<!-- load the environment variables -->
-<property name="webRoot" value="${env.HOME}/public_html/"/>
-<property name="webBaseUrl" value="http://www.cs.ucsb.edu/~${env.USER}/"/>
-<property name="course" value="cs56"/>
-<property name="quarter" value="W11"/>
-<property name="issueNum" value="0000042"/>
-<property name="mainClass" value="PasswordGUI"/>
-<property name="projectName" value="${course}_${quarter}_${issueNum}"/>
-<property name="projectPath" value="${course}/${quarter}/issues/${issueNum}"/>
-<property name="javadocDest" value="${webRoot}/${projectPath}/javadoc"/>
-<property name="javadocURL" value="${webBaseUrl}/${projectPath}/javadoc"/>
+	<!--
+	 build.xml for Password.java
+	       original author: P.Conrad for CS56, W11
+	       updated Weihan Wang for github W14 
+	-->
+	<property environment="env"/>
+	<!-- load the environment variables -->
+	<property name="webRoot" value="${env.HOME}/public_html/"/>
+	<property name="webBaseUrl" value="http://www.cs.ucsb.edu/~${env.USER}/"/>
+	<property name="course" value="cs56"/>
+	<property name="quarter" value="W11"/>
+	<property name="issueNum" value="0000042"/>
+	<property name="mainClass" value="PasswordGUI"/>
+	<property name="projectName" value="${course}_${quarter}_${issueNum}"/>
+	<property name="projectPath" value="${course}/${quarter}/issues/${issueNum}"/>
+	<property name="javadocDest" value="${webRoot}/${projectPath}/javadoc"/>
+	<property name="javadocURL" value="${webBaseUrl}/${projectPath}/javadoc"/>
 
-<path id="project.class.path">
-         <pathelement location="build"/>
-         <pathelement location="lib/junit-4.8.2.jar"/>
-</path>
-<target name="compile">
-<mkdir dir="build"/>
+	<path id="project.class.path">
+	         <pathelement location="build"/>
+	         <pathelement location="lib/junit-4.8.2.jar"/>
+	</path>
 
-<javac srcdir="src" destdir="build" debug="true" debuglevel="lines,source" includeantruntime="false">
 
-<classpath>
-<pathelement location="build"/>
-<pathelement location="/cs/faculty/pconrad/public_html/cs56/lib/junit-4.8.2.jar"/>
-</classpath>
-</javac>
-</target>
 
-<target name="run" depends="compile" description="runs the Password generator">
+	<!-- This is the default COMPILE target. 
 
-<java classname="${mainClass}" classpath="build" fork="true" >
-<!-- &#13; is \n (ascii value 13 decimal) -->
-</java>
-</target>
+	     Note that it EXCLUDES *Test.java files, so that compiling 
+	     and running do not address the issue of the user trying to RUN 
+	     the password generator without having JUnit installed. 
+	
+	     All targets *except* TEST depend on this default COMPILE target.	
 
-<target name="run2" depends="compile" description="runs the Password generator">
+	     The TEST target depends on its own compile block, compileForTest,
+	     which also includes *Test.java files.  
+	-->
+	<target name="compile">
+		<mkdir dir="build"/>
 
-<java classname="Password" classpath="build" fork="true" >
-<!-- &#13; is \n (ascii value 13 decimal) -->
-</java>
-</target>
+		<javac srcdir="src" destdir="build" debug="true" debuglevel="lines,source" includeantruntime="false">
+			<!-- excludes any files ending in Test, so that JUnit 
+			     dependency won't stop the Password generator from
+		             running
+			-->  
+			<exclude name="**/*Test.java"/>
+			
 
-<target name="clean">
+			<classpath>
+				<pathelement location="build"/>
+				<pathelement location="/cs/faculty/pconrad/public_html/cs56/lib/junit-4.8.2.jar"/>
+			</classpath>
+		</javac>
+	</target>
 
-<delete failonerror="false" verbose="true">
-<fileset dir="build" includes="*.class"/>
-</delete>
-<delete dir="javadoc" quiet="true"/>
-</target>
 
-<target name="test" depends="compile">
 
-<junit haltonerror="no" haltonfailure="no">
+	<!-- This is the COMPILE target that is depended on by TEST. 
 
-<classpath>
-<pathelement location="/cs/faculty/pconrad/public_html/cs56/lib/junit-4.8.2.jar"/>
-<pathelement location="build"/>
-</classpath>
+	     It is different from the standard compile target in that it DOES NOT
+	     exclude *.Test files.
+	-->
 
-<batchtest fork="yes">
+	<target name="compileForTest">
+		<mkdir dir="build"/>
 
-<fileset dir="src">
+		<javac srcdir="src" destdir="build" debug="true" debuglevel="lines,source" includeantruntime="false">
+			<classpath>
+				<pathelement location="build"/>
+				<pathelement location="/cs/faculty/pconrad/public_html/cs56/lib/junit-4.8.2.jar"/>
+			</classpath>
+		</javac>
+	</target>
 
-<!--
- this will pick up every class with a name ending in Test 
--->
-<include name="*Test.java"/>
-</fileset>
-</batchtest>
-<formatter type="plain" usefile="false"/>
-</junit>
-</target>
 
-<target name="javadoc" depends="compile">
-<delete dir="javadoc" quiet="true"/>
 
-<javadoc destdir="javadoc" author="true" version="true" use="true">
-<fileset dir="src" includes="**/*.java"/>
 
-<classpath>
-<pathelement location="/cs/faculty/pconrad/public_html/cs56/lib/junit-4.8.2.jar"/>
-</classpath>
-</javadoc>
-<!-- delete the old javadoc -->
-<delete quiet="true" dir="${javadocDest}"/>
 
-<!--
- copy everything you just made to the javadoc destination, and then make it readable 
--->
 
-<copy todir="${javadocDest}">
-<fileset dir="javadoc"/>
-</copy>
 
-<!--
- Note: this only does the chmod command on the 
-        javadoc subdirectory and its contents.  You MIGHT have to
-	MANUALLY do the chmod on the parent directories.  However,
-	you should only need to do that once. 
--->
-<chmod dir="${javadocDest}" perm="755" type="dir" includes="**"/>
-<chmod dir="${javadocDest}" perm="755" type="file" includes="**/*"/>
-<echo>Javadoc deployed to ${javadocURL}</echo>
-</target>
+
+
+	<!-- STANDARD run target, invokes the GUI -->
+	<target name="run" depends="compile" description="runs the Password generator with GUI">
+		<java classname="${mainClass}" classpath="build" fork="true" >
+		<!-- &#13; is \n (ascii value 13 decimal) -->
+		
+		</java>
+	</target>
+
+
+
+
+
+
+	<target name="clean">
+		<delete failonerror="false" verbose="true">
+			<fileset dir="build" includes="*.class"/>
+		</delete>
+		<delete dir="javadoc" quiet="true"/>
+	</target>
+
+
+
+	<!-- note that this currently (as of 3/7/15) depends on
+	     	* the user running the program on CSIL,because pconrad's JUnit
+		  package is referenced
+		* the compileForTest block, which is NOT the default compile block.
+	-->
+
+	<target name="test" depends="compileForTest">
+		<junit haltonerror="no" haltonfailure="no">
+		<classpath>	
+			<!-- this is the dependency on pronrad's JUnit -->
+			<pathelement location="/cs/faculty/pconrad/public_html/cs56/lib/junit-4.8.2.jar"/>
+			<pathelement location="build"/>
+		</classpath>
+
+		<batchtest fork="yes">
+			<fileset dir="src">
+				<!--
+				 this will pick up every class with a name ending in Test 
+				-->
+				<include name="*Test.java"/>
+			</fileset>
+		</batchtest>
+
+		<formatter type="plain" usefile="false"/>
+		</junit>
+	</target>
+
+
+
+
+
+
+
+
+
+	<target name="javadoc" depends="compile">
+		<delete dir="javadoc" quiet="true"/>
+
+		<javadoc destdir="javadoc" author="true" version="true" use="true">
+			<fileset dir="src" includes="**/*.java"/>
+			<classpath>
+				<!-- THIS ALSO DEPENDS ON PCONRAD'S JUNIT DIRECTORY -->
+				<pathelement location="/cs/faculty/pconrad/public_html/cs56/lib/junit-4.8.2.jar"/>
+			</classpath>
+		</javadoc>
+
+
+		<!-- delete the old javadoc -->
+		<delete quiet="true" dir="${javadocDest}"/>
+
+
+		<!--
+		 copy everything you just made to the javadoc destination, and then make it readable 
+		-->
+		<copy todir="${javadocDest}">
+			<fileset dir="javadoc"/>
+		</copy>
+
+		<!--
+		 	Note: this only does the chmod command on the 
+		        javadoc subdirectory and its contents.  You MIGHT have to
+			MANUALLY do the chmod on the parent directories.  However,
+			you should only need to do that once. 
+		-->
+	
+		<chmod dir="${javadocDest}" perm="755" type="dir" includes="**"/>
+		<chmod dir="${javadocDest}" perm="755" type="file" includes="**/*"/>
+		<echo>Javadoc deployed to ${javadocURL}</echo>
+	</target>
 </project>
-
-
