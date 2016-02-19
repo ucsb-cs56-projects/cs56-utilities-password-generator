@@ -44,6 +44,12 @@ public class Password
 
     public static void main(String[] args)
     {
+	if(args.length >= 1 && args[0].equals("-cl"))
+	    {
+		CommandLine cl = new CommandLine();
+	    }
+
+	
 	Password p = new Password();
 	System.out.println("\n\n" + p.generate() + "\n\n");
     }
@@ -264,5 +270,15 @@ public class Password
        sets the allowed special characters that can be used in a password
        @param s the string containing characters that can be used as special characters
     */
-    public void setAllowedSpecialCharacters(String s) {allowedSpecialChracters = s;}	
+    public void setAllowedSpecialCharacters(String s) {allowedSpecialChracters = s;}
+
+
+    public void commandLine() {
+
+	printCommandLineTitle();
+	System.out.println("--------PASSWORD GENERATOR--------");
+	System.out.println("-------COMMAND LINE VERSION-------");
+	
+    }
+    
 }
