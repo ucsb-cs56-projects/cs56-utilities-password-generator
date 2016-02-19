@@ -1,0 +1,15 @@
+
+
+Create a command line version of the program, with the ability to create mutliple passwords at once and write to a file. (450pts)
+
+Improve the GUI (450pts)
+
+JUnit Testing (100pts)
+      * A test for each method in Password.java
+
+Validate user input (100pts)
+	 * check for illogical range values
+	 * check for non-special characters in special characters box
+	 * make sure special characters are included if the "special characters" box is checked
+
+1100pts total
