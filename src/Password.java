@@ -189,7 +189,7 @@ public class Password
     	return generate("",numMinDigits,numMaxDigits);
     }
 
-    /** cchecks whether a is in between min and max
+    /** checks whether a is in between min and max
 	@return true if a is in between min and max, false if not
     */
 
@@ -273,12 +273,9 @@ public class Password
     public void setAllowedSpecialCharacters(String s) {allowedSpecialChracters = s;}
 
 
-    public void commandLine() {
-
-	printCommandLineTitle();
-	System.out.println("--------PASSWORD GENERATOR--------");
-	System.out.println("-------COMMAND LINE VERSION-------");
-	
+    public String generate(CharType[] types) {
+	//TODO: Write a new and improved generate method that utilizes the CharType object.
+	return "42"; //STUB!!
     }
     
 }
