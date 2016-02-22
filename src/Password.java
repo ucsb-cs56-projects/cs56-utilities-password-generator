@@ -40,19 +40,7 @@ public class Password
 	numMinSpecial = 1;		
 	
 	random = new Random();
-    }		
-
-    public static void main(String[] args)
-    {
-	if(args.length >= 1 && args[0].equals("-cl"))
-	    {
-		CommandLine cl = new CommandLine();
-	    }
-
-	
-	Password p = new Password();
-	System.out.println("\n\n" + p.generate() + "\n\n");
-    }
+    }	       
 
     /**
        Sets the array of characters comprising a password to a specified length to contain a space character.
@@ -273,9 +261,54 @@ public class Password
     public void setAllowedSpecialCharacters(String s) {allowedSpecialChracters = s;}
 
 
-    public String generate(CharType[] types) {
-	//TODO: Write a new and improved generate method that utilizes the CharType object.
-	return "42"; //STUB!!
+    public String generate(CharType[] types, int min, int max) {
+	//There is no longer an overarching minimum and maximum for the entire password.
+	//The total length is the sum of each CharType's generated length.
+
+	int totalLength = min + (int)(Math.random()* ((max-min)+1));
+
+	String password = "";
+
+	for(int i = 0; i < totalLength; i++) {
+	    password += getRandomChar(types);
+	}
+
+        password = shuffle(shuffle(password)); //shuffle it twice for good measure ;)
+	return password;
+    }
+
+    //pick a random character of a random character type
+    private char getRandomChar(CharType[] types) {
+
+	random = new Random();
+	CharType randomType = types[random.nextInt(types.length)];
+	String chars = randomType.getCharacters();
+	int whichChar = random.nextInt(chars.length());
+
+	return chars.charAt(whichChar);
+
+    }
+
+    private String shuffle(String input) {
+
+	List<Character> characters = new ArrayList<Character>();
+	char[] chArr = input.toCharArray();
+	for(int i = 0; i < chArr.length; i++) {
+	    characters.add(chArr[i]);
+	}
+
+	//we're using a list so we can keep track of how many characters we've inserted.
+	//when we insert a character from the list into the new string, take it out of the list
+	//to prevent inserting it again
+	String output = "";
+	while(characters.size()>0) {
+	    int whichChar = (int)(Math.random()*characters.size());
+	    output += whichChar;
+	    characters.remove(whichChar);
+	}
+
+	return output;
+
     }
     
 }

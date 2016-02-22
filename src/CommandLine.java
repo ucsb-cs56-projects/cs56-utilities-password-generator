@@ -14,23 +14,25 @@ public class CommandLine extends Password {
 				{"lowercase","abcdefghijklmnopqrstuvwxyz"},
 				{"digits","0123456789"}
 				{"special","`~@#%^&*()-_=+[]{}\\|;:',.<>/?"}};
+	
 	CharType[] types = new CharType[charTypes.length];
 	
 	for(int i = 0; i < types.length; i++) {
 	    CharType[i] = new CharType(charTypes[i]);
 	    String currentType = types[i].getType();
 	    if(askFor(currentType)) {
-		types[i].setMin(getBound(currentType, false));
-		types[i].setMax(getBound(currentType, true));
+		types[i].setToBeIncluded(true);
 		if(currentType.equals("special")) {
 		    //replace special characters if the user wants to.
 		    types[i].setCharacters(replaceSpecialCharacters(types[i].getCharacters()));
 		}
 	    }
+	    int min = getBound(false);
+	    int max = getBound(true);
 	}
 
-	generate(types);
-
+	String pw = generate(types, min, max);
+	System.out.println(pw);
     }
 
     private void printTitle() {
@@ -55,21 +57,22 @@ public class CommandLine extends Password {
 	} while(!str.equals("y") && !str.equals("n"));
     }
 
-    private int getBound(String type, boolean isMax) throws NumberFormatException {
+    private int getBound(boolean isMax) throws NumberFormatException {
 	String boundStr;
+	String boundIn;
 	int bound;
 	if(isMax) {
-	    bound = "maximum";
+	    boundStr = "maximum";
 	} else {
-	    bound = "minimum";
+	    boundStr = "minimum";
 	}
 
-	System.out.print("Please enter the " + bound + " number of " + type + " characters: ");
+	System.out.print("Please enter the " + boundStr + " number of " + type + " characters: ");
 	
 	while(true) { //breaks when input is correct
 	    try {
-		boundStr = scanner.nextLine();
-		bound = Integer.parseInt(boundStr);
+		boundIn = scanner.nextLine();
+		bound = Integer.parseInt(boundIn);
 		break;
 	    } catch(NumberFormatException nfe) {
 		System.err.println("ERROR: You must enter an INTEGER! \"" + boundStr + "\" is not an integer.");
