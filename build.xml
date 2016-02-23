@@ -10,9 +10,9 @@
 <property name="webRoot" value="${env.HOME}/public_html/"/>
 <property name="webBaseUrl" value="http://www.cs.ucsb.edu/~${env.USER}/"/>
 <property name="course" value="cs56"/>
-<property name="quarter" value="W11"/>
+<property name="quarter" value="W16"/>
 <property name="issueNum" value="0000042"/>
-<property name="mainClass" value="PasswordGUI"/>
+<property name="mainClass" value="PasswordMain"/>
 <property name="projectName" value="${course}_${quarter}_${issueNum}"/>
 <property name="projectPath" value="${course}/${quarter}/issues/${issueNum}"/>
 <property name="javadocDest" value="${webRoot}/${projectPath}/javadoc"/>
@@ -45,21 +45,18 @@
 <target name="run" depends="compile" description="Runs the Password Generator Program">
 
   <java classname="${mainClass}" classpath="build" fork="true" >
-    <!-- &#13; is \n (ascii value 13 decimal) -->
   </java>
 
 </target>
 
 
+<target name="run-cl" depends="compile" description="Runs the Password Generator Program in Command Line mode">
 
-<target name="run-password" depends="compile" description="Runs the Password Generator with the main method in Password.java">
-
-  <java classname="Password" classpath="build" fork="true" >
-    <!-- &#13; is \n (ascii value 13 decimal) -->
+  <java classname="${mainClass}" classpath="build" fork="true" >
+    <arg value="-cl"/>
   </java>
 
 </target>
-
 
 
 <target name="clean" description="Cleans the project by deleting the files in /build and /javadoc">

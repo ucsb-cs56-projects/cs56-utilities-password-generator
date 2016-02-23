@@ -2,16 +2,13 @@ public class CharType {
 
     private String type;
     private String characters;
-    private int min;
-    private int max;
+    private boolean toBeIncluded;
 
     public CharType() {
 
 	this.characters = "";
 	this.type = "not defined";
-	this.min = 0;
-	this.max = 0;
-
+	this.toBeIncluded = false;
     }
 
     public CharType(String[] typeInfo) {
@@ -21,18 +18,13 @@ public class CharType {
 
 	this.type = typeInfo[0];
 	this.characters = typeInfo[1];
-	this.min = 0;
-	this.max = 0;
-	
+	this.toBeIncluded = false;
     }
 
-    public CharType(String type, String characters, int min, int max) {
-
+    public CharType(String type, String characters, boolean toBeIncluded) {
 	this.type = type;
 	this.characters = characters;
-	this.min = min;
-	this.max = max;
-
+	this.toBeIncluded = toBeIncluded;
     }
 
     public String getType() {
@@ -43,12 +35,20 @@ public class CharType {
 	this.type = type;
     }
 
-    public String getCharacter() {
+    public String getCharacters() {
 	return this.characters;
     }
 
     public void setCharacters(String characters) {
 	this.characters = characters;
+    }
+
+    public void setToBeIncluded(boolean toBeIncluded) {
+	this.toBeIncluded = toBeIncluded;
+    }
+
+    public boolean getToBeIncluded() {
+	return this.toBeIncluded;
     }
 
 }

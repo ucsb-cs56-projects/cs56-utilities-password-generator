@@ -1,38 +1,70 @@
+import java.util.Scanner;
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.io.File;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+
 public class CommandLine extends Password {
 
     Scanner scanner;
-
+    CharType[] types;
+    
     public CommandLine() {
 	scanner = new Scanner(System.in);
+	String[][] charTypes = {{"uppercase letters", "ABCDEFGHIJKLMNOPQRSTUVWXYZ"},
+				{"lowercase letters","abcdefghijklmnopqrstuvwxyz"},
+				{"digits","0123456789"},
+				{"special characters","`~@#%^&*()-_=+[]{}\\|;:',.<>/?"}};
+	types = new CharType[charTypes.length];
+	for(int i = 0; i < types.length; i++) {
+	    types[i] = new CharType(charTypes[i]);
+	}
     }
 
     public void go() {
 
 	printTitle();
-
-	String[][] charTypes = {{"uppercase", "ABCDEFGHIJKLMNOPQRSTUVWXYZ"},
-				{"lowercase","abcdefghijklmnopqrstuvwxyz"},
-				{"digits","0123456789"}
-				{"special","`~@#%^&*()-_=+[]{}\\|;:',.<>/?"}};
-	
-	CharType[] types = new CharType[charTypes.length];
 	
 	for(int i = 0; i < types.length; i++) {
-	    CharType[i] = new CharType(charTypes[i]);
 	    String currentType = types[i].getType();
 	    if(askFor(currentType)) {
 		types[i].setToBeIncluded(true);
-		if(currentType.equals("special")) {
+		if(currentType.equals("special characters")) {
 		    //replace special characters if the user wants to.
 		    types[i].setCharacters(replaceSpecialCharacters(types[i].getCharacters()));
 		}
+	    } else {
+		types[i].setToBeIncluded(false);
 	    }
-	    int min = getBound(false);
-	    int max = getBound(true);
 	}
 
-	String pw = generate(types, min, max);
-	System.out.println(pw);
+	int min;
+	int max;
+	do {
+	    min = getBound(false);
+	    max = getBound(true);
+	    if(min > max) {
+		System.err.println("ERROR: The minimum bound can't be greater than the maximum bound!");
+	    }
+	} while(min > max);
+
+	int numPasswords = askForFile();
+	if(numPasswords > 0){
+	    try {
+		String fileName = writePasswordsToFile(numPasswords, min, max);
+		System.out.println("Passwords saved to " + fileName);
+	    } catch(IOException e) {
+		System.err.println("ERROR: Writing to a file failed.");
+		e.printStackTrace();
+	    }
+
+	} else {
+	    String pw = generate(types, min, max);
+	    System.out.println("Here is your password: " + pw);
+	}
     }
 
     private void printTitle() {
@@ -45,7 +77,7 @@ public class CommandLine extends Password {
     private boolean askFor(String type) {
 	String str;
 	do {
-	    System.out.print("Would you like to include " + type + " characters in the password? (y or n) ");
+	    System.out.print("Would you like to include " + type + " in the password? (y or n) ");
 	    str = scanner.nextLine();
 	    if(str.equals("y") || str.equals("yes")) {
 		return true;
@@ -55,11 +87,14 @@ public class CommandLine extends Password {
 		System.out.println("You must say 'y' or 'n'");
 	    }
 	} while(!str.equals("y") && !str.equals("n"));
+
+	return false;
+
     }
 
-    private int getBound(boolean isMax) throws NumberFormatException {
+    private int getBound(boolean isMax) {
 	String boundStr;
-	String boundIn;
+	String boundIn = "";
 	int bound;
 	if(isMax) {
 	    boundStr = "maximum";
@@ -67,15 +102,19 @@ public class CommandLine extends Password {
 	    boundStr = "minimum";
 	}
 
-	System.out.print("Please enter the " + boundStr + " number of " + type + " characters: ");
+	System.out.print("Please enter the " + boundStr + " number of characters: ");
 	
 	while(true) { //breaks when input is correct
 	    try {
 		boundIn = scanner.nextLine();
 		bound = Integer.parseInt(boundIn);
+		if(bound <= 0) {
+		    System.out.println("Your bound must be a positive number");
+		    continue;
+		}
 		break;
 	    } catch(NumberFormatException nfe) {
-		System.err.println("ERROR: You must enter an INTEGER! \"" + boundStr + "\" is not an integer.");
+		System.err.println("ERROR: You must enter an INTEGER! \"" + boundIn + "\" is not an integer.");
 	    }
 	}
 
@@ -104,9 +143,9 @@ public class CommandLine extends Password {
 	} while(false);
 
 	if(input.equals("")) {
-	    return input;
-	} else {
 	    return defaultSet;
+	} else {
+	    return input;
 	}
 	
     }
@@ -120,6 +159,56 @@ public class CommandLine extends Password {
 		return false;
 	}
 	return true;
+    }
+
+    private int askForFile() {
+	String str = "";
+	int numPasswords;
+	System.out.print("If you want to write multiple passwords to a .txt file, type the number of passwords you'd like to generate: ");
+	while(true) { //breaks when input is correct
+	    try {
+		str = scanner.nextLine();
+		if(str.equals("")) {
+		    numPasswords = 0;
+		    break;
+		}
+		numPasswords = Integer.parseInt(str);
+		if(numPasswords < 0) {
+		    System.err.println("ERROR: You can't generate a negative number of passwords.");
+		    System.out.println("Please enter a positive number: ");
+		    continue;
+		}
+		break;
+	    } catch(NumberFormatException nfe) {
+		System.err.println("ERROR: You must enter an INTEGER! \"" + str + "\" is not an integer.");
+	    }
+	}
+	return numPasswords;
+    }
+
+    private String writePasswordsToFile(int numPasswords, int min, int max) throws IOException {
+
+	//make a file with the name "Passwords_MM-DD-YYYY_HH-MM-SS.txt"
+	String[] passwords = new String[numPasswords];
+	for(int i = 0; i < numPasswords; i++) {
+	    passwords[i] = generate(types,min,max);
+	}
+
+	DateFormat df = new SimpleDateFormat("MM-dd-yyyy'_'HH-mm-ss");
+	Date date = new Date();
+	String dateString = df.format(date);
+	String fileName = "Passwords_"+dateString+".txt";
+	File file = new File(fileName);
+	if(!file.exists()) {
+	    file.createNewFile();
+	}
+	FileWriter fw = new FileWriter(file.getAbsoluteFile());
+	BufferedWriter bw = new BufferedWriter(fw);
+	for(int i = 0; i < numPasswords; i++) {
+	    bw.write((i+1) + ") " + passwords[i] + "\n");
+	}
+	bw.close();
+	return fileName;
     }
 	
 }

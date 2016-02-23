@@ -2,6 +2,8 @@ import java.util.Random;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.util.Arrays;
+import java.util.ArrayList;
 
 /**
 
@@ -262,26 +264,45 @@ public class Password
 
 
     public String generate(CharType[] types, int min, int max) {
-	//There is no longer an overarching minimum and maximum for the entire password.
-	//The total length is the sum of each CharType's generated length.
 
+	types = filterCharTypes(types);
+
+	if(types.length <= 0) {
+	    System.out.println("You put \"no\" for every character type.");
+	    System.out.println("Therefore, no passwords can be generated.");
+	    System.exit(0);
+	}
+	
 	int totalLength = min + (int)(Math.random()* ((max-min)+1));
-
 	String password = "";
 
 	for(int i = 0; i < totalLength; i++) {
 	    password += getRandomChar(types);
 	}
 
-        password = shuffle(shuffle(password)); //shuffle it twice for good measure ;)
-	return password;
+	return shuffle(password);
+    }
+
+    private CharType[] filterCharTypes(CharType[] types) {
+
+	ArrayList<CharType> list = new ArrayList<CharType>();
+
+	for(int i = 0; i < types.length; i++) {
+	    if(types[i].getToBeIncluded()) {
+		list.add(types[i]);
+	    }
+	}
+
+	return list.toArray(new CharType[list.size()]);
+	
     }
 
     //pick a random character of a random character type
     private char getRandomChar(CharType[] types) {
-
+	
 	random = new Random();
-	CharType randomType = types[random.nextInt(types.length)];
+	int randomTypeIndex = random.nextInt(types.length);
+	CharType randomType = types[randomTypeIndex];
 	String chars = randomType.getCharacters();
 	int whichChar = random.nextInt(chars.length());
 
@@ -291,7 +312,7 @@ public class Password
 
     private String shuffle(String input) {
 
-	List<Character> characters = new ArrayList<Character>();
+	ArrayList<Character> characters = new ArrayList<Character>();
 	char[] chArr = input.toCharArray();
 	for(int i = 0; i < chArr.length; i++) {
 	    characters.add(chArr[i]);
@@ -303,7 +324,7 @@ public class Password
 	String output = "";
 	while(characters.size()>0) {
 	    int whichChar = (int)(Math.random()*characters.size());
-	    output += whichChar;
+	    output += characters.get(whichChar);
 	    characters.remove(whichChar);
 	}
 
