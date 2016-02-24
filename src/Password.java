@@ -229,33 +229,48 @@ public class Password
        @param num minimum number of digits
     */
     public void setMinDigits(int num) {numMinDigits = num;}	
+
+    public int getMinDigits(){return numMinDigits;}
     /**
        sets the maximum number of digits the password can have
        @param num maximum number of digits
     */
-    public void setMaxDigits(int num) {numMaxDigits = num;}	
+    public void setMaxDigits(int num) {numMaxDigits = num;}
+
+    public int getMaxDigits(){return numMaxDigits;}
+	
     /**
        sets the maximum number of UpperCase letters the password can have
        @param num the maximum number of upper case letters
     */
-    public void setMaxUppercase(int num) {numMaxUpperCase = num;}	
+    public void setMaxUppercase(int num) {numMaxUpperCase = num;}
+
+    public int getMaxUpperCase(){return numMaxUpperCase;}
+	
     /**
        sets the minimum number of UpperCase letters the password can have
        @param num the minimum number of upper case letters
     */
     public void setMinUpperCase(int num) {numMinUpperCase = num;}	
 
+    public int getMinUpperCase(){return numMinUpperCase;}
 
     /**
        sets the minimum number of special characters the password can have
        @param num the minumum number of special characters
     */	
     public void setMinSpecial(int num) {numMinSpecial = num;}	
+
+    public int getMinSpecial(){return numMinSpecial;}
+
     /**
        sets the maximum number of special characters the password can have
        @param num the maximum number of special characters
     */
     public void setMaxSpecial(int num) {numMaxSpecial = num;}	
+
+    public int getMaxSpecial(){return numMaxSpecial;}
+
     /**
        sets the allowed special characters that can be used in a password
        @param s the string containing characters that can be used as special characters
