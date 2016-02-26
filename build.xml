@@ -52,7 +52,7 @@
 
 <target name="run-cl" depends="compile" description="Runs the Password Generator Program in Command Line mode">
 
-  <java classname="${mainClass}" classpath="build" fork="true" >
+  <java classname="${mainClass}" classpath="build" >
     <arg value="-cl"/>
   </java>
 

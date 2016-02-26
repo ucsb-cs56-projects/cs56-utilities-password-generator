@@ -1,4 +1,5 @@
 import java.util.Scanner;
+import java.io.Console;
 import java.io.IOException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -76,8 +77,9 @@ public class CommandLine extends Password {
 
     private boolean askFor(String type) {
 	String str;
+	Console console = System.console();
 	do {
-	    System.out.print("Would you like to include " + type + " in the password? (y or n) ");
+	    System.out.println("Would you like to include " + type + " in your password? (y or n) ");
 	    str = scanner.nextLine();
 	    if(str.equals("y") || str.equals("yes")) {
 		return true;
@@ -102,7 +104,7 @@ public class CommandLine extends Password {
 	    boundStr = "minimum";
 	}
 
-	System.out.print("Please enter the " + boundStr + " number of characters: ");
+	System.out.println("Please enter the " + boundStr + " number of characters: ");
 	
 	while(true) { //breaks when input is correct
 	    try {
@@ -130,17 +132,18 @@ public class CommandLine extends Password {
 	System.out.println("Type nothing if you want to use the default set.");
 	System.out.println("If you'd like to see a list of special characters included by default, type \"list\"");
         do {
-	    System.out.print("Characters to add: ");
+	    System.out.println("Characters to add: ");
 	    input = scanner.nextLine();
-	    if(!verifySpecialCharacters(input, defaultSet)) {
-		System.err.println("Characters must be a subset of the default set.");
-		continue;
-	    }
 	    if(input.equals("list")) {
 		System.out.println("Default special characters: " + defaultSet);
 		continue;
 	    }
-	} while(false);
+	    if(!verifySpecialCharacters(input, defaultSet)) {
+		System.err.println("Characters must be a subset of the default set.");
+		continue;
+	    }
+	    break;
+	} while(true);
 
 	if(input.equals("")) {
 	    return defaultSet;
@@ -164,7 +167,7 @@ public class CommandLine extends Password {
     private int askForFile() {
 	String str = "";
 	int numPasswords;
-	System.out.print("If you want to write multiple passwords to a .txt file, type the number of passwords you'd like to generate: ");
+	System.out.println("If you want to write multiple passwords to a .txt file, type the number of passwords you'd like to generate: ");
 	while(true) { //breaks when input is correct
 	    try {
 		str = scanner.nextLine();
