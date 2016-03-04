@@ -4,6 +4,9 @@ public class CharType {
     private String characters;
     private boolean toBeIncluded;
 
+    /**
+       Default Constructor. Sets values to undefined. A default CharType is set to NOT be included.
+    */
     public CharType() {
 
 	this.characters = "";
@@ -11,6 +14,11 @@ public class CharType {
 	this.toBeIncluded = false;
     }
 
+    /**
+       A constructor based on a String array.
+
+       @param typeInfo An array of 2 Strings: Slot 0 is the name of the type. Slot 1 are the characters that make up that type.
+     */
     public CharType(String[] typeInfo) {
 
 	//typeInfo[0] is the TYPE
@@ -21,6 +29,13 @@ public class CharType {
 	this.toBeIncluded = false;
     }
 
+    /**
+       Constructor for each member variable in the class.
+       
+       @param type The name of the type.
+       @param characters The characters that make up that type.
+       @param toBeIncluded A boolean that determines if this type will be included or not.
+    */
     public CharType(String type, String characters, boolean toBeIncluded) {
 	this.type = type;
 	this.characters = characters;

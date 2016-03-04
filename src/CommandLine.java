@@ -12,7 +12,12 @@ public class CommandLine extends Password {
 
     Scanner scanner;
     CharType[] types;
-    
+
+    /**
+       Default Constructor.
+
+       Creates an array of all CharTypes, and initializes a Scanner that will read input throughout the program.
+     */
     public CommandLine() {
 	scanner = new Scanner(System.in);
 	String[][] charTypes = {{"uppercase letters", "ABCDEFGHIJKLMNOPQRSTUVWXYZ"},
@@ -25,6 +30,12 @@ public class CommandLine extends Password {
 	}
     }
 
+    /**
+       Starts the process of the Command Line program.
+       
+       Think of it as a main() function for the Command Line program. Based on what the user wants to do (GUI or Command Line), we either run this function or the GUI's go() function.
+
+     */
     public void go() {
 
 	printTitle();
@@ -68,6 +79,9 @@ public class CommandLine extends Password {
 	}
     }
 
+    /**
+       Prints a title when the program is initialized.
+     */
     private void printTitle() {
 
 	System.out.println("--------PASSWORD GENERATOR--------");
@@ -75,6 +89,12 @@ public class CommandLine extends Password {
 	
     }
 
+    /**
+       Asks the user if they want to include a certain type in their password.
+
+       @param type The name of the CharType that you are asking to include.
+       @return True if they answer yes, False if not.
+     */
     private boolean askFor(String type) {
 	String str;
 	Console console = System.console();
@@ -94,6 +114,11 @@ public class CommandLine extends Password {
 
     }
 
+    /**
+       Gets a boundary value, either minimum or maximum.
+       @param isMax True if you are getting the maximum value from the user, false if you are getting the minimum value from the user.
+       @return The integer boundary entered by the user.
+     */
     private int getBound(boolean isMax) {
 	String boundStr;
 	String boundIn = "";
@@ -124,6 +149,13 @@ public class CommandLine extends Password {
 	
     }
 
+    /**
+       We want the option to only include certain special characters in the Password.
+       Gets any special characters (that are a subset of the default set of special characters).
+
+       @param defaultSet The default set of special characters.
+       @return The new set of special characters.
+     */
     private String replaceSpecialCharacters(String defaultSet) {
 
 	String input;
@@ -153,6 +185,13 @@ public class CommandLine extends Password {
 	
     }
 
+    /**
+       Verifies that the special characters entered by the user are true, by comparing them to the default set.
+
+       @param input The special characters entered by the user.
+       @param defaultSet The default set of special characters.
+       @return True if the input is good, false if it's bad.
+     */
     private boolean verifySpecialCharacters(String input, String defaultSet) {
 	if(input.equals("")) {
 	    return true;
@@ -164,6 +203,11 @@ public class CommandLine extends Password {
 	return true;
     }
 
+    /**
+       Asks if the user wants to enter a file by accepting the number of passwords they want to generate.
+       
+       @return A positive integer representing the number of passwords to be written to a file.
+     */
     private int askForFile() {
 	String str = "";
 	int numPasswords;
@@ -189,6 +233,13 @@ public class CommandLine extends Password {
 	return numPasswords;
     }
 
+    /**
+       Generates a set number of passwords to a file. The file is created and saved in this function.
+
+       @param numPasswords The number of passwords to be generated to a file. (This number is always a positive integer greater than 0)
+       @param min The minimum bound of the password length.
+       @param max The maximum bound of the password length.
+     */
     private String writePasswordsToFile(int numPasswords, int min, int max) throws IOException {
 
 	//make a file with the name "Passwords_MM-DD-YYYY_HH-MM-SS.txt"
