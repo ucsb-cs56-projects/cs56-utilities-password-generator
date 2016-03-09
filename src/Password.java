@@ -302,9 +302,14 @@ public class Password
 	types = filterCharTypes(types);
 
 	if(types.length <= 0) {
-	    System.out.println("You put \"no\" for every character type.");
-	    System.out.println("Therefore, no passwords can be generated.");
-	    System.exit(0);
+	    if(this instanceof CommandLine) {
+		System.out.println("You put \"no\" for every character type.");
+		System.out.println("Therefore, no passwords can be generated.");
+		System.exit(0);
+	    } else {
+		javax.swing.JOptionPane.showMessageDialog(null, "You put \"no\" for every character type.\nTherefore, no password can be generated.");
+		return "";
+	    }
 	}
 	
 	int totalLength = min + (int)(Math.random()* ((max-min)+1));
