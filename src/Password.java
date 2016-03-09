@@ -349,7 +349,7 @@ public class Password
      */
     public char getRandomChar(CharType[] types) {
 	
-	random = new Random();
+	Random random = new Random();
 	int randomTypeIndex = random.nextInt(types.length);
 	CharType randomType = types[randomTypeIndex];
 	String chars = randomType.getCharacters();
