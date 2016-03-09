@@ -5,6 +5,7 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.ClipboardOwner;
 import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
+import javax.swing.text.DefaultEditorKit;
 
 /**
    PasswordGUI represents a GUI for interacting with the Password class. A Password contains digits, upper case letters, and special characters.
@@ -17,21 +18,17 @@ public class PasswordGUI extends Password{
     private JButton generateButton;
     private JButton copyButton;
     private JPanel southPanel;
-    // private TitledBorder passSettings;
     private JCheckBox uppercaseBox;
     private JCheckBox lowercaseBox;
     private JCheckBox digitsBox;
     private JCheckBox symbolsBox;
     private JLabel includedCharsLabel;
     private JTextField includedChars;
-    // private JLabel omittedCharsLabel;
-    // private JTextField omittedChars;
     private JLabel passLengthLabel;
     private JLabel minLabel;
     private JSpinner minSpinner;
     private JLabel maxLabel;
     private JSpinner maxSpinner;
-    //private Password pw;
     private CharType[] types;
 
     /**
@@ -41,7 +38,7 @@ public class PasswordGUI extends Password{
 	String[][] charTypes = {{"uppercase letters", "ABCDEFGHIJKLMNOPQRSTUVWXYZ"},
 				{"lowercase letters","abcdefghijklmnopqrstuvwxyz"},
 				{"digits","0123456789"},
-				{"special characters","`~@#%^&*()-_=+[]{}\\|;:',.<>/?"}};
+				{"special characters","~`!@#$%^&*()-_+={[}]|\\?/\"':;<,>."}};
 	types = new CharType[charTypes.length];
 	for(int i = 0; i < types.length; i++) {
 	    types[i] = new CharType(charTypes[i]);
@@ -55,18 +52,24 @@ Launches the JFrame, populates it with the generated password text field, genera
     public void go(){
     frame = new JFrame();
     frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-    // pw = new Password();
+    frame.setTitle("Password Generator");
+
    
     northPanel = new JPanel();
     southPanel = new JPanel();
+    
     passOutput = new JTextField("");
+    passOutput.setHorizontalAlignment(JTextField.CENTER);
     Font bigFont = passOutput.getFont().deriveFont(Font.PLAIN, 40f);
     passOutput.setFont(bigFont);
+    passOutput.setCaretColor(Color.WHITE);
+    InputMap im = (InputMap) UIManager.get("TextField.focusInputMap");
+    im.put(KeyStroke.getKeyStroke(KeyEvent.VK_C, KeyEvent.META_DOWN_MASK), DefaultEditorKit.copyAction);
+	
     generateButton = new JButton("Generate Password");
     generateButton.addActionListener(new ButtonListener1());
     copyButton = new JButton("Copy to Clipboard");
     copyButton.addActionListener(new ButtonListener2());
-    //passSettings = new TitledBorder("Character Set");
 
     uppercaseBox = new JCheckBox("Uppercase (A...Z)");
     uppercaseBox.addItemListener(new BoxListener1());
@@ -76,14 +79,9 @@ Launches the JFrame, populates it with the generated password text field, genera
     digitsBox.addItemListener(new BoxListener3());
     symbolsBox = new JCheckBox("Symbols (e.g.%!#~+)");
     symbolsBox.addItemListener(new BoxListener4());
-    //TODO: add methods to check whether these should be included
 
     includedCharsLabel = new JLabel("Include Special Characters:");
     includedChars = new JTextField("");
-   
-    // omittedCharsLabel = new JLabel("Omit Characters:");
-    //omittedChars = new JTextField("");
-    //TODO: omittedChars.addActionListener(new TextFieldListener());
 
     passLengthLabel = new JLabel("Password Length");
     minLabel = new JLabel("Min");
@@ -119,7 +117,6 @@ Launches the JFrame, populates it with the generated password text field, genera
                                  .addComponent(uppercaseBox)
                                  .addComponent(lowercaseBox)
                                  .addComponent(includedCharsLabel)
-					 // .addComponent(omittedCharsLabel)
                                  .addComponent(passLengthLabel))))
                    .addPreferredGap(LayoutStyle.ComponentPlacement.UNRELATED, GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                    .addGroup(layout2.createParallelGroup(GroupLayout.Alignment.LEADING)
@@ -128,7 +125,6 @@ Launches the JFrame, populates it with the generated password text field, genera
                                  .addComponent(digitsBox)
                                  .addComponent(symbolsBox)
 				 .addComponent(includedChars)
-					 // .addComponent(omittedChars)
                                  .addGroup(layout2.createSequentialGroup()
                                        .addComponent(minLabel)
                                        .addComponent(minSpinner)
@@ -146,9 +142,6 @@ Launches the JFrame, populates it with the generated password text field, genera
                  .addGroup(layout2.createParallelGroup(GroupLayout.Alignment.BASELINE)
                        .addComponent(includedCharsLabel)
                        .addComponent(includedChars))
-			     // .addGroup(layout2.createParallelGroup(GroupLayout.Alignment.BASELINE)
-			   // .addComponent(omittedCharsLabel)
-			   //.addComponent(omittedChars))
                  .addGroup(layout2.createParallelGroup(GroupLayout.Alignment.BASELINE)
                          .addComponent(passLengthLabel)
                          .addComponent(minLabel)
@@ -160,7 +153,10 @@ Launches the JFrame, populates it with the generated password text field, genera
     southPanel.setLayout(layout2);
     frame.getContentPane().add(BorderLayout.NORTH, northPanel);
     frame.getContentPane().add(BorderLayout.SOUTH, southPanel);
+
     frame.setSize(420,242);
+    frame.setLocationRelativeTo(null);
+    
     frame.setVisible(true);
     }
 
@@ -269,6 +265,7 @@ Launches the JFrame, populates it with the generated password text field, genera
 
     private void replaceSpecialCharacters(){
 	String input = includedChars.getText();
+	JOptionPane.showMessageDialog(null, input);
 	String defaultSet;
 	for(int i = 0; i < types.length; i++){
 	    String currentType = types[i].getType();
