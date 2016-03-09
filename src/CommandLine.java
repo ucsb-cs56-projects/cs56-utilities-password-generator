@@ -185,23 +185,6 @@ public class CommandLine extends Password {
 	
     }
 
-    /**
-       Verifies that the special characters entered by the user are true, by comparing them to the default set.
-
-       @param input The special characters entered by the user.
-       @param defaultSet The default set of special characters.
-       @return True if the input is good, false if it's bad.
-     */
-    private boolean verifySpecialCharacters(String input, String defaultSet) {
-	if(input.equals("")) {
-	    return true;
-	}
-	for(int i = 0; i < input.length(); i++) {
-	    if(defaultSet.indexOf(input.charAt(i)) < 0)
-		return false;
-	}
-	return true;
-    }
 
     /**
        Asks if the user wants to enter a file by accepting the number of passwords they want to generate.
