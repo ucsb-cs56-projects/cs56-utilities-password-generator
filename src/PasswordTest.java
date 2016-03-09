@@ -6,7 +6,7 @@ import java.util.Random;
 /**
  *The test class Password Test, to test the Password class
  *
- *@author Giovanni Rojas, Troy Larsen
+ *@author Giovanni Rojas, Troy Larson
  *@version CS56, W16, Lab07
  *@see Password
  */
@@ -46,7 +46,7 @@ public class PasswordTest{
 	assertTrue("Error, passLength is too high", high >= 0);//stub
     }
 
-    */
+    
     @Test public void testSetMinDigits(){
         Password p1 = new Password();
         p1.setMinDigits(5);
@@ -92,5 +92,6 @@ public class PasswordTest{
 
     @Test public void testShuffle(){
     }
+    */
 
 }

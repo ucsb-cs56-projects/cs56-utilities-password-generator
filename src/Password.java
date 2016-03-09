@@ -132,7 +132,7 @@ public class Password
        @param defaultSet The default set of special characters.
        @return True if the input is good, false if it's bad.
      */
-    private boolean verifySpecialCharacters(String input, String defaultSet) {
+    public boolean verifySpecialCharacters(String input, String defaultSet) {
 	if(input.equals("")) {
 	    return true;
 	}
