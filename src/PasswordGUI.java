@@ -80,8 +80,7 @@ Launches the JFrame, populates it with the generated password text field, genera
 
     includedCharsLabel = new JLabel("Include Special Characters:");
     includedChars = new JTextField("");
-    //TODO: includedChars.addActionListener(new TextFieldListener());
-
+   
     // omittedCharsLabel = new JLabel("Omit Characters:");
     //omittedChars = new JTextField("");
     //TODO: omittedChars.addActionListener(new TextFieldListener());
@@ -259,25 +258,51 @@ Launches the JFrame, populates it with the generated password text field, genera
 	    }
       	}
     }
-    
+
+
+    /**
+       Method that replaces special characters default set with only specific special characters the user wants to include in their generated password.
+
+       @param defaultSet The default set of special characters.
+       @return The new set of special characters
+    */
+
+    private void replaceSpecialCharacters(){
+	String input = includedChars.getText();
+	String defaultSet;
+	for(int i = 0; i < types.length; i++){
+	    String currentType = types[i].getType();
+	    if(currentType.equals("special characters")){
+		defaultSet = types[i].getCharacters();
+		if(verifySpecialCharacters(input, defaultSet))
+		   types[i].setCharacters(input);
+		else
+		    JOptionPane.showMessageDialog(null, "One or more of the special characters are not valid");
+	    }
+	}
+    }
+
     /**
        Method that checks min and max values for valid input. If valid, generates password within range of min and max
     */
 
  
     public void onActionPerformed1(){
+	String include = includedChars.getText();
 	int min = (int) minSpinner.getValue();
         int max = (int) maxSpinner.getValue();
         try{
 	    if(min > max){
-		passOutput.setText("Min can not be greater than Max!");
+		JOptionPane.showMessageDialog(null, "Min cannot be greater than Max!");
 	    }
-        else
-            { 
-            passOutput.setText(generate(types,min,max));
-            }
-        }
-    catch(IllegalArgumentException e)
+	    else if(!include.equals("")){
+		replaceSpecialCharacters();
+		passOutput.setText(generate(types,min,max));
+	    }
+      	    else
+		passOutput.setText(generate(types,min,max));
+	}
+	catch(IllegalArgumentException e)
         {
              passOutput.getText();//Stub?
         }
