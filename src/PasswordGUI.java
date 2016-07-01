@@ -265,7 +265,6 @@ Launches the JFrame, populates it with the generated password text field, genera
 
     private void replaceSpecialCharacters(){
 	String input = includedChars.getText();
-	JOptionPane.showMessageDialog(null, input);
 	String defaultSet;
 	for(int i = 0; i < types.length; i++){
 	    String currentType = types[i].getType();
