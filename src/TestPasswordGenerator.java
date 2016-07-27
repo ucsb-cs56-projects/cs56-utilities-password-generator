@@ -26,7 +26,7 @@ public class TestPasswordGenerator {
 		System.out.println(pw+" -deafault constructor pw");
 		int [] checkArray=new int[]{1,6,3,1};
 		
-		assertTrue(pw.length()>=11);
+		assertTrue(pw.length()>=8);
 		assertTrue(Categorize(pw,checkArray));
 		
 	}
@@ -84,7 +84,7 @@ public class TestPasswordGenerator {
 		
 	}
 	
-	/*
+	
 	//this test case verify user selected password
 	//minimum length of password does not equals to lengths of each characters
 	@Test
@@ -104,13 +104,13 @@ public class TestPasswordGenerator {
 		
 		PasswordGenerator pwGen=new PasswordGenerator(min,max,pwFeature);
 		pw=pwGen.generate();
-		System.out.println(pw+ " -min");
+		System.out.println(pw+ " -min: " +min);
 		//check for the password with 0 upper, 1 lower, 2 digits, 3 special and min length of 5 and max length of 10
 		assertTrue(pw.length()>=min);
 		assertTrue(Categorize(pw,checkArray));
 		
 	}
-	*/
+	
 	public boolean Categorize(String pw, int[] check){
 		boolean pass=true;
 		//Character [] chars=new Character[pw.length()]

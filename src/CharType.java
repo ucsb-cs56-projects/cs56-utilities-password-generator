@@ -84,4 +84,7 @@ public class CharType {
 	public int getLength() {
 		return this.length;
 	}
+	public int getCharLength(){
+		return this.characters.length();
+	}
 }

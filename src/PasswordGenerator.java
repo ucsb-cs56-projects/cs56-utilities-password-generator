@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.LinkedHashSet;
@@ -32,17 +33,25 @@ public class PasswordGenerator extends Password {
 	 * @param
 	 * 
 	 * @return 
+	 * @throws IOException 
+	 * @throws IndexOutOfBoundsException 
 	 */
 	public PasswordGenerator(int min, int max, ArrayList<CharType> userSpec) {
 		super();
+		if (min <= 0 || max <=0 || min > max){
+			System.out.println("invalid min,max");
+			return;
+		}
+		else{
 		super.setMin(min);
 		super.setMax(max);
-		//super.setLength(min, max);
+		super.setLength(min, max);
 		for (CharType t : userSpec) {
 			
 			select(t.getType(), t.isIncluded());
 			
 			setTypeLength(t.getType(), t.getLength());
+		}
 		}
 	}
 
@@ -127,7 +136,7 @@ public class PasswordGenerator extends Password {
 	 * new string of correct length
 	 */
 	public String getRandom(int num) {
-		Random random = new Random();
+		//Random random = new Random();
 		String retval = "";
 		for (int i = 0; i < num; i++) {
 			int rand = (int) (Math.random() * (hmap.size()));
@@ -135,12 +144,17 @@ public class PasswordGenerator extends Password {
 			for (String key : hmap.keySet()) {
 				if (!hmap.get(key).isIncluded()) {
 					i--;
-					break;
 				} else if (rand == j) {
+					//System.out.println("is it included:?"+hmap.get(key).isIncluded());
 					String curr = hmap.get(key).getCharacters();
 					int l = curr.length();
 					int pos = (int) (Math.random() * l);
 					retval += curr.charAt(pos);
+					break;
+				}
+				if (key.equals(TYPE_SPECIAL) && !hmap.get(key).isIncluded()){
+					System.out.println("ERROR");
+					return "ERROR";
 				}
 				j++;
 			}
@@ -171,9 +185,10 @@ public class PasswordGenerator extends Password {
 		return shuffled;
 	}
 
+
 	public static void main(String[] args) {
 		//PasswordGenerator s = new PasswordGenerator();
-		String[] copy = {  "uppercase letters","lowercase letters",  "digits", "special characters" };
+		/*String[] copy = {  "uppercase letters","lowercase letters",  "digits", "special characters" };
 		ArrayList<CharType> pwFeature=new ArrayList<CharType>();
 		CharType[] test=new CharType[copy.length];
 		for (int i=0;i<copy.length;i++){
@@ -182,8 +197,10 @@ public class PasswordGenerator extends Password {
 
 			pwFeature.add(i, test[i]);
 		}
-		//System.out.println(pwFeature.get(3).getType());
-		PasswordGenerator s = new PasswordGenerator(6,10,pwFeature);
-		System.out.println(s.generate());
+		//System.out.println(pwFeature.get(3).getType());*/
+		PasswordGenerator s = new PasswordGenerator();
+		s.setLength(8,30);
+		System.out.println("length"+ s.getLength());
+		System.out.println("length"+ s.getLength()+" Password: "+s.generate());
 	}
 }

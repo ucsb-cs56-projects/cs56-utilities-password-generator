@@ -39,7 +39,7 @@ public class Password {
 	public void setUpTypes() {
 		String[][] copy = { { TYPE_UPPER, "ABCDEFGHIJKLMNOPQRSTUVWXYZ" }, { TYPE_LOWER, "abcdefghijklmnopqrstuvwxyz" },
 				{ TYPE_DIGITS, "0123456789" }, { TYPE_SPECIAL, "~`!@#$%^&*()-_+={[}]|\\?/\"':;<,>." },
-				{ TYPE_SELECTED, "" } };
+				/*{ TYPE_SELECTED, "" }*/ };
 		/*
 		 * types = new ArrayList<CharType>(); for (String[] t : copy) {
 		 * types.add(new CharType(t)); }
@@ -92,8 +92,8 @@ public class Password {
 	public void setUpDefault() {
 		selectAll();
 		setTypeLength(TYPE_UPPER, 1);
-		setTypeLength(TYPE_LOWER, 6);
-		setTypeLength(TYPE_DIGITS, 3);
+		setTypeLength(TYPE_LOWER, 5);
+		setTypeLength(TYPE_DIGITS, 1);
 		setTypeLength(TYPE_SPECIAL, 1);
 
 	}
@@ -130,7 +130,10 @@ public class Password {
 	 * none
 	 */
 	public void setLength(int min, int max) {
-		this.length = (int) (Math.random() * ((max - min) + min + 1));
+		assert(min<=max);
+		setMin(min);
+		setMax(max);
+		this.length = (int) (Math.random() * (max - min) + min + 1);
 	}
 
 	
@@ -139,6 +142,7 @@ public class Password {
 	}
 
 	public void setMin(int min) {
+		//assert(true);
 		this.min = min;
 	}
 
