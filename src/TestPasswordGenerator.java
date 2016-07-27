@@ -37,13 +37,13 @@ public class TestPasswordGenerator {
 	//minimum password length equals to lengths of each characters types
 	@Test
 	public void TestPasswordGenerator0_1_2_3(){
-		int min=6, max=10;
+		int min=8, max=10;
 		int [] checkArray=new int[]{0,1,2,3};
 		ArrayList<CharType> pwFeature=new ArrayList<CharType>();
 		CharType[] test=new CharType[copy.length];
 		for (int i=0;i<copy.length;i++){
 			test[i]=new CharType(copy[i],"",checkArray[i]>0);
-			test[i].setLength(i);
+			test[i].setLength(checkArray[i]);
 			pwFeature.add(i, test[i]);
 			checkArray[i]=i;
 			
