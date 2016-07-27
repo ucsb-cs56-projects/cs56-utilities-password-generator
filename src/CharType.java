@@ -87,4 +87,9 @@ public class CharType {
 	public int getCharLength(){
 		return this.characters.length();
 	}
+	
+	public String  toString(){
+		System.out.println("CharType "+this.getType()+ " length "+this.getLength()+ " Is included "+this.isIncluded());
+		return null;
+	}
 }

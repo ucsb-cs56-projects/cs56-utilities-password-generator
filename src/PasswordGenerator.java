@@ -153,7 +153,7 @@ public class PasswordGenerator extends Password {
 					break;
 				}
 				if (key.equals(TYPE_SPECIAL) && !hmap.get(key).isIncluded()){
-					System.out.println("ERROR");
+					//System.out.println("ERROR");
 					return "ERROR";
 				}
 				j++;
@@ -200,7 +200,7 @@ public class PasswordGenerator extends Password {
 		//System.out.println(pwFeature.get(3).getType());*/
 		PasswordGenerator s = new PasswordGenerator();
 		s.setLength(8,30);
-		System.out.println("length"+ s.getLength());
-		System.out.println("length"+ s.getLength()+" Password: "+s.generate());
+		System.out.println("length "+ s.getLength());
+		System.out.println("length "+ s.getLength()+" Password: "+s.generate());
 	}
 }
