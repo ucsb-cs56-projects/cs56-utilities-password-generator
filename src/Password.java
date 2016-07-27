@@ -130,7 +130,7 @@ public class Password {
 	 * none
 	 */
 	public void setLength(int min, int max) {
-		this.length = (int) (Math.random() * (max - min) + min + 1);
+		this.length = (int) (Math.random() * ((max - min) + min + 1));
 	}
 
 	

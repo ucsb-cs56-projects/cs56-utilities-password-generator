@@ -37,6 +37,7 @@ public class PasswordGenerator extends Password {
 		super();
 		super.setMin(min);
 		super.setMax(max);
+		//super.setLength(min, max);
 		for (CharType t : userSpec) {
 			
 			select(t.getType(), t.isIncluded());
