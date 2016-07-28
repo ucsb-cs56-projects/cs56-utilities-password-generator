@@ -120,8 +120,13 @@ public class PasswordGenerator extends Password {
 	public String appendRandom(String currPass) {
 		String pass = currPass;
 		int difference = getLength() - pass.length();
+		System.out.println("diff: "+difference + "currPass: "+currPass);
 		if (difference > 0) {
-			pass += getRandom(difference);
+			try {
+				pass += getRandom(difference);
+			} catch (IOException e) {
+				System.out.println("nothng is selected");
+			}
 		}
 
 		return pass;
@@ -135,30 +140,45 @@ public class PasswordGenerator extends Password {
 	 * @return
 	 * new string of correct length
 	 */
-	public String getRandom(int num) {
+	public String getRandom(int num) throws IOException{
 		//Random random = new Random();
 		String retval = "";
+		String add = "";
 		for (int i = 0; i < num; i++) {
 			int rand = (int) (Math.random() * (hmap.size()));
 			int j = 0;
+			int x = 0;
+			System.out.println("this is rand: " +rand);
+			//check if nothing is selcted
+			for (String key: hmap.keySet()){
+				if (hmap.get(key).isIncluded()){
+					x++;
+				}
+			}
+			if(x==0) {
+				throw new IOException();
+			}
 			for (String key : hmap.keySet()) {
-				if (!hmap.get(key).isIncluded()) {
-					i--;
-				} else if (rand == j) {
+				System.out.println("this is i: "+ i);
+				System.out.println("this is j: "+ j);
+				if (rand == j && hmap.get(key).isIncluded()) {
 					//System.out.println("is it included:?"+hmap.get(key).isIncluded());
 					String curr = hmap.get(key).getCharacters();
 					int l = curr.length();
 					int pos = (int) (Math.random() * l);
-					retval += curr.charAt(pos);
+					add = new Character(curr.charAt(pos)).toString();
 					break;
 				}
-				if (key.equals(TYPE_SPECIAL) && !hmap.get(key).isIncluded()){
+				/*if (key.equals(TYPE_SPECIAL) && !hmap.get(key).isIncluded()){
 					//System.out.println("ERROR");
-					return "ERROR";
-				}
+					break;
+				}*/
 				j++;
 			}
-
+			if (add.length() == 0){
+				i --;
+			}
+			retval+=add;
 		}
 		return retval;
 	}

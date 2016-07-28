@@ -63,6 +63,19 @@ public class Password {
 		selected.setToBeIncluded(isSelected);
 	}
 	
+	public void cleanAll(){
+		for(String key : hmap.keySet()){
+			clean(key);
+		}
+	}
+	
+	public void clean(String key){
+		//hmap.get(key).setLength(0);
+		hmap.get(key).setToBeIncluded(false);
+		hmap.get(key).setLength(0);
+	}
+	
+	
 	/**
 	 * Setting all the types to be included in the password
 	 * @param
@@ -133,7 +146,7 @@ public class Password {
 		assert(min<=max);
 		setMin(min);
 		setMax(max);
-		this.length = (int) (Math.random() * (max - min) + min + 1);
+		this.length = (int) (Math.random() * (max - min + 1) + min);
 	}
 
 	

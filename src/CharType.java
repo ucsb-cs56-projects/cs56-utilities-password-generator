@@ -88,8 +88,8 @@ public class CharType {
 		return this.characters.length();
 	}
 	
-	public String  toString(){
-		System.out.println("CharType "+this.getType()+ " length "+this.getLength()+ " Is included "+this.isIncluded());
-		return null;
+	public String toString(){
+		//System.out.println("CharType: "+this.getType()+ " length: "+this.getLength()+ " Is included: "+this.isIncluded());
+		return ("CharType: "+this.getType()+ " length: "+this.getLength()+ " Is included: "+this.isIncluded());
 	}
 }

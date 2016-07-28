@@ -16,7 +16,7 @@ public class TestPasswordGenerator {
 	private String[] copy = {  "uppercase letters","lowercase letters",  "digits", "special characters"};
 
 	//verify constructor generated default password
-	//1 upper,6 lower, 3 digits, 1 special
+	//1 upper,5 lower, 1 digits, 1 special
 
 	@Test
 	public void TestPasswordGeneratorConstructor(){
