@@ -10,10 +10,12 @@ import static org.junit.Assert.assertNotEquals;
 
 import java.util.ArrayList;
 
-public class TestPasswordGenerator {
+public class TestPasswordGenerator extends PasswordGenerator{
 
 	private String pw;
 	private String[] copy = {  "uppercase letters","lowercase letters",  "digits", "special characters"};
+	private String[] types = {  TYPE_UPPER,TYPE_LOWER, TYPE_DIGITS, TYPE_SPECIAL};
+	
 
 	//verify constructor generated default password
 	//1 upper,5 lower, 1 digits, 1 special
@@ -168,6 +170,83 @@ public class TestPasswordGenerator {
 		
 	}
 	
+	/**
+	 * Test with all the character types enabled with length at least 1 in each types
+	 */
+	@Test
+	public void TestPasswordGenerator1111_tttt_min6_max10(){
+		//first set  the default password features in the CharTypes hash map
+		PasswordGenerator pwGen=new PasswordGenerator();
+		//set length of new password 
+		pwGen.setLength(6,10);
+		//then change the features CharType objects in Hash map
+		//first set all the CharTypes to be true
+		int i=0;
+		int [] lengths=new int[]{1,1,1,1};
+		char[] include=new char[] {'t','t','t','t'};
+		for (String key : hmap.keySet()) {	
+			hmap.get(key).setToBeIncluded(include[i]=='t');
+			hmap.get(key).setLength(lengths[i]);
+		}
+		//then generate the new password
+		String pwNew=pwGen.generate();
+		//then verify the new password meets the requirements
+		assertTrue(pwNew.length()>=6);
+		assertTrue(CategorizeNew(pwNew,include ));
+		
+	}
+	
+	@Test
+	public void TestPasswordGenerator5011_tttt_min10_max20(){
+		//first set  the default password features in the CharTypes hash map
+		PasswordGenerator pwGen=new PasswordGenerator();
+		//set length of new password 
+		pwGen.setLength(10,20);
+		//then change the features CharType objects in Hash map
+		//first set all the CharTypes to be true
+		int i=0;
+		int [] lengths=new int[]{5,0,1,1};
+		char[] include=new char[] {'t','t','t','t'};
+		for (String key : types) {	
+			pwGen.hmap.get(key).setToBeIncluded((include[i]=='t'));
+			pwGen.hmap.get(key).setLength(lengths[i]);
+			i++;
+		}
+
+		//then generate the new password
+		String pwNew=pwGen.generate();
+		//then verify the new password meets the requirements
+		assertTrue(pwNew.length()>=10);
+		assertTrue(CategorizeNew(pwNew,include ));
+		
+	}
+	
+	@Test
+	public void TestPasswordGenerator5011_fttt_min10_max20(){
+		//first set  the default password features in the CharTypes hash map
+		PasswordGenerator pwGen=new PasswordGenerator();
+		//set length of new password 
+		pwGen.setLength(10,20);
+		//then change the features CharType objects in Hash map
+		//first set all the CharTypes to be true
+		int i=0;
+		int [] lengths=new int[]{5,0,1,1};
+		char[] include=new char[] {'f','t','t','t'};
+		for (String key : types) {	
+			pwGen.hmap.get(key).setToBeIncluded(include[i]=='t'?true:false);
+			pwGen.hmap.get(key).setLength(lengths[i]);
+			i++;
+		}
+
+		//then generate the new password
+		String pwNew=pwGen.generate();
+		//then verify the new password meets the requirements
+		assertTrue(pwNew.length()>=10);
+		assertTrue(CategorizeNew(pwNew,include ));
+		
+	}
+	
+	
 	public boolean Categorize(String pw, int[] check){
 		boolean pass=true;
 		//Character [] chars=new Character[pw.length()]
@@ -190,23 +269,62 @@ public class TestPasswordGenerator {
 		//for (Integer lenCheck:check) for (Integer lenVerify: verifyArray)
 		for (int i=0; i< check.length;i++){
 			
-			//System.out.println(verifyArray[i]);
-			//System.out.println(check[i]);
 			if (verifyArray[i]==0 && check[i]==0){
 				continue;
 			}
 			else if(verifyArray[i]>=check[i]){
 				continue;
 			}else{
-				System.out.println(verifyArray[i]+" "+i+" "+ check[i]);
 				
 				pass=false;
 			}
-			//pass=false;	
 		}
 		
-		return pass;
-		
+		return pass;	
 	}
+	
+	//this function verifies password with given set of enabled characters
+	public boolean CategorizeNew(String pw, char [] isEnabled){
+		boolean pass=true;
+		
+		int [] verifyArray=new int[]{0,0,0,0};
+		char[] charArrayPw=pw.toCharArray();
+		for (char c: charArrayPw){
+			if ( Character.isUpperCase(c)){
+				verifyArray[0]=verifyArray[0]+1;
+			}
+			else if(Character.isLowerCase(c)){
+				verifyArray[1]=verifyArray[1]+1;
+			}else if(Character.isDigit(c)){
+				verifyArray[2]=verifyArray[2]+1;
+			}else{
+				verifyArray[3]=verifyArray[3]+1;
+			}
+		}
+		int i=0;
+	//verify against the length and enabled character types
+		for (char isIncluded : isEnabled){
+			if (isIncluded=='f'){
+				if (verifyArray[i]==0){
+					i++;
+					continue;
+				}else{
+					pass= false;
+					break;
+				}}
+			else if (verifyArray[i]>=0){
+				i++;
+				continue;
+				}
+			else{
+				pass=false;
+				break;
+			}
+				
+			}
+		return pass;
+		}
+		
+
 
 }//end of test class
