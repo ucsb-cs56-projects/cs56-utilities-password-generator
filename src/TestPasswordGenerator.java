@@ -4,7 +4,6 @@ import org.junit.Test;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertNotEquals;
 
 
 
@@ -34,6 +33,9 @@ public class TestPasswordGenerator extends PasswordGenerator{
 
 	//verify constructor generated default password
 	//1 upper,5 lower, 1 digits, 1 special
+    /**
+       Specification: Test PasswordGenerator constructor
+     */
 
 	@Test
 	public void TestPasswordGeneratorConstructor(){
@@ -52,6 +54,9 @@ public class TestPasswordGenerator extends PasswordGenerator{
 	//this test case verify user selected password
 	//no upper case letters
 	//minimum password length equals to lengths of each characters types
+    /**
+       Specification: (lenghts=0123)and (enable=tttt) min=8, max=10
+     */
 	@Test
 	public void TestPasswordGenerator0_1_2_3(){
 		int min=8, max=10;
@@ -79,6 +84,9 @@ public class TestPasswordGenerator extends PasswordGenerator{
 	//this test case verify user selected password
 	//No lower case letters
 	//minimum password length equals to lengths of each characters types
+        /**
+       Specification: (lenghts=3012)and (enable=tttt) min=6, max=10
+     */
 	@Test
 	public void TestPasswordGenerator3_0_1_2(){
 		int min=6, max=10;
@@ -107,6 +115,9 @@ public class TestPasswordGenerator extends PasswordGenerator{
 	//this test case verify user selected password
 	//No digits
 	//minimum password length equals to lengths of each characters types
+        /**
+       Specification: (lenghts=1203)and (enable=tttt) min=6, max=10
+     */
 	@Test
 	public void TestPasswordGenerator1_2_0_3(){
 		int min=6, max=10;
@@ -134,6 +145,9 @@ public class TestPasswordGenerator extends PasswordGenerator{
 	//this test case verify user selected password
 	//No Special characters
 	//minimum password length equals to lengths of each characters types
+        /**
+       Specification: (lenghts=3210)and (enable=tttt) min=6, max=10
+	*/
 	@Test
 	public void TestPasswordGenerator3_2_1_0(){
 		int min=6, max=10;
@@ -162,6 +176,9 @@ public class TestPasswordGenerator extends PasswordGenerator{
 	//this test case verify user selected password
 	//No special characters
 	//minimum length of password does not equals to lengths of each characters
+        /**
+       Specification: (lenghts=3210)and (enable=tttt) min=8, max=10
+	*/
 	@Test
 	public void TestPasswordGeneratorMin3_2_1_0(){
 		int min=8, max=10;
@@ -186,7 +203,7 @@ public class TestPasswordGenerator extends PasswordGenerator{
 	}
 	
 	/**
-	 * Test with all the character types enabled with length at least 1 in each types
+	 * Specification: (lenghts=3210)and (enable=tttt) min=6, max=10
 	 */
 	@Test
 	public void TestPasswordGenerator1111_tttt_min6_max10(){
@@ -210,7 +227,9 @@ public class TestPasswordGenerator extends PasswordGenerator{
 		assertTrue(CategorizeNew(pwNew,include ));
 		
 	}
-	
+    /**
+	Specification: (lenghts=5011)and (enable=tttt) min=10, max=20
+    */
 	@Test
 	public void TestPasswordGenerator5011_tttt_min10_max20(){
 		//first set  the default password features in the CharTypes hash map
@@ -235,7 +254,9 @@ public class TestPasswordGenerator extends PasswordGenerator{
 		assertTrue(CategorizeNew(pwNew,include ));
 		
 	}
-	
+      /**
+	Specification: (lenghts=5011)and (enable=fttt) min=10, max=20
+    */
 	@Test
 	public void TestPasswordGenerator5011_fttt_min10_max20(){
 		//first set  the default password features in the CharTypes hash map

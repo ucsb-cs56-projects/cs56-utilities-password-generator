@@ -6,18 +6,19 @@
        original author: P.Conrad for CS56, W11
        updated Weihan Wang for github W14
        updated again by Troy Larson for W16
+       updated again by Sunimal E and Jun for M16(now tests can be run from anywhere)
 -->
 <property environment="env"/>
 <!-- load the environment variables -->
 <property name="webRoot" value="${env.HOME}/public_html/"/>
 <property name="webBaseUrl" value="http://www.cs.ucsb.edu/~${env.USER}/"/>
 <property name="course" value="cs56"/>
-<property name="quarter" value="W16"/>
+<property name="quarter" value="M16"/>
 <property name="issueNum" value="0000042"/>
-<property name="mainClass" value="PasswordMain"/>
+<property name="mainClass" value="PasswordGUI"/>
 <property name="projectName" value="${course}_${quarter}_${issueNum}"/>
 <property name="projectPath" value="${course}/${quarter}/issues/${issueNum}"/>
-<property name="javadocDest" value="${webRoot}/${projectPath}/javadoc"/>
+<property name="javadocDest" value="/cs/student/peng00/cs56/javadoc_password"/>
 <property name="javadocURL" value="${webBaseUrl}/${projectPath}/javadoc"/>
 
 <path id="project.class.path">
@@ -33,10 +34,7 @@
 
   <javac srcdir="src" destdir="build" debug="true" debuglevel="lines,source" includeantruntime="false">
 
-    <classpath>
-      <pathelement location="build"/>
-      <pathelement location="/cs/faculty/pconrad/public_html/cs56/lib/junit-4.8.2.jar"/>
-    </classpath>
+    <classpath refid="project.class.path"/>
 
   </javac>
 
@@ -77,17 +75,14 @@
 
   <junit haltonerror="no" haltonfailure="no">
 
-    <classpath>
-      <pathelement location="/cs/faculty/pconrad/public_html/cs56/lib/junit-4.8.2.jar"/>
-      <pathelement location="build"/>
-    </classpath>
+    <classpath refid="project.class.path"/>
 
     <batchtest fork="yes">
       <fileset dir="src">
 	<!--
 	    this will pick up every class with a name ending in Test 
 	-->
-	<include name="*Test.java"/>
+	<include name="TestPasswordGenerator.java"/>
       </fileset>
     </batchtest>
     
@@ -104,9 +99,7 @@
 
   <javadoc destdir="javadoc" author="true" version="true" use="true">
     <fileset dir="src" includes="**/*.java"/>
-    <classpath>
-      <pathelement location="/cs/faculty/pconrad/public_html/cs56/lib/junit-4.8.2.jar"/>
-    </classpath>
+    <classpath refid="project.class.path"/>
   </javadoc>
   
   <!-- delete the old javadoc -->

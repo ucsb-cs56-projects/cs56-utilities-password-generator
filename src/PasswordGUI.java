@@ -209,7 +209,7 @@ public class PasswordGUI extends PasswordGenerator{
     frame.getContentPane().add(BorderLayout.SOUTH, southPanel);
 
     //frame.setSize(420,242);
-    frame.setSize(1200,900);
+    frame.setSize(1000, 350);
     frame.setLocationRelativeTo(null);
     
     frame.setVisible(true);
