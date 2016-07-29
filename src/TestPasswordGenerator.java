@@ -10,6 +10,21 @@ import static org.junit.Assert.assertNotEquals;
 
 import java.util.ArrayList;
 
+/**
+ * 
+ * Test coverage for different possible situation of password Specification
+ * Because of the similarity of many cases, not all possible cases are needed to be included in the test coverage
+ * 
+ * the tests mainly focus on testing the correctness of the methods that help generate the password
+ * 
+ * Summary of testing:
+ * 		after generating a password String, P, using the given specification
+ * 		check if P does indeed meet the specification, and that nothing "funny" happened
+ * 		
+ * @author JH Penger, Sunimal E.
+ *
+ */
+
 public class TestPasswordGenerator extends PasswordGenerator{
 
 	private String pw;

@@ -3,6 +3,25 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+
+/**
+ * 
+ * @author J.H. Peng, Sunimal E
+ * 
+ * Fresh: 1st Version of this future Legacy Code
+ * 
+ * A class defining the structure of a password: 
+ * Usage:
+ * can set the minimum length and maximum length of the password
+ * select which type of characters to include in the password: UpperCase, LowerCase, Digits and Special Symbols
+ * can select the minimum occurrence of each type that are selected
+ * 
+ * example: 
+ * user can define a password of min length: 10 and max length:20 with at least 2 UpperCase letters, 5 Lowercase letters,
+ * 2 Digit and 1 Special Symbol and set all types to be included
+ * Hence the password can have at the least, exactly the specification mentioned above (nothing less), but can have more
+ *
+ */
 public class Password {
 	protected static final String TYPE_UPPER = "uppercase letters", TYPE_LOWER = "lowercase letters",
 			TYPE_DIGITS = "digits", TYPE_SPECIAL = "special characters", TYPE_SELECTED = "selected specials";
@@ -70,7 +89,6 @@ public class Password {
 	}
 	
 	public void clean(String key){
-		//hmap.get(key).setLength(0);
 		hmap.get(key).setToBeIncluded(false);
 		hmap.get(key).setLength(0);
 	}

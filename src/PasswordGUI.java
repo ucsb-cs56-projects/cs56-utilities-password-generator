@@ -16,9 +16,22 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import javax.swing.text.DefaultEditorKit;
 
+
+
 /**
-   PasswordGUI represents a GUI for interacting with the Password class. A Password contains digits, upper case letters, and special characters.
-*/
+ * This class allows user interaction(input) using a GUI to utilize the PasswordGenerator class to genearte passwords
+ * 
+ * Not required for our current quarter, and included as reference for future development
+ * has a working but not fully user friendly interface
+ * includes code for creating multiple(n numbers of) password and write and save it to a txt file of the user's choice
+ * currently the write to file part is commented out on lines 473-490, 540-564
+ * 
+ * 
+ * Note: Most Comments and documentation below this point are out dated and misleading awaiting for future work
+ * 
+ * @author penger
+ *
+ */
 
 public class PasswordGUI extends PasswordGenerator{
 	private PasswordGenerator password;
@@ -56,21 +69,9 @@ public class PasswordGUI extends PasswordGenerator{
     private String filePath="";
     
     /**
-       Default No-Arg Constructor. Creates an array of all CharTypes.
+       cleans the password of its default setting which was 1,5,1,1, all selected(true)
     */
     public PasswordGUI(){
-    	
-/*    	String typeUpper = "uppercase letters", typeLower = "lowercase letters", typeDigits = "digits", typeSpecial = "special characters", typeSelected = "selected specials";
-
-		String[][] charTypes = {{typeUpper, "ABCDEFGHIJKLMNOPQRSTUVWXYZ"},
-					{typeLower,"abcdefghijklmnopqrstuvwxyz"},
-					{typeDigits,"0123456789"},
-					{typeSpecial,"~`!@#$%^&*()-_+={[}]|\\?/\"':;<,>."},
-					{typeSelected, ""}};
-		types = new ArrayList<CharType>();
-		for(int i = 0; i < charTypes.length; i++) {
-		    types.add(new CharType(charTypes[i]));
-		}*/
     	cleanAll();
     }
  

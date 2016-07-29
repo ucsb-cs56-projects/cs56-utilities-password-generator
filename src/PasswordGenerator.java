@@ -7,6 +7,21 @@ import java.util.Set;
 
 import javax.swing.text.html.HTMLDocument.Iterator;
 
+/**
+ * 
+ * This class is responsible for generating a password using the specification defined in Password Class
+ * 
+ * Quick Summary of Steps:
+ * 1. generate the core of the password base on the given specifications using CorePassword()
+ * 2. check if the core password meet a randomized length between the user defined min and max length of the password
+ * 	  if not, add randomly a bunch of characters from Types that are included until it reaches the correct length
+ * 3. Randomize the password using Shuffle(): shuffle(Strign s) takes a string, puts it in to an arrayList and uses
+ * 	  Collections.shuffle() to randomize the arraylist, then convert the ArrayList back to a string and spit out the
+ *    String as a randomized password.
+ * 
+ * @author penger, Sunimal E
+ *
+ */
 public class PasswordGenerator extends Password {
 
 	/**
@@ -63,7 +78,7 @@ public class PasswordGenerator extends Password {
 	 */
 	public String generate() {
 		String password = "";
-		password += corePasswordUnsorted();
+		password += corePassword();
 		password = appendRandom(password);
 		password = shuffle(password);
 		return password;
@@ -97,7 +112,7 @@ public class PasswordGenerator extends Password {
 	 * @param none
 	 * @return String of password in order of characters
 	 */
-	public String corePasswordUnsorted() {
+	public String corePassword() {
 		String corePass = "";
 		for (String key : hmap.keySet()) {
 			if (hmap.get(key).isIncluded()) {
@@ -207,17 +222,7 @@ public class PasswordGenerator extends Password {
 
 
 	public static void main(String[] args) {
-		//PasswordGenerator s = new PasswordGenerator();
-		/*String[] copy = {  "uppercase letters","lowercase letters",  "digits", "special characters" };
-		ArrayList<CharType> pwFeature=new ArrayList<CharType>();
-		CharType[] test=new CharType[copy.length];
-		for (int i=0;i<copy.length;i++){
-			test[i]=new CharType(copy[i],"",i>0);
-			test[i].setLength(i);
 
-			pwFeature.add(i, test[i]);
-		}
-		//System.out.println(pwFeature.get(3).getType());*/
 		PasswordGenerator s = new PasswordGenerator();
 		s.setLength(8,30);
 		System.out.println("length "+ s.getLength());
