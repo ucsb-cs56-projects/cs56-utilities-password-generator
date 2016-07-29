@@ -1,146 +1,182 @@
-import java.util.Random;
-import javax.swing.*;
-import java.awt.*;
-import java.awt.event.*;
-import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
+
 
 /**
+ * 
+ * @author J.H. Peng, Sunimal E
+ * 
+ * Fresh: 1st Version of this future Legacy Code
+ * 
+ * A class defining the structure of a password: 
+ * Usage:
+ * can set the minimum length and maximum length of the password
+ * select which type of characters to include in the password: UpperCase, LowerCase, Digits and Special Symbols
+ * can select the minimum occurrence of each type that are selected
+ * 
+ * example: 
+ * user can define a password of min length: 10 and max length:20 with at least 2 UpperCase letters, 5 Lowercase letters,
+ * 2 Digit and 1 Special Symbol and set all types to be included
+ * Hence the password can have at the least, exactly the specification mentioned above (nothing less), but can have more
+ *
+ */
+public class Password {
+	protected static final String TYPE_UPPER = "uppercase letters", TYPE_LOWER = "lowercase letters",
+			TYPE_DIGITS = "digits", TYPE_SPECIAL = "special characters", TYPE_SELECTED = "selected specials";
 
-   Password represents a Password. A Password contains digits, upper case letters, and special characters. One is generated via Random selection of different specified amounts of digits, upper case letters, and passwords
+	protected static final String UPPER_CASE_LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
+			LOWER_CASE_LETTERS = "abcdefghijklmnopqrstuvwxyz", NUMS = "0123456789",
+			SPECIAL_CHARACTERS = "~`!@#$%^&*()-_+={[}]|\\?/\"':;<,>.";
+	protected int min, max, length;
+	// protected ArrayList<CharType> types;
 
-*/
+	protected static final CharType upperCase = new CharType(TYPE_UPPER, UPPER_CASE_LETTERS, false),
+			lowerCase = new CharType(TYPE_LOWER, LOWER_CASE_LETTERS, false),
+			digits = new CharType(TYPE_DIGITS, NUMS, false),
+			special = new CharType(TYPE_SPECIAL, SPECIAL_CHARACTERS, false);
 
-public class Password 
-{
+	protected HashMap<String, CharType> hmap = new HashMap<String, CharType>();
 
-    /**
-       Generates a password String.
+	/**
+	 * Constructor
+	 */
+	public Password() {
+		
+		setUpTypes();
+		setUpDefault();
+	}
 
-       How the algorithm works:
-       * Filter all CharTypes that are flagged to be not included.
-       * Generate a random length 'L' between a provided minimum and maximum bound.
-       * Starting with the empty string, concatenate a random character from a random
-         CharType 'L' times.
-       * Shuffle this string of characters. The password is done.
-
-       @param types An array of all CharTypes in the generator.
-       @param min The minimum length of the password. The password will never have less characters than this.
-       @param max The maximum length of the password. The password will never have more characters than this.
-       
-       @return The generated password String.
-    */
-    public String generate(CharType[] types, int min, int max) {
-
-	types = filterCharTypes(types);
-
-	if(types.length <= 0) {
-	    if(this instanceof CommandLine) {
-		System.out.println("You put \"no\" for every character type.");
-		System.out.println("Therefore, no passwords can be generated.");
-		System.exit(0);
-	    } else {
-		javax.swing.JOptionPane.showMessageDialog(null, "You put \"no\" for every character type.\nTherefore, no password can be generated.");
-		return "";
-	    }
+	/**
+	 * Set the hash mp with key= types and value=CharType object instantiated with all the character ty 
+	 * @param
+	 * none
+	 * @return
+	 * none
+	 */
+	public void setUpTypes() {
+		String[][] copy = { { TYPE_UPPER, "ABCDEFGHIJKLMNOPQRSTUVWXYZ" }, { TYPE_LOWER, "abcdefghijklmnopqrstuvwxyz" },
+				{ TYPE_DIGITS, "0123456789" }, { TYPE_SPECIAL, "~`!@#$%^&*()-_+={[}]|\\?/\"':;<,>." },
+				/*{ TYPE_SELECTED, "" }*/ };
+		/*
+		 * types = new ArrayList<CharType>(); for (String[] t : copy) {
+		 * types.add(new CharType(t)); }
+		 */
+		for (String[] t : copy) {
+			hmap.put(t[0], new CharType(t));
+		}
 	}
 	
-	int totalLength = min + (int)(Math.random()* ((max-min)+1));
-	String password = "";
-
-	for(int i = 0; i < totalLength; i++) {
-	    password += getRandomChar(types);
+	/**
+	 * Setting the to be included field in the CharTypes
+	 * @param
+	 * type of character to be included and isSlected includes that type
+	 * @return
+	 * none
+	 */
+	public void select(String type, boolean isSelected) {
+		//System.out.println(type);
+		CharType selected = hmap.get(type);
+		//System.out.println(selected.getType());
+		selected.setToBeIncluded(isSelected);
 	}
-
-	return shuffle(password);
-    }
-
-    /**
-       Loops through an array of CharTypes and removes all of which that are flagged to not be included in the password.
-
-       @param types The list of CharTypes to be filtered.
-
-       @return The filtered list of CharTypes, all of which to be included in the password.
-
-     */
-    public CharType[] filterCharTypes(CharType[] types) {
-
-	ArrayList<CharType> list = new ArrayList<CharType>();
-
-	for(int i = 0; i < types.length; i++) {
-	    if(types[i].getToBeIncluded()) {
-		list.add(types[i]);
-	    }
-	}
-
-	return list.toArray(new CharType[list.size()]);
 	
-    }
 
-    /**
-       Pick a random character of a random CharType.
-
-       First, a random CharType is chosen from an array. Then, a random character is chosen from a String of all characters that pertain to the CharType.
-       
-       @param types The array of CharTypes we want to pick from.
-       @return The character that was randomly selected.
-     */
-    public char getRandomChar(CharType[] types) {
 	
-	Random random = new Random();
-	int randomTypeIndex = random.nextInt(types.length);
-	CharType randomType = types[randomTypeIndex];
-	String chars = randomType.getCharacters();
-	int whichChar = random.nextInt(chars.length());
-
-	return chars.charAt(whichChar);
-
-    }
-
-    /**
-       Shuffles a string of characters.
-
-       @param input The unshuffled String.
-       @return The shuffled String.
-     */
-    public String shuffle(String input) {
-
-	ArrayList<Character> characters = new ArrayList<Character>();
-	char[] chArr = input.toCharArray();
-	for(int i = 0; i < chArr.length; i++) {
-	    characters.add(chArr[i]);
+	
+	/**
+	 * Setting all the types to be included in the password
+	 * @param
+	 * 
+	 * @return
+	 * none
+	 */
+	
+	public void selectAll() {
+		/**
+		 * Iterator i = hmap.entrySet().iterator(); while (i.hasNext()){
+		 * Map.Entry curr = (Map.Entry)i.next(); ((CharType)
+		 * curr.getValue()).setToBeIncluded(true); }
+		 */
+		for (String key : hmap.keySet()) {
+			hmap.get(key).setToBeIncluded(true);
+		}
 	}
 
-	//we're using a list so we can keep track of how many characters we've inserted.
-	//when we insert a character from the list into the new string, take it out of the list
-	//to prevent inserting it again
-	String output = "";
-	while(characters.size()>0) {
-	    int whichChar = (int)(Math.random()*characters.size());
-	    output += characters.get(whichChar);
-	    characters.remove(whichChar);
+	/**
+	 * Setting the types for default password
+	 * @param
+	 * 
+	 * @return
+	 * none
+	 */
+	public void setUpDefault() {
+		selectAll();
+		setTypeLength(TYPE_UPPER, 1);
+		setTypeLength(TYPE_LOWER, 5);
+		setTypeLength(TYPE_DIGITS, 1);
+		setTypeLength(TYPE_SPECIAL, 1);
+
 	}
 
-	return output;
-
-    }
-
-    /**
-       Verifies that the special characters entered by the user are true, by comparing them to the default set.
-
-       @param input The special characters entered by the user.
-       @param defaultSet The default set of special characters.
-       @return True if the input is good, false if it's bad.
-     */
-    public boolean verifySpecialCharacters(String input, String defaultSet) {
-	if(input.equals("")) {
-	    return true;
+	/**
+	 * Sets the length of each char type
+	 * @param
+	 * type and length
+	 * @return
+	 * none
+	 */
+	public void setTypeLength(String type, int length) {
+		CharType selected = hmap.get(type);
+		selected.setLength(length);
 	}
-	for(int i = 0; i < input.length(); i++) {
-	    if(defaultSet.indexOf(input.charAt(i)) < 0)
-		return false;
+
+	/**
+	 * getting the length of the each type
+	 * @param
+	 * type
+	 * @return
+	 * none
+	 */
+	public int getTypeLength(String type) {
+		CharType selected = hmap.get(type);
+		return selected.getLength();
 	}
-	return true;
-    }
-    
+
+	/**
+	 * Setting password length according to min and max
+	 * @param
+	 * min and max
+	 * @return
+	 * none
+	 */
+	public void setLength(int min, int max) {
+		assert(min<=max);
+		setMin(min);
+		setMax(max);
+		this.length = (int) (Math.random() * (max - min + 1) + min);
+	}
+
+	
+	public int getLength() {
+		return this.length;
+	}
+
+	public void setMin(int min) {
+		//assert(true);
+		this.min = min;
+	}
+
+	public int getMin() {
+		return this.min;
+	}
+
+	public void setMax(int max) {
+		this.max = max;
+	}
+
+	public int getMax() {
+		return this.max;
+	}
 }

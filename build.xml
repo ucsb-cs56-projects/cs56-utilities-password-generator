@@ -1,6 +1,8 @@
 <project default="compile">
 <!--
  build.xml for Password.java
+		build from old projects, we started this project from scratch, non of this is relevant 
+		use eclipse instead of ANT and build.xml
        original author: P.Conrad for CS56, W11
        updated Weihan Wang for github W14
        updated again by Troy Larson for W16
