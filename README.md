@@ -5,7 +5,7 @@ Contributors:
 
 * JH Peng and Sunimal E.: https://github.com/EdieS/cs56-utilities-password-generator
 
-JavaDoc: http://www.cs.ucsb.edu/~108498asdf//cs56/W11/issues/0000042/javadoc
+JavaDoc: https://ucsb-cs56-m16.github.io/javadoc_password/
 
 
 project history
