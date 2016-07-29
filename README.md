@@ -1,5 +1,5 @@
-cs56-Password-Generator
-=======================
+M16-cs56-Password-Generator-lab08
+=============================
 
 Contributors:
 
@@ -37,8 +37,9 @@ How to run this project?
 
 git clone the Repo then open the git project as a new Java Project in eclipse
 then choose the class you want to run
+Or clone the project and run ant
 
-W16 Final Remarks
+M16 Final Remarks
 =================
 We were asked to leave a note to whoever receives this project in the future. Here's some information about each source code file in the src folder.
 
