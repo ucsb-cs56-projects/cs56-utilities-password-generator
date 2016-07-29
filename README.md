@@ -60,4 +60,8 @@ One final thought if you REALLY want to go above and beyond: Generated passwords
 Good luck,
 JH Penger and Edie S.
 
+```
 
+# Note from M16 mentor:
+This project was completely rewritten during M16 (Summer Session A 2016). In order to merge the new project with the old, an M16 branch had to be created with the forked branch's work (via pull). The master branch is now fully updated (07/29/16).
+~Christian Newkirk 
