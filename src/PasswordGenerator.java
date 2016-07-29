@@ -32,15 +32,7 @@ public class PasswordGenerator extends Password {
 	 * @return none
 	 */
 	public PasswordGenerator() {
-		// TODO Auto-generated constructor stub
 		super();
-
-		/*
-		 * for (String key: hmap.keySet()) { if (hmap.get(key).isIncluded()){
-		 * int i = hmap.get(key).getLength(); password += getUniqueRandom(key,
-		 * i); } }
-		 */
-
 	}
 	/**
 	 * Constructor with arguments
@@ -86,6 +78,7 @@ public class PasswordGenerator extends Password {
 
 	/**
 	 * Randomlly include characters with specified length
+	 * Done by using a HashSet (no duplicates); therefore all randomized and unique for a stronger password;
 	 * 
 	 * @param 
 	 * type and length of type
@@ -135,7 +128,6 @@ public class PasswordGenerator extends Password {
 	public String appendRandom(String currPass) {
 		String pass = currPass;
 		int difference = getLength() - pass.length();
-		System.out.println("diff: "+difference + "currPass: "+currPass);
 		if (difference > 0) {
 			try {
 				pass += getRandom(difference);
@@ -148,12 +140,14 @@ public class PasswordGenerator extends Password {
 	}
 
 	/**
-	 * Setting the to be included field in the CharTypes
+	 * return x amount of randomized characters
+	 * first randomly selects a type, then randomly select a character in that type
+	 * only select something if the type is set to be included, if not chooses another type randomly
+	 * once it has selected the x amount of random characters from types that are included return them as a string
 	 * 
-	 * @param 
-	 * differenec of the min a
+	 * @param num
 	 * @return
-	 * new string of correct length
+	 * @throws IOException
 	 */
 	public String getRandom(int num) throws IOException{
 		//Random random = new Random();
@@ -163,7 +157,6 @@ public class PasswordGenerator extends Password {
 			int rand = (int) (Math.random() * (hmap.size()));
 			int j = 0;
 			int x = 0;
-			System.out.println("this is rand: " +rand);
 			//check if nothing is selcted
 			for (String key: hmap.keySet()){
 				if (hmap.get(key).isIncluded()){
@@ -174,8 +167,6 @@ public class PasswordGenerator extends Password {
 				throw new IOException();
 			}
 			for (String key : hmap.keySet()) {
-				System.out.println("this is i: "+ i);
-				System.out.println("this is j: "+ j);
 				if (rand == j && hmap.get(key).isIncluded()) {
 					//System.out.println("is it included:?"+hmap.get(key).isIncluded());
 					String curr = hmap.get(key).getCharacters();
@@ -184,10 +175,6 @@ public class PasswordGenerator extends Password {
 					add = new Character(curr.charAt(pos)).toString();
 					break;
 				}
-				/*if (key.equals(TYPE_SPECIAL) && !hmap.get(key).isIncluded()){
-					//System.out.println("ERROR");
-					break;
-				}*/
 				j++;
 			}
 			if (add.length() == 0){
@@ -218,6 +205,20 @@ public class PasswordGenerator extends Password {
 			shuffled += s;
 		}
 		return shuffled;
+	}
+	
+	/**
+	 * cleans the settins for the password to all typelengths = 0, nothing is selected
+	 */
+	public void cleanAll(){
+		for(String key : hmap.keySet()){
+			clean(key);
+		}
+	}
+	
+	public void clean(String key){
+		hmap.get(key).setToBeIncluded(false);
+		hmap.get(key).setLength(0);
 	}
 
 

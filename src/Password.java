@@ -29,7 +29,7 @@ public class Password {
 	protected static final String UPPER_CASE_LETTERS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ",
 			LOWER_CASE_LETTERS = "abcdefghijklmnopqrstuvwxyz", NUMS = "0123456789",
 			SPECIAL_CHARACTERS = "~`!@#$%^&*()-_+={[}]|\\?/\"':;<,>.";
-	private int min, max, length;
+	protected int min, max, length;
 	// protected ArrayList<CharType> types;
 
 	protected static final CharType upperCase = new CharType(TYPE_UPPER, UPPER_CASE_LETTERS, false),
@@ -82,16 +82,7 @@ public class Password {
 		selected.setToBeIncluded(isSelected);
 	}
 	
-	public void cleanAll(){
-		for(String key : hmap.keySet()){
-			clean(key);
-		}
-	}
-	
-	public void clean(String key){
-		hmap.get(key).setToBeIncluded(false);
-		hmap.get(key).setLength(0);
-	}
+
 	
 	
 	/**
