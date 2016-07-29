@@ -1,4 +1,4 @@
-cs56-Password-Generator-lab08
+M16-cs56-Password-Generator-lab08
 =============================
 
 Contributors:
